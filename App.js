@@ -6,7 +6,11 @@ import SplashScreen from "react-native-splash-screen";
 // Contents
 import Start from "./src/screens/StartScreen";
 
-import HomeTab from "./src/components/HomeTab";
+import NavTabs from "./src/screens/NavTab";
+import Analysis from "./src/screens/AnalysisScreen";
+import Search from "./src/screens/SearchScreen";
+import Map from "./src/screens/MapScreen";
+import Mypage from "./src/screens/MypageSreen";
 
 const MainStack = createStackNavigator();
 
@@ -29,9 +33,29 @@ const App = () => {
           options={{ headerShown: false }}
         />
         <MainStack.Screen
-          name="HomeTab"
-          component={HomeTab}
-          options={{ headerShown: false }}
+          name="NavTabs"
+          component={NavTabs}
+          option={{ headerShown: false }}
+        />
+        <MainStack.Screen
+          name="Analysis"
+          component={Analysis}
+          option={{ headerShown: false }}
+        />
+        <MainStack.Screen
+          name="Search"
+          component={Search}
+          option={{ headerShown: false }}
+        />
+        <MainStack.Screen
+          name="Map"
+          component={Map}
+          option={{ headerShown: false }}
+        />
+        <MainStack.Screen
+          name="Mypage"
+          component={Mypage}
+          option={{ headerShown: false }}
         />
       </MainStack.Navigator>
     </NavigationContainer>
