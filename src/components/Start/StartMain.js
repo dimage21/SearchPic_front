@@ -43,7 +43,6 @@ const StartMain = ({ navigation }) => {
     NaverLogin.login(props, (err, token) => {
       console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
       setNaverToken(token);
-      console.log("naverToken:", naverToken);
       console.log("accessToken:", naverToken.accessToken);
 
       if (err) {
@@ -99,7 +98,7 @@ const StartMain = ({ navigation }) => {
   const hanldeContinue = async () => {
     const isLogin = await AsyncStorage.getItem("isLogin");
     Alert.alert("환영합니다.");
-    navigation.navigate("HomeTab");
+    navigation.navigate("NavTabs");
     /*if (isLogin === "true") {
       Alert.alert("환영합니다.");
       navigation.navigate("NavTab");
@@ -133,7 +132,7 @@ const StartMain = ({ navigation }) => {
       }
       console.log("로그인 성공");
       Alert.alert(`${profileResult.response.name}님 환영합니다`);
-      navigation.navigate("HomeTab", { name: profileResult.response.name });
+      navigation.navigate("NavTabs", { name: profileResult.response.name });
     }
   };
 
