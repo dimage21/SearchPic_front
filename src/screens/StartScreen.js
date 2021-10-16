@@ -1,6 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import StartMain from "../components/Start/StartMain";
+import Profile from "../components/Start/Profile";
 
 const StartStack = createStackNavigator();
 
@@ -10,6 +11,11 @@ const Start = () => {
       <StartStack.Screen
         name="StartMain"
         component={StartMain}
+        options={{ headerShown: false }}
+      />
+      <StartStack.Screen
+        name="Profile"
+        component={Profile}
         options={{ headerShown: false }}
       />
     </StartStack.Navigator>

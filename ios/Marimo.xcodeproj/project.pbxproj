@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* MarimoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* MarimoTests.m */; };
+		00E356F31AD99517003FC87E /* searchpicture_frontTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* searchpicture_frontTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		24101A1CE302A5C96B0EA42E /* libPods-Marimo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A222F4C6AA70EB584E91E6AB /* libPods-Marimo.a */; };
+		24101A1CE302A5C96B0EA42E /* libPods-searchpicture_front.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A222F4C6AA70EB584E91E6AB /* libPods-searchpicture_front.a */; };
 		493B414C3F5B49FFA192D898 /* Cafe24Ssurround.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 859E17FFF031485CACC20878 /* Cafe24Ssurround.ttf */; };
-		6535E3185948F90C3905984E /* libPods-Marimo-MarimoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19FC8562097A6E5CE233FBD3 /* libPods-Marimo-MarimoTests.a */; };
+		6535E3185948F90C3905984E /* libPods-searchpicture_front-searchpicture_frontTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19FC8562097A6E5CE233FBD3 /* libPods-searchpicture_front-searchpicture_frontTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		990A3551CFFD470AA3903CCA /* NanumSquareRoundB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0D6A340CDA68449CBC4606E7 /* NanumSquareRoundB.ttf */; };
 		C5358F90B64C481DA2F6E661 /* NotoSansCJKkr-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = D98AC9E512484620BCF80165 /* NotoSansCJKkr-Regular.otf */; };
@@ -25,32 +25,32 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = Marimo;
+			remoteInfo = searchpicture_front;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00E356EE1AD99517003FC87E /* MarimoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarimoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* searchpicture_frontTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = searchpicture_frontTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* MarimoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MarimoTests.m; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* searchpicture_frontTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = searchpicture_frontTests.m; sourceTree = "<group>"; };
 		0D6A340CDA68449CBC4606E7 /* NanumSquareRoundB.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = NanumSquareRoundB.ttf; path = ../src/assets/fonts/NanumSquareRoundB.ttf; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* Marimo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Marimo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Marimo/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Marimo/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Marimo/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Marimo/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Marimo/main.m; sourceTree = "<group>"; };
-		19FC8562097A6E5CE233FBD3 /* libPods-Marimo-MarimoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Marimo-MarimoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3AA2DF726560F491A636C57C /* Pods-Marimo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Marimo.release.xcconfig"; path = "Target Support Files/Pods-Marimo/Pods-Marimo.release.xcconfig"; sourceTree = "<group>"; };
-		5A2365FEB8F1A4A3B8A3980B /* Pods-Marimo-MarimoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Marimo-MarimoTests.debug.xcconfig"; path = "Target Support Files/Pods-Marimo-MarimoTests/Pods-Marimo-MarimoTests.debug.xcconfig"; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Marimo/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* searchpicture_front.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = searchpicture_front.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = searchpicture_front/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = searchpicture_front/AppDelegate.m; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = searchpicture_front/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = searchpicture_front/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = searchpicture_front/main.m; sourceTree = "<group>"; };
+		19FC8562097A6E5CE233FBD3 /* libPods-searchpicture_front-searchpicture_frontTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-searchpicture_front-searchpicture_frontTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3AA2DF726560F491A636C57C /* Pods-searchpicture_front.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-searchpicture_front.release.xcconfig"; path = "Target Support Files/Pods-searchpicture_front/Pods-searchpicture_front.release.xcconfig"; sourceTree = "<group>"; };
+		5A2365FEB8F1A4A3B8A3980B /* Pods-searchpicture_front-searchpicture_frontTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-searchpicture_front-searchpicture_frontTests.debug.xcconfig"; path = "Target Support Files/Pods-searchpicture_front-searchpicture_frontTests/Pods-searchpicture_front-searchpicture_frontTests.debug.xcconfig"; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = searchpicture_front/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		859E17FFF031485CACC20878 /* Cafe24Ssurround.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Cafe24Ssurround.ttf; path = ../src/assets/fonts/Cafe24Ssurround.ttf; sourceTree = "<group>"; };
-		995A31483AD125707577B378 /* Pods-Marimo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Marimo.debug.xcconfig"; path = "Target Support Files/Pods-Marimo/Pods-Marimo.debug.xcconfig"; sourceTree = "<group>"; };
-		A222F4C6AA70EB584E91E6AB /* libPods-Marimo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Marimo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A4F27E1C0DB5861A2A380725 /* Pods-Marimo-MarimoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Marimo-MarimoTests.release.xcconfig"; path = "Target Support Files/Pods-Marimo-MarimoTests/Pods-Marimo-MarimoTests.release.xcconfig"; sourceTree = "<group>"; };
+		995A31483AD125707577B378 /* Pods-searchpicture_front.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-searchpicture_front.debug.xcconfig"; path = "Target Support Files/Pods-searchpicture_front/Pods-searchpicture_front.debug.xcconfig"; sourceTree = "<group>"; };
+		A222F4C6AA70EB584E91E6AB /* libPods-searchpicture_front.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-searchpicture_front.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A4F27E1C0DB5861A2A380725 /* Pods-searchpicture_front-searchpicture_frontTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-searchpicture_front-searchpicture_frontTests.release.xcconfig"; path = "Target Support Files/Pods-searchpicture_front-searchpicture_frontTests/Pods-searchpicture_front-searchpicture_frontTests.release.xcconfig"; sourceTree = "<group>"; };
 		D98AC9E512484620BCF80165 /* NotoSansCJKkr-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansCJKkr-Regular.otf"; path = "../src/assets/fonts/NotoSansCJKkr-Regular.otf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		F125C1E7270AE2AE00CD80F7 /* Marimo-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; path = "Marimo-Bridging-Header.h"; sourceTree = "<group>"; };
+		F125C1E7270AE2AE00CD80F7 /* searchpicture_front-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; path = "searchpicture_front-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6535E3185948F90C3905984E /* libPods-Marimo-MarimoTests.a in Frameworks */,
+				6535E3185948F90C3905984E /* libPods-searchpicture_front-searchpicture_frontTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,20 +66,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				24101A1CE302A5C96B0EA42E /* libPods-Marimo.a in Frameworks */,
+				24101A1CE302A5C96B0EA42E /* libPods-searchpicture_front.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* MarimoTests */ = {
+		00E356EF1AD99517003FC87E /* searchpicture_frontTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* MarimoTests.m */,
+				00E356F21AD99517003FC87E /* searchpicture_frontTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = MarimoTests;
+			path = searchpicture_frontTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -90,7 +90,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* Marimo */ = {
+		13B07FAE1A68108700A75B9A /* searchpicture_front */ = {
 			isa = PBXGroup;
 			children = (
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -100,15 +100,15 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = Marimo;
+			name = searchpicture_front;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				A222F4C6AA70EB584E91E6AB /* libPods-Marimo.a */,
-				19FC8562097A6E5CE233FBD3 /* libPods-Marimo-MarimoTests.a */,
+				A222F4C6AA70EB584E91E6AB /* libPods-searchpicture_front.a */,
+				19FC8562097A6E5CE233FBD3 /* libPods-searchpicture_front-searchpicture_frontTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -126,10 +126,10 @@
 		77A0AEFF502B85E3CC8E30C5 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				995A31483AD125707577B378 /* Pods-Marimo.debug.xcconfig */,
-				3AA2DF726560F491A636C57C /* Pods-Marimo.release.xcconfig */,
-				5A2365FEB8F1A4A3B8A3980B /* Pods-Marimo-MarimoTests.debug.xcconfig */,
-				A4F27E1C0DB5861A2A380725 /* Pods-Marimo-MarimoTests.release.xcconfig */,
+				995A31483AD125707577B378 /* Pods-searchpicture_front.debug.xcconfig */,
+				3AA2DF726560F491A636C57C /* Pods-searchpicture_front.release.xcconfig */,
+				5A2365FEB8F1A4A3B8A3980B /* Pods-searchpicture_front-searchpicture_frontTests.debug.xcconfig */,
+				A4F27E1C0DB5861A2A380725 /* Pods-searchpicture_front-searchpicture_frontTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -144,14 +144,14 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				13B07FAE1A68108700A75B9A /* Marimo */,
+				13B07FAE1A68108700A75B9A /* searchpicture_front */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* MarimoTests */,
+				00E356EF1AD99517003FC87E /* searchpicture_frontTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				77A0AEFF502B85E3CC8E30C5 /* Pods */,
 				2ED09F4C1AAE4ADFB462F63D /* Resources */,
-				F125C1E7270AE2AE00CD80F7 /* Marimo-Bridging-Header.h */,
+				F125C1E7270AE2AE00CD80F7 /* searchpicture_front-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -161,8 +161,8 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* Marimo.app */,
-				00E356EE1AD99517003FC87E /* MarimoTests.xctest */,
+				13B07F961A680F5B00A75B9A /* searchpicture_front.app */,
+				00E356EE1AD99517003FC87E /* searchpicture_frontTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -170,9 +170,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* MarimoTests */ = {
+		00E356ED1AD99517003FC87E /* searchpicture_frontTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "MarimoTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "searchpicture_frontTests" */;
 			buildPhases = (
 				CA461D1F79D2EF507492B9B3 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
@@ -186,14 +186,14 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = MarimoTests;
-			productName = MarimoTests;
-			productReference = 00E356EE1AD99517003FC87E /* MarimoTests.xctest */;
+			name = searchpicture_frontTests;
+			productName = searchpicture_frontTests;
+			productReference = 00E356EE1AD99517003FC87E /* searchpicture_frontTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* Marimo */ = {
+		13B07F861A680F5B00A75B9A /* searchpicture_front */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Marimo" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "searchpicture_front" */;
 			buildPhases = (
 				BB13FF8E304A8EE88A568D10 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -208,9 +208,9 @@
 			);
 			dependencies = (
 			);
-			name = Marimo;
-			productName = Marimo;
-			productReference = 13B07F961A680F5B00A75B9A /* Marimo.app */;
+			name = searchpicture_front;
+			productName = searchpicture_front;
+			productReference = 13B07F961A680F5B00A75B9A /* searchpicture_front.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -230,7 +230,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Marimo" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "searchpicture_front" */;
 			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -243,8 +243,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* Marimo */,
-				00E356ED1AD99517003FC87E /* MarimoTests */,
+				13B07F861A680F5B00A75B9A /* searchpicture_front */,
+				00E356ED1AD99517003FC87E /* searchpicture_frontTests */,
 			);
 		};
 /* End PBXProject section */
@@ -292,15 +292,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Marimo/Pods-Marimo-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front/Pods-searchpicture_front-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Marimo/Pods-Marimo-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front/Pods-searchpicture_front-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Marimo/Pods-Marimo-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front/Pods-searchpicture_front-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		320F434ABDFE8D02A161CE8D /* [CP] Embed Pods Frameworks */ = {
@@ -309,15 +309,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Marimo-MarimoTests/Pods-Marimo-MarimoTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front-searchpicture_frontTests/Pods-searchpicture_front-searchpicture_frontTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Marimo-MarimoTests/Pods-Marimo-MarimoTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front-searchpicture_frontTests/Pods-searchpicture_front-searchpicture_frontTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Marimo-MarimoTests/Pods-Marimo-MarimoTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front-searchpicture_frontTests/Pods-searchpicture_front-searchpicture_frontTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		6DFE8DFBC05F5DAA3A3456F8 /* [CP] Embed Pods Frameworks */ = {
@@ -326,15 +326,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Marimo/Pods-Marimo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front/Pods-searchpicture_front-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Marimo/Pods-Marimo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front/Pods-searchpicture_front-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Marimo/Pods-Marimo-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front/Pods-searchpicture_front-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BB13FF8E304A8EE88A568D10 /* [CP] Check Pods Manifest.lock */ = {
@@ -352,7 +352,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Marimo-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-searchpicture_front-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -374,7 +374,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Marimo-MarimoTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-searchpicture_front-searchpicture_frontTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -387,15 +387,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Marimo-MarimoTests/Pods-Marimo-MarimoTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front-searchpicture_frontTests/Pods-searchpicture_front-searchpicture_frontTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Marimo-MarimoTests/Pods-Marimo-MarimoTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front-searchpicture_frontTests/Pods-searchpicture_front-searchpicture_frontTests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Marimo-MarimoTests/Pods-Marimo-MarimoTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front-searchpicture_frontTests/Pods-searchpicture_front-searchpicture_frontTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -424,7 +424,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* MarimoTests.m in Sources */,
+				00E356F31AD99517003FC87E /* searchpicture_frontTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,7 +442,7 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* Marimo */;
+			target = 13B07F861A680F5B00A75B9A /* searchpicture_front */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -450,14 +450,14 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5A2365FEB8F1A4A3B8A3980B /* Pods-Marimo-MarimoTests.debug.xcconfig */;
+			baseConfigurationReference = 5A2365FEB8F1A4A3B8A3980B /* Pods-searchpicture_front-searchpicture_frontTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = MarimoTests/Info.plist;
+				INFOPLIST_FILE = searchpicture_frontTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -471,17 +471,17 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Marimo.app/Marimo";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/searchpicture_front.app/searchpicture_front";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A4F27E1C0DB5861A2A380725 /* Pods-Marimo-MarimoTests.release.xcconfig */;
+			baseConfigurationReference = A4F27E1C0DB5861A2A380725 /* Pods-searchpicture_front-searchpicture_frontTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = MarimoTests/Info.plist;
+				INFOPLIST_FILE = searchpicture_frontTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -495,20 +495,20 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Marimo.app/Marimo";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/searchpicture_front.app/searchpicture_front";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 995A31483AD125707577B378 /* Pods-Marimo.debug.xcconfig */;
+			baseConfigurationReference = 995A31483AD125707577B378 /* Pods-searchpicture_front.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 67FA65927V;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = Marimo/Info.plist;
+				INFOPLIST_FILE = searchpicture_front/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -519,8 +519,8 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = Marimo;
-				SWIFT_OBJC_BRIDGING_HEADER = "Marimo-Bridging-Header.h";
+				PRODUCT_NAME = searchpicture_front;
+				SWIFT_OBJC_BRIDGING_HEADER = "searchpicture_front-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -529,13 +529,13 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3AA2DF726560F491A636C57C /* Pods-Marimo.release.xcconfig */;
+			baseConfigurationReference = 3AA2DF726560F491A636C57C /* Pods-searchpicture_front.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 67FA65927V;
-				INFOPLIST_FILE = Marimo/Info.plist;
+				INFOPLIST_FILE = searchpicture_front/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -546,8 +546,8 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = Marimo;
-				SWIFT_OBJC_BRIDGING_HEADER = "Marimo-Bridging-Header.h";
+				PRODUCT_NAME = searchpicture_front;
+				SWIFT_OBJC_BRIDGING_HEADER = "searchpicture_front-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -679,7 +679,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "MarimoTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "searchpicture_frontTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -688,7 +688,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Marimo" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "searchpicture_front" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -697,7 +697,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Marimo" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "searchpicture_front" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

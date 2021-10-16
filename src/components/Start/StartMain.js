@@ -20,7 +20,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 //   kConsumerKey: "dBTCaf__PhKbM6UieQby",
 //   kConsumerSecret: "zkTe9EErPl",
 //   kServiceAppName: "테스트앱(iOS)",
-//   kServiceAppUrlScheme: "marimologin",
+//   kServiceAppUrlScheme: "searchpicture_frontlogin",
 // };
 
 const androidKeys = {
@@ -98,7 +98,7 @@ const StartMain = ({ navigation }) => {
   const hanldeContinue = async () => {
     const isLogin = await AsyncStorage.getItem("isLogin");
     Alert.alert("환영합니다.");
-    navigation.navigate("NavTabs");
+    navigation.navigate("Profile");
     /*if (isLogin === "true") {
       Alert.alert("환영합니다.");
       navigation.navigate("NavTab");
@@ -112,6 +112,7 @@ const StartMain = ({ navigation }) => {
   const getUserProfile = async () => {
     const profileResult = await getProfile(naverToken.accessToken);
     console.log("profile:", profileResult);
+    console.log("email:", profileResult.response.email);
     if (profileResult.resultcode === "024") {
       Alert.alert("로그인 실패", profileResult.message);
       return;
@@ -124,15 +125,15 @@ const StartMain = ({ navigation }) => {
         console.log("Token: null");
       } else {
         console.log("토큰 있다!");
-        console.log(naverToken);
-        console.log("accessToken:", naverToken.accessToken);
+        // console.log(naverToken);
+        // console.log("accessToken:", naverToken.accessToken);
         setAccessToken(naverToken.accessToken);
         console.log("accessToken 2:", aToken);
         postUserInfo(naverToken.accessToken);
       }
       console.log("로그인 성공");
-      Alert.alert(`${profileResult.response.name}님 환영합니다`);
-      navigation.navigate("NavTabs", { name: profileResult.response.name });
+      Alert.alert(`${profileResult.response.email}님 환영합니다`);
+      navigation.navigate("Profile", { name: profileResult.response.name });
     }
   };
 
@@ -218,27 +219,9 @@ const BtnCntr = Styled.View`
     justify-content:center;
     align-items:center;
 `;
-const AppName = Styled.Text`
-  width:100%;
-  text-align:center;
-    height:20%;
-    position:relative;
-    top:0;
-    color: #F66C6C;
-    font-size: 52px;
-    font-family: "Cafe24Ssurround"
-    line-height: 61px;
-`;
-const DtText = Styled.Text`
-  height:10%;
-  width:100%;
-  text-align:center;
-  color: #191919;
-    font-size: 18px;
-    font-family: "Cafe24Ssurround"
-`;
+
 const Btn = Styled.TouchableOpacity`
-  background-color: #B16CF6;
+  background-color: #89A3F5;
   color: white;
   width: 88%;
   height: 60;

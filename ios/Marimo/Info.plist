@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Marimo</string>
+	<string>searchpicture_front</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -28,10 +28,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>marimologin</string>
+			<string>searchpicture_frontlogin</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>marimologin</string>
+				<string>searchpicture_frontlogin</string>
 			</array>
 		</dict>
 	</array>
