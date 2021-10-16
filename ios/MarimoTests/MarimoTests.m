@@ -7,11 +7,11 @@
 #define TIMEOUT_SECONDS 600
 #define TEXT_TO_LOOK_FOR @"Welcome to React"
 
-@interface MarimoTests : XCTestCase
+@interface searchpicture_frontTests : XCTestCase
 
 @end
 
-@implementation MarimoTests
+@implementation searchpicture_frontTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL(^)(UIView *view))test
 {
