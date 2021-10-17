@@ -38,12 +38,13 @@ const StartMain = ({ navigation }) => {
   const [userId, setUserId] = useState(-1);
   const [aToken, setAccessToken] = useState("");
   const [refresh, setRefresh] = useState(false);
+  const [spToken, setSpToken] = useState("");
 
   const naverLogin = (props) => {
     NaverLogin.login(props, (err, token) => {
       console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
       setNaverToken(token);
-      console.log("accessToken:", naverToken.accessToken);
+      // console.log("accessToken:", naverToken.accessToken);
 
       if (err) {
         return err;
@@ -68,11 +69,13 @@ const StartMain = ({ navigation }) => {
   const postUserInfo = async (token) => {
     console.log("postUserInfo - accessToken:", token);
     await axios
-      .get(`http://192.168.35.40:8080/login/naver?token=${token}`)
+      .get(`http://192.168.19.25:8080/login/naver?token=${token}`)
       .then(async (res) => {
         // const response = res.data.id;
         // await setUserId(response);
         console.log("토큰 보냈다!");
+        console.log("응답:", res.data.data.accessToken);
+        setSpToken(res.data.data.accessToken);
       })
       .catch((err) => {
         console.log("에러 발생 ");
@@ -89,16 +92,15 @@ const StartMain = ({ navigation }) => {
   };
 
   const setLogin = async () => {
-    AsyncStorage.removeItem("userId");
     await AsyncStorage.setItem("isLogin", "true");
     await AsyncStorage.setItem("token", JSON.stringify(naverToken));
-    await AsyncStorage.setItem("userId", JSON.stringify(userId));
+    await AsyncStorage.setItem("userToken", JSON.stringify(spToken));
   };
 
   const hanldeContinue = async () => {
     const isLogin = await AsyncStorage.getItem("isLogin");
     Alert.alert("환영합니다.");
-    navigation.navigate("Profile");
+    navigation.navigate("Profile", { spToken: spToken });
     /*if (isLogin === "true") {
       Alert.alert("환영합니다.");
       navigation.navigate("NavTab");
