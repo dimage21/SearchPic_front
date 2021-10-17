@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   Image,
@@ -9,14 +9,24 @@ import {
   Platform,
   PermissionsAndroid,
   SafeAreaView,
+  Alert,
 } from "react-native";
 import { launchImageLibrary } from "react-native-image-picker";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Profile = ({ navigation }) => {
   const [nickName, setNickName] = useState("");
   const [filePath, setFilePath] = useState({});
   const [picSelected, setPicSelected] = useState(false);
+  const [token, setToken] = useState("");
+
+  const getUserToken = async () => {
+    const userToken = await AsyncStorage.getItem("userToken");
+    setToken(userToken);
+  };
+
+  getUserToken();
 
   const requestExternalWritePermission = async () => {
     if (Platform.OS === "android") {
@@ -78,25 +88,53 @@ const Profile = ({ navigation }) => {
 
   const onClickHandler = (event) => {
     const formData = new FormData();
-    formData.append(
-      "uploadImages",
-      filePath.uri,
-      filePath.width,
-      filePath.height,
-      filePath.fileSize,
-      filePath.type,
-      filePath.fileName
-    );
+    // formData.append(
+    //   "file",
+    //   filePath.uri,
+    //   filePath.width,
+    //   filePath.height,
+    //   filePath.fileSize,
+    //   filePath.type,
+    //   filePath.fileName
+    // );
+
+    const imageFormData = new FormData();
+
+    let file = {
+      uri: filePath.uri,
+      type: filePath.type,
+      name: filePath.fileName,
+    };
+
+    imageFormData.append("file", file, { type: "application/octet-stream" });
+
     const config = {
       headers: {
-        "content-type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
       },
     };
+
+    let variables = {
+      nickname: nickName,
+    };
+    console.log("nickanme = ", nickName);
+
+    imageFormData.append("data", {
+      //new Blob(variables, { type: "application/json" })
+      string: JSON.stringify(variables),
+      type: "application/json",
+      //JSON.stringify(variables)
+    });
+    console.log("요청:", formData, config);
+    console.log("imageFormData: ", imageFormData);
     axios
-      .post("http://192.168.35.40:8080/profile", formData, config)
+      .post("http://192.168.19.25:8080/profile", imageFormData, config)
+      // .post("http://192.168.19.25:8080/test", null, config)
       .then((res) => {
         console.log("토큰 보냈다!");
         console.log(res);
+        Alert.alert(`${nickName}님 환영합니다!`);
       })
       .catch((err) => {
         console.log("에러 발생 ");
