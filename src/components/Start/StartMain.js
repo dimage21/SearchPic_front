@@ -11,17 +11,14 @@ import {
 import Styled from "styled-components/native";
 import { NaverLogin, getProfile } from "@react-native-seoul/naver-login";
 import axios from "axios";
-// post 성공시 User id 저장
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// user id로 캐릭터, userName get 한 후에, asyncStorage에 저장
-
-// const iosKeys = {
-//   kConsumerKey: "dBTCaf__PhKbM6UieQby",
-//   kConsumerSecret: "zkTe9EErPl",
-//   kServiceAppName: "테스트앱(iOS)",
-//   kServiceAppUrlScheme: "searchpicture_frontlogin",
-// };
+const iosKeys = {
+  kConsumerKey: "WfY6pghIqcFwpkxA7YYj",
+  kConsumerSecret: "UpneszQ3W_",
+  kServiceAppName: "테스트앱(iOS)",
+  kServiceAppUrlScheme: "searchpicture_frontlogin",
+};
 
 const androidKeys = {
   kConsumerKey: "WfY6pghIqcFwpkxA7YYj",
@@ -44,7 +41,6 @@ const StartMain = ({ navigation }) => {
     NaverLogin.login(props, (err, token) => {
       console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
       setNaverToken(token);
-      // console.log("accessToken:", naverToken.accessToken);
 
       if (err) {
         return err;
@@ -71,8 +67,6 @@ const StartMain = ({ navigation }) => {
     await axios
       .get(`http://192.168.19.25:8080/login/naver?token=${token}`)
       .then(async (res) => {
-        // const response = res.data.id;
-        // await setUserId(response);
         console.log("토큰 보냈다!");
         console.log("응답:", res.data.data.accessToken);
         setSpToken(res.data.data.accessToken);
