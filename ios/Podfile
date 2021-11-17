@@ -8,31 +8,21 @@ target 'searchpicture_front' do
 
   use_react_native!(
     :path => config[:reactNativePath],
-    # to enable hermes on iOS, change `false` to `true` and then install pods
     :hermes_enabled => false
   )
 
 
-
-
-  pod 'RNSVG', :path => '../node_modules/react-native-svg'
-  pod 'react-native-video-cache', :path => '../node_modules/react-native-video-cache'
-
-
-  pod 'RNSound', :path => '../node_modules/react-native-sound'
-
   target 'searchpicture_frontTests' do
     inherit! :complete
-    # Pods for testing
   end
-
-  # Enables Flipper.
-  #
-  # Note that if you have use_frameworks! enabled, Flipper will not work and
-  # you should disable the next line.
-  use_flipper!()
-
-  post_install do |installer|
-    react_native_post_install(installer)
+  
+  use_flipper!({ 'Flipper-Folly' => '2.5.0' }) # update this part
+     post_install do |installer|
+     installer.pods_project.targets.each do |target|
+     target.build_configurations.each do |config|
+       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '10.0'
+     end
+   end
+   flipper_post_install(installer)
   end
 end
