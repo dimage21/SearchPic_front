@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   Image,
@@ -19,6 +19,7 @@ const Profile = ({ navigation }) => {
   const [picSelected, setPicSelected] = useState(false);
   const [token, setToken] = useState("");
   const [result, setResult] = useState();
+  const [loading, setLoading] = useState(false);
 
   const getUserToken = async () => {
     const userToken = await AsyncStorage.getItem("userToken");
@@ -72,13 +73,6 @@ const Profile = ({ navigation }) => {
         alert(response.errorMessage);
         return;
       }
-      console.log("base64 -> ", assets.base64);
-      console.log("uri -> ", assets.uri);
-      console.log("width -> ", assets.width);
-      console.log("height -> ", assets.height);
-      console.log("fileSize -> ", assets.fileSize);
-      console.log("type -> ", assets.type);
-      console.log("fileName -> ", assets.fileName);
       setFilePath(assets);
       console.log(assets);
       console.log("filePath:", filePath);
@@ -87,6 +81,8 @@ const Profile = ({ navigation }) => {
   };
 
   const onClickHandler = (event) => {
+    let isMount = true;
+
     const formData = new FormData();
 
     const imageFormData = new FormData();
@@ -111,16 +107,26 @@ const Profile = ({ navigation }) => {
     axios
       .post(preURL.preURL + "analysis", imageFormData, config)
       .then((res) => {
+        setLoading(true);
         console.log("사진 보냈다!");
-        console.log(res.data);
         setResult(res.data);
+        console.log("res.data", res.data);
+        console.log("result", result);
       })
       .catch((err) => {
         console.log("에러 발생 ");
         console.log(err);
       });
-  };
 
+    return () => {
+      isMount = false;
+    };
+  };
+  useEffect(() => {
+    return () => setLoading(false); // cleanup function을 이용
+  }, []);
+
+  console.log(result);
   return (
     <SafeAreaView style={{ backgroundColor: "white", flex: 1 }}>
       <View
@@ -136,7 +142,11 @@ const Profile = ({ navigation }) => {
       <View>
         <View style={styles.imgContainer}>
           {picSelected ? (
-            <Image source={{ uri: filePath.uri }} style={styles.pic} />
+            <Image
+              source={{ uri: filePath.uri }}
+              style={styles.pic}
+              onPress={onClickHandler()}
+            />
           ) : (
             <View
               style={{ height: "100%", width: "100%", backgroundColor: "gray" }}
@@ -153,8 +163,7 @@ const Profile = ({ navigation }) => {
         <View>
           <TouchableOpacity
             onPress={() => {
-              onClickHandler();
-              navigation.navigate("Result", { result });
+              navigation.navigate("Result", { result: result.data });
             }}
           >
             <Text>다음</Text>
