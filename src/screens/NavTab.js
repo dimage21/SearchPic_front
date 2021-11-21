@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 import Analysis from "./AnalysisScreen";
 import Search from "./SearchScreen";
@@ -28,9 +29,14 @@ const NavTabs = () => {
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={styles.container}>
+              <Icon
+                size={30}
+                color={focused ? "#001A72" : "#7D7D7D"}
+                name="camera"
+              />
               <Text
                 style={{
-                  color: focused ? "blue" : "gray",
+                  color: focused ? "#001A72" : "#7D7D7D",
                   fontWeight: focused ? "bold" : "normal",
                 }}
               >
@@ -46,9 +52,14 @@ const NavTabs = () => {
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={styles.container}>
+              <Icon
+                size={30}
+                color={focused ? "#001A72" : "#7D7D7D"}
+                name="hashtag"
+              />
               <Text
                 style={{
-                  color: focused ? "blue" : "gray",
+                  color: focused ? "#001A72" : "#7D7D7D",
                   fontWeight: focused ? "bold" : "normal",
                 }}
               >
@@ -64,9 +75,15 @@ const NavTabs = () => {
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={styles.container}>
+              <Icon
+                size={30}
+                color={focused ? "#001A72" : "#7D7D7D"}
+                name="map-marker-alt"
+              />
+
               <Text
                 style={{
-                  color: focused ? "blue" : "gray",
+                  color: focused ? "#001A72" : "#7D7D7D",
                   fontWeight: focused ? "bold" : "normal",
                 }}
               >
@@ -82,9 +99,14 @@ const NavTabs = () => {
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={styles.container}>
+              <Icon
+                size={30}
+                color={focused ? "#001A72" : "#7D7D7D"}
+                name="user-circle"
+              />
               <Text
                 style={{
-                  color: focused ? "blue" : "gray",
+                  color: focused ? "#001A72" : "#7D7D7D",
                   fontWeight: focused ? "bold" : "normal",
                 }}
               >

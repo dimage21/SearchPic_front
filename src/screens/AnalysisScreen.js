@@ -9,11 +9,11 @@ const AnalysisStack = createNativeStackNavigator();
 const Analysis = () => {
   return (
     <AnalysisStack.Navigator>
-      {/* <AnalysisStack.Screen
+      <AnalysisStack.Screen
         name="AnalysisMain"
         component={AnalysisMain}
         options={{ headerShown: false }}
-      /> */}
+      />
       <AnalysisStack.Screen
         name="Result"
         component={Result}
