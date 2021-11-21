@@ -12,6 +12,7 @@ import {
 import { launchImageLibrary } from "react-native-image-picker";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import preURL from "../../preURL/preURL";
 
 const Profile = ({ navigation }) => {
   const [filePath, setFilePath] = useState({});
@@ -22,6 +23,7 @@ const Profile = ({ navigation }) => {
   const getUserToken = async () => {
     const userToken = await AsyncStorage.getItem("userToken");
     setToken(userToken);
+    console.log("userToken ", userToken);
   };
 
   getUserToken();
@@ -95,7 +97,7 @@ const Profile = ({ navigation }) => {
       name: filePath.fileName,
     };
 
-    imageFormData.append("file", file, { type: "application/octet-stream" });
+    imageFormData.append("image", file, { type: "application/octet-stream" });
 
     const config = {
       headers: {
@@ -107,7 +109,7 @@ const Profile = ({ navigation }) => {
     console.log("요청:", formData, config);
     console.log("imageFormData: ", imageFormData);
     axios
-      .post("http://192.168.35.40:8080/analaysis", imageFormData, config)
+      .post(preURL.preURL + "analysis", imageFormData, config)
       .then((res) => {
         console.log("사진 보냈다!");
         console.log(res.data);
