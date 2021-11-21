@@ -11,12 +11,9 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		24101A1CE302A5C96B0EA42E /* libPods-searchpicture_front.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A222F4C6AA70EB584E91E6AB /* libPods-searchpicture_front.a */; };
-		493B414C3F5B49FFA192D898 /* Cafe24Ssurround.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 859E17FFF031485CACC20878 /* Cafe24Ssurround.ttf */; };
-		6535E3185948F90C3905984E /* libPods-searchpicture_front-searchpicture_frontTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19FC8562097A6E5CE233FBD3 /* libPods-searchpicture_front-searchpicture_frontTests.a */; };
+		39A9EFF9904DE82A0EC6C88E /* libPods-searchpicture_front-searchpicture_frontTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4163FF23079DC975D0B4424 /* libPods-searchpicture_front-searchpicture_frontTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		990A3551CFFD470AA3903CCA /* NanumSquareRoundB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0D6A340CDA68449CBC4606E7 /* NanumSquareRoundB.ttf */; };
-		C5358F90B64C481DA2F6E661 /* NotoSansCJKkr-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = D98AC9E512484620BCF80165 /* NotoSansCJKkr-Regular.otf */; };
+		A91F9F1E13B8F6EDA217450C /* libPods-searchpicture_front.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BD9D031292542B491973E508 /* libPods-searchpicture_front.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,24 +30,21 @@
 		00E356EE1AD99517003FC87E /* searchpicture_frontTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = searchpicture_frontTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* searchpicture_frontTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = searchpicture_frontTests.m; sourceTree = "<group>"; };
-		0D6A340CDA68449CBC4606E7 /* NanumSquareRoundB.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = NanumSquareRoundB.ttf; path = ../src/assets/fonts/NanumSquareRoundB.ttf; sourceTree = "<group>"; };
+		11E6B376B5B3EDC19EFF601E /* Pods-searchpicture_front.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-searchpicture_front.debug.xcconfig"; path = "Target Support Files/Pods-searchpicture_front/Pods-searchpicture_front.debug.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* searchpicture_front.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = searchpicture_front.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = searchpicture_front/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = searchpicture_front/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = searchpicture_front/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = searchpicture_front/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = searchpicture_front/main.m; sourceTree = "<group>"; };
-		19FC8562097A6E5CE233FBD3 /* libPods-searchpicture_front-searchpicture_frontTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-searchpicture_front-searchpicture_frontTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3AA2DF726560F491A636C57C /* Pods-searchpicture_front.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-searchpicture_front.release.xcconfig"; path = "Target Support Files/Pods-searchpicture_front/Pods-searchpicture_front.release.xcconfig"; sourceTree = "<group>"; };
-		5A2365FEB8F1A4A3B8A3980B /* Pods-searchpicture_front-searchpicture_frontTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-searchpicture_front-searchpicture_frontTests.debug.xcconfig"; path = "Target Support Files/Pods-searchpicture_front-searchpicture_frontTests/Pods-searchpicture_front-searchpicture_frontTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = searchpicture_front/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		859E17FFF031485CACC20878 /* Cafe24Ssurround.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Cafe24Ssurround.ttf; path = ../src/assets/fonts/Cafe24Ssurround.ttf; sourceTree = "<group>"; };
-		995A31483AD125707577B378 /* Pods-searchpicture_front.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-searchpicture_front.debug.xcconfig"; path = "Target Support Files/Pods-searchpicture_front/Pods-searchpicture_front.debug.xcconfig"; sourceTree = "<group>"; };
-		A222F4C6AA70EB584E91E6AB /* libPods-searchpicture_front.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-searchpicture_front.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A4F27E1C0DB5861A2A380725 /* Pods-searchpicture_front-searchpicture_frontTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-searchpicture_front-searchpicture_frontTests.release.xcconfig"; path = "Target Support Files/Pods-searchpicture_front-searchpicture_frontTests/Pods-searchpicture_front-searchpicture_frontTests.release.xcconfig"; sourceTree = "<group>"; };
-		D98AC9E512484620BCF80165 /* NotoSansCJKkr-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NotoSansCJKkr-Regular.otf"; path = "../src/assets/fonts/NotoSansCJKkr-Regular.otf"; sourceTree = "<group>"; };
+		9AE2E25BB70F89FB2B1A01D5 /* Pods-searchpicture_front.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-searchpicture_front.release.xcconfig"; path = "Target Support Files/Pods-searchpicture_front/Pods-searchpicture_front.release.xcconfig"; sourceTree = "<group>"; };
+		BA885C75CF2199CE3196ADB3 /* Pods-searchpicture_front-searchpicture_frontTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-searchpicture_front-searchpicture_frontTests.release.xcconfig"; path = "Target Support Files/Pods-searchpicture_front-searchpicture_frontTests/Pods-searchpicture_front-searchpicture_frontTests.release.xcconfig"; sourceTree = "<group>"; };
+		BD9D031292542B491973E508 /* libPods-searchpicture_front.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-searchpicture_front.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E40C1EBE62C0981813C2FCFA /* Pods-searchpicture_front-searchpicture_frontTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-searchpicture_front-searchpicture_frontTests.debug.xcconfig"; path = "Target Support Files/Pods-searchpicture_front-searchpicture_frontTests/Pods-searchpicture_front-searchpicture_frontTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F125C1E7270AE2AE00CD80F7 /* searchpicture_front-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; path = "searchpicture_front-Bridging-Header.h"; sourceTree = "<group>"; };
+		F4163FF23079DC975D0B4424 /* libPods-searchpicture_front-searchpicture_frontTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-searchpicture_front-searchpicture_frontTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6535E3185948F90C3905984E /* libPods-searchpicture_front-searchpicture_frontTests.a in Frameworks */,
+				39A9EFF9904DE82A0EC6C88E /* libPods-searchpicture_front-searchpicture_frontTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,7 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				24101A1CE302A5C96B0EA42E /* libPods-searchpicture_front.a in Frameworks */,
+				A91F9F1E13B8F6EDA217450C /* libPods-searchpicture_front.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,29 +101,26 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				A222F4C6AA70EB584E91E6AB /* libPods-searchpicture_front.a */,
-				19FC8562097A6E5CE233FBD3 /* libPods-searchpicture_front-searchpicture_frontTests.a */,
+				BD9D031292542B491973E508 /* libPods-searchpicture_front.a */,
+				F4163FF23079DC975D0B4424 /* libPods-searchpicture_front-searchpicture_frontTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		2ED09F4C1AAE4ADFB462F63D /* Resources */ = {
+		596EC0762741F869009FC414 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				859E17FFF031485CACC20878 /* Cafe24Ssurround.ttf */,
-				0D6A340CDA68449CBC4606E7 /* NanumSquareRoundB.ttf */,
-				D98AC9E512484620BCF80165 /* NotoSansCJKkr-Regular.otf */,
 			);
-			name = Resources;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		77A0AEFF502B85E3CC8E30C5 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				995A31483AD125707577B378 /* Pods-searchpicture_front.debug.xcconfig */,
-				3AA2DF726560F491A636C57C /* Pods-searchpicture_front.release.xcconfig */,
-				5A2365FEB8F1A4A3B8A3980B /* Pods-searchpicture_front-searchpicture_frontTests.debug.xcconfig */,
-				A4F27E1C0DB5861A2A380725 /* Pods-searchpicture_front-searchpicture_frontTests.release.xcconfig */,
+				11E6B376B5B3EDC19EFF601E /* Pods-searchpicture_front.debug.xcconfig */,
+				9AE2E25BB70F89FB2B1A01D5 /* Pods-searchpicture_front.release.xcconfig */,
+				E40C1EBE62C0981813C2FCFA /* Pods-searchpicture_front-searchpicture_frontTests.debug.xcconfig */,
+				BA885C75CF2199CE3196ADB3 /* Pods-searchpicture_front-searchpicture_frontTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -144,13 +135,13 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				596EC0762741F869009FC414 /* Resources */,
 				13B07FAE1A68108700A75B9A /* searchpicture_front */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* searchpicture_frontTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				77A0AEFF502B85E3CC8E30C5 /* Pods */,
-				2ED09F4C1AAE4ADFB462F63D /* Resources */,
 				F125C1E7270AE2AE00CD80F7 /* searchpicture_front-Bridging-Header.h */,
 			);
 			indentWidth = 2;
@@ -174,12 +165,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "searchpicture_frontTests" */;
 			buildPhases = (
-				CA461D1F79D2EF507492B9B3 /* [CP] Check Pods Manifest.lock */,
+				4AD5BF7B1660C4E5C29A69EC /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				320F434ABDFE8D02A161CE8D /* [CP] Embed Pods Frameworks */,
-				D981E26D1C3A7EC64A14CB5E /* [CP] Copy Pods Resources */,
+				8DBA46C2330691BBDD840ACA /* [CP] Embed Pods Frameworks */,
+				6CC07D60708CA3581C25D2C5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -195,14 +186,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "searchpicture_front" */;
 			buildPhases = (
-				BB13FF8E304A8EE88A568D10 /* [CP] Check Pods Manifest.lock */,
+				1FFECC99DAB5027E46FB0807 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				6DFE8DFBC05F5DAA3A3456F8 /* [CP] Embed Pods Frameworks */,
-				1E2A61D02F5FB57120C38BB7 /* [CP] Copy Pods Resources */,
+				9D84620FA708F1204C049D05 /* [CP] Embed Pods Frameworks */,
+				57A7EB480A23EBF0CE93818F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -263,9 +254,6 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				493B414C3F5B49FFA192D898 /* Cafe24Ssurround.ttf in Resources */,
-				990A3551CFFD470AA3903CCA /* NanumSquareRoundB.ttf in Resources */,
-				C5358F90B64C481DA2F6E661 /* NotoSansCJKkr-Regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,58 +274,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		1E2A61D02F5FB57120C38BB7 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front/Pods-searchpicture_front-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front/Pods-searchpicture_front-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front/Pods-searchpicture_front-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		320F434ABDFE8D02A161CE8D /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front-searchpicture_frontTests/Pods-searchpicture_front-searchpicture_frontTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front-searchpicture_frontTests/Pods-searchpicture_front-searchpicture_frontTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front-searchpicture_frontTests/Pods-searchpicture_front-searchpicture_frontTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6DFE8DFBC05F5DAA3A3456F8 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front/Pods-searchpicture_front-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front/Pods-searchpicture_front-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front/Pods-searchpicture_front-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BB13FF8E304A8EE88A568D10 /* [CP] Check Pods Manifest.lock */ = {
+		1FFECC99DAB5027E46FB0807 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -359,7 +296,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CA461D1F79D2EF507492B9B3 /* [CP] Check Pods Manifest.lock */ = {
+		4AD5BF7B1660C4E5C29A69EC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -381,7 +318,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D981E26D1C3A7EC64A14CB5E /* [CP] Copy Pods Resources */ = {
+		57A7EB480A23EBF0CE93818F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front/Pods-searchpicture_front-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front/Pods-searchpicture_front-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front/Pods-searchpicture_front-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6CC07D60708CA3581C25D2C5 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -396,6 +350,40 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front-searchpicture_frontTests/Pods-searchpicture_front-searchpicture_frontTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8DBA46C2330691BBDD840ACA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front-searchpicture_frontTests/Pods-searchpicture_front-searchpicture_frontTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front-searchpicture_frontTests/Pods-searchpicture_front-searchpicture_frontTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front-searchpicture_frontTests/Pods-searchpicture_front-searchpicture_frontTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9D84620FA708F1204C049D05 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front/Pods-searchpicture_front-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front/Pods-searchpicture_front-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-searchpicture_front/Pods-searchpicture_front-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -450,7 +438,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5A2365FEB8F1A4A3B8A3980B /* Pods-searchpicture_front-searchpicture_frontTests.debug.xcconfig */;
+			baseConfigurationReference = E40C1EBE62C0981813C2FCFA /* Pods-searchpicture_front-searchpicture_frontTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -477,7 +465,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A4F27E1C0DB5861A2A380725 /* Pods-searchpicture_front-searchpicture_frontTests.release.xcconfig */;
+			baseConfigurationReference = BA885C75CF2199CE3196ADB3 /* Pods-searchpicture_front-searchpicture_frontTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -501,12 +489,12 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 995A31483AD125707577B378 /* Pods-searchpicture_front.debug.xcconfig */;
+			baseConfigurationReference = 11E6B376B5B3EDC19EFF601E /* Pods-searchpicture_front.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 67FA65927V;
+				DEVELOPMENT_TEAM = XF7922X6R2;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = searchpicture_front/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -518,7 +506,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "search-pictest";
 				PRODUCT_NAME = searchpicture_front;
 				SWIFT_OBJC_BRIDGING_HEADER = "searchpicture_front-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -529,12 +517,12 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3AA2DF726560F491A636C57C /* Pods-searchpicture_front.release.xcconfig */;
+			baseConfigurationReference = 9AE2E25BB70F89FB2B1A01D5 /* Pods-searchpicture_front.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 67FA65927V;
+				DEVELOPMENT_TEAM = XF7922X6R2;
 				INFOPLIST_FILE = searchpicture_front/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -545,7 +533,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "search-pictest";
 				PRODUCT_NAME = searchpicture_front;
 				SWIFT_OBJC_BRIDGING_HEADER = "searchpicture_front-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
