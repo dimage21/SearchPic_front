@@ -9,9 +9,22 @@ import {
 } from "react-native";
 import axios from "axios";
 import Icon from "react-native-vector-icons/AntDesign";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import preURL from "../../preURL/preURL";
 
 const Result = ({ navigation, route }) => {
   //   const Result = route.params;
+  const [token, setToken] = useState("");
+  console.log("=======================[Result]=====================");
+  const getUserToken = async () => {
+    const userToken = await AsyncStorage.getItem("userToken");
+    setToken(userToken);
+    console.log("userToken ", userToken);
+  };
+
+  getUserToken();
+
+  // 임시 data
   const Result = [
     {
       id: 255,
@@ -55,9 +68,50 @@ const Result = ({ navigation, route }) => {
   const [mark2, setMark2] = useState(Result2.marked);
   const [mark3, setMark3] = useState(Result3.marked);
 
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    },
+  };
+
+  const postMark = (locationId) => {
+    console.log("전송:", config, locationId);
+    axios
+      .post(preURL.preURL + `location/${locationId}/mark`, config, locationId)
+      .then((res) => {
+        console.log("마크 추가 보냈다!");
+        console.log(res.data);
+        setResult(res.data);
+      })
+      .catch((err) => {
+        console.log("에러 발생 ");
+        console.log(err);
+      });
+  };
+
+  const deleteMark = (locationId) => {
+    console.log("전송:", config, locationId);
+    axios
+      .delete(
+        preURL.preURL + `location/${locationId}/un-mark`,
+        config,
+        locationId
+      )
+      .then((res) => {
+        console.log("마크 취소 보냈다!");
+        console.log(res.data);
+        setResult(res.data);
+      })
+      .catch((err) => {
+        console.log("에러 발생 ");
+        console.log(err);
+      });
+  };
+
   return (
     <SafeAreaView style={{ padding: 15, width: "100%", height: "100%" }}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate("AnalysisMain")}>
         <Icon size={40} color="black" name="left" />
       </TouchableOpacity>
       <View>
@@ -73,7 +127,13 @@ const Result = ({ navigation, route }) => {
         </Text>
         <Text style={{ fontSize: 16, color: "#89A3F5" }}>Best</Text>
         <View style={styles.imageBlock}>
-          <Image source={{ uri: Result1.repImageUrl }} style={styles.image} />
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Detail", { locationId: Result1.id })
+            }
+          >
+            <Image source={{ uri: Result1.repImageUrl }} style={styles.image} />
+          </TouchableOpacity>
           <View style={styles.textBlock}>
             <Text style={styles.placeName}>{Result1.placeName}</Text>
             <Text style={styles.address}>{Result1.address}</Text>
@@ -85,6 +145,7 @@ const Result = ({ navigation, route }) => {
               name="heart"
               onPress={() => {
                 setMark1(!mark1);
+                deleteMark(Result1.locationId);
               }}
             />
           ) : (
@@ -94,18 +155,34 @@ const Result = ({ navigation, route }) => {
               name="hearto"
               onPress={() => {
                 setMark1(!mark1);
+                postMark(Result1.locationId);
               }}
             />
           )}
         </View>
       </View>
       <View>
-        <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>
+        <Text
+          style={{
+            fontSize: 18,
+            fontWeight: "bold",
+            marginTop: 10,
+          }}
+        >
           비슷한 장소 더보기
         </Text>
         <View>
           <View style={styles.imageBlock}>
-            <Image source={{ uri: Result2.repImageUrl }} style={styles.image} />
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("Detail", { locationId: Result2.id })
+              }
+            >
+              <Image
+                source={{ uri: Result2.repImageUrl }}
+                style={styles.image}
+              />
+            </TouchableOpacity>
             <View style={styles.textBlock}>
               <Text style={styles.placeName}>{Result2.placeName}</Text>
               <Text style={styles.address}>{Result2.address}</Text>
@@ -117,6 +194,7 @@ const Result = ({ navigation, route }) => {
                 name="heart"
                 onPress={() => {
                   setMark2(!mark2);
+                  deleteMark(Result2.locationId);
                 }}
               />
             ) : (
@@ -126,6 +204,7 @@ const Result = ({ navigation, route }) => {
                 name="hearto"
                 onPress={() => {
                   setMark2(!mark2);
+                  postMark(Result2.locationId);
                 }}
               />
             )}
@@ -133,7 +212,16 @@ const Result = ({ navigation, route }) => {
         </View>
         <View>
           <View style={styles.imageBlock}>
-            <Image source={{ uri: Result3.repImageUrl }} style={styles.image} />
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("Detail", { locationId: Result3.id })
+              }
+            >
+              <Image
+                source={{ uri: Result3.repImageUrl }}
+                style={styles.image}
+              />
+            </TouchableOpacity>
             <View style={styles.textBlock}>
               <Text style={styles.placeName}>{Result3.placeName}</Text>
               <Text style={styles.address}>{Result3.address}</Text>
@@ -145,6 +233,7 @@ const Result = ({ navigation, route }) => {
                 name="heart"
                 onPress={() => {
                   setMark3(!mark3);
+                  deleteMark(Result3.locationId);
                 }}
               />
             ) : (
@@ -154,6 +243,7 @@ const Result = ({ navigation, route }) => {
                 name="hearto"
                 onPress={() => {
                   setMark3(!mark3);
+                  postMark(Result3.locationId);
                 }}
               />
             )}
@@ -180,5 +270,5 @@ const styles = StyleSheet.create({
   address: {
     fontSize: 10,
   },
-  image: { width: 156, height: 97 },
+  image: { width: 156, height: 97, margin: 10, marginLeft: 0 },
 });

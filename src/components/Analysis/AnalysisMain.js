@@ -12,6 +12,7 @@ import {
 import { launchImageLibrary } from "react-native-image-picker";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import preURL from "../../preURL/preURL";
 
 const Profile = ({ navigation }) => {
   const [filePath, setFilePath] = useState({});
@@ -108,7 +109,7 @@ const Profile = ({ navigation }) => {
     console.log("요청:", formData, config);
     console.log("imageFormData: ", imageFormData);
     axios
-      .post("http://192.168.35.40:8080/analysis", imageFormData, config)
+      .post(preURL.preURL + "analysis", imageFormData, config)
       .then((res) => {
         console.log("사진 보냈다!");
         console.log(res.data);

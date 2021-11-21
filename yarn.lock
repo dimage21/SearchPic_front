@@ -7357,6 +7357,11 @@
     "invariant" "^2.2.4"
     "prop-types" "^15.7.2"
 
+"react-native-grid-image-viewer@^1.2.2":
+  "integrity" "sha512-1wRyHoVPronbt9K2cOR27Ks82P+s3FUp/EUXY3MJxiM3rKeo/lF+AKbecIPLQdiBFmDzMeYnIP865sOpo3S7KQ=="
+  "resolved" "https://registry.npmjs.org/react-native-grid-image-viewer/-/react-native-grid-image-viewer-1.2.2.tgz"
+  "version" "1.2.2"
+
 "react-native-image-picker@^4.1.1":
   "integrity" "sha512-O78kljfaLQkFNzba4yWueqXlAWzDNzYUavqSQloJAf+ISGsOk95WO/a4Tp27E6hck8vPtx7u0GBrvEULyh1XAw=="
   "resolved" "https://registry.npmjs.org/react-native-image-picker/-/react-native-image-picker-4.1.1.tgz"
@@ -7489,6 +7494,11 @@
   dependencies:
     "css-select" "^2.1.0"
     "css-tree" "^1.0.0-alpha.39"
+
+"react-native-swipe-gestures@^1.0.5":
+  "integrity" "sha512-Ns7Bn9H/Tyw278+5SQx9oAblDZ7JixyzeOczcBK8dipQk2pD7Djkcfnf1nB/8RErAmMLL9iXgW0QHqiII8AhKw=="
+  "resolved" "https://registry.npmjs.org/react-native-swipe-gestures/-/react-native-swipe-gestures-1.0.5.tgz"
+  "version" "1.0.5"
 
 "react-native-vector-icons@*", "react-native-vector-icons@^8.1.0":
   "integrity" "sha512-sHIdBB6Y0dHaot2fMXgy5J/hhCn5YuyN7SKDNFgPzL8KA1oF2/v7mgYMavnK7LIIs2dJoGnDANKf61dsU+TZlg=="
