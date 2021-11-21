@@ -3,6 +3,7 @@ import { StyleSheet, View, Text } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
+// Screens
 import Analysis from "./AnalysisScreen";
 import Search from "./SearchScreen";
 import Map from "./MapScreen";
