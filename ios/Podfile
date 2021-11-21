@@ -21,6 +21,10 @@ target 'searchpicture_front' do
 
   pod 'RNSound', :path => '../node_modules/react-native-sound'
 
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'searchpicture_frontTests' do
     inherit! :complete
     # Pods for testing
