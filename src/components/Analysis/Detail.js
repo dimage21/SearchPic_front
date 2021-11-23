@@ -16,61 +16,62 @@ import GridImageView from "react-native-grid-image-viewer";
 import GestureRecognizer from "react-native-swipe-gestures";
 
 const Detail = ({ navigation, route }) => {
-  const locationId = route.params;
-  //   const [place, setPlace] = useState({});
-  //   const [places, setPlaces] = useState([]);
+  const locationId = route.params.locationId;
+  const [place, setPlace] = useState({});
+  const [places, setPlaces] = useState([]);
   const [modal, setModal] = useState(false);
   const [modalPlace, setModalPlace] = useState({});
+  const [loading, setLoading] = useState(false);
 
   // 임시 data
-  const place = {
-    id: 276,
-    address: "제주특별자치도 제주시 구좌읍 종달리 2690",
-    x: 126.888955399,
-    y: 33.49808308,
-    placeName: null,
-    repImageUrl:
-      "/Users/oghyewon/Documents/search-pic/2/16c678d3-7bde-4d8f-9d37-1b4f3efe89b7.jpg",
-    repTags: ["강릉", "진수", "이이"],
-    marked: false,
-  };
-  const places = [
-    {
-      postId: 65,
-      pictureUrl:
-        "https://s3-ap-northeast-1.amazonaws.com/dcreviewsresized/300_300_20200701035909_photo2_aad9545a5655.jpg",
-      tagNames: ["자연", "액자", "바다"],
-      address: "서울 강남구 테헤란로1길 28-3",
-      description: "메모입니다.",
-      locationId: 248,
-    },
-    {
-      postId: 60,
-      pictureUrl:
-        "https://cdn.eyesmag.com/content/uploads/posts/2021/01/20/ottogi-rolyopoly-cotto-info-01-2c657350-9240-4670-96a5-364bb35c0a62.jpg",
-      tagNames: ["자연", "액자", "바다"],
-      address: "서울 강남구 봉은사로51길 19",
-      description: "메모입니다.",
-      locationId: 243,
-    },
-    {
-      postId: 62,
-      pictureUrl: "http://www.newstof.com/news/photo/201908/1901_5129_155.jpg",
-      tagNames: ["자연", "액자", "바다"],
-      address: "서울 종로구 계동길 5",
-      description: "메모입니다.",
-      locationId: 245,
-    },
-    {
-      postId: 91,
-      pictureUrl:
-        "https://search.pstatic.net/common/?autoRotate=true&quality=95&type=w750&src=https%3A%2F%2Fmyplace-phinf.pstatic.net%2F20210926_120%2F1632614979878HBmqX_JPEG%2Fupload_4107e2439955abfadb6e61d2496e2ef2.jpeg",
-      tagNames: ["자연", "액자", "바다"],
-      address: "서울특별시 중구 정동 세종대로 99",
-      description: "메모입니다.",
-      locationId: 274,
-    },
-  ];
+  //   const place = {
+  //     id: 276,
+  //     address: "제주특별자치도 제주시 구좌읍 종달리 2690",
+  //     x: 126.888955399,
+  //     y: 33.49808308,
+  //     placeName: null,
+  //     repImageUrl:
+  //       "/Users/oghyewon/Documents/search-pic/2/16c678d3-7bde-4d8f-9d37-1b4f3efe89b7.jpg",
+  //     repTags: ["강릉", "진수", "이이"],
+  //     marked: false,
+  //   };
+  //   const places = [
+  //     {
+  //       postId: 65,
+  //       pictureUrl:
+  //         "https://s3-ap-northeast-1.amazonaws.com/dcreviewsresized/300_300_20200701035909_photo2_aad9545a5655.jpg",
+  //       tagNames: ["자연", "액자", "바다"],
+  //       address: "서울 강남구 테헤란로1길 28-3",
+  //       description: "메모입니다.",
+  //       locationId: 248,
+  //     },
+  //     {
+  //       postId: 60,
+  //       pictureUrl:
+  //         "https://cdn.eyesmag.com/content/uploads/posts/2021/01/20/ottogi-rolyopoly-cotto-info-01-2c657350-9240-4670-96a5-364bb35c0a62.jpg",
+  //       tagNames: ["자연", "액자", "바다"],
+  //       address: "서울 강남구 봉은사로51길 19",
+  //       description: "메모입니다.",
+  //       locationId: 243,
+  //     },
+  //     {
+  //       postId: 62,
+  //       pictureUrl: "http://www.newstof.com/news/photo/201908/1901_5129_155.jpg",
+  //       tagNames: ["자연", "액자", "바다"],
+  //       address: "서울 종로구 계동길 5",
+  //       description: "메모입니다.",
+  //       locationId: 245,
+  //     },
+  //     {
+  //       postId: 91,
+  //       pictureUrl:
+  //         "https://search.pstatic.net/common/?autoRotate=true&quality=95&type=w750&src=https%3A%2F%2Fmyplace-phinf.pstatic.net%2F20210926_120%2F1632614979878HBmqX_JPEG%2Fupload_4107e2439955abfadb6e61d2496e2ef2.jpeg",
+  //       tagNames: ["자연", "액자", "바다"],
+  //       address: "서울특별시 중구 정동 세종대로 99",
+  //       description: "메모입니다.",
+  //       locationId: 274,
+  //     },
+  //   ];
 
   const [mark, setMark] = useState(place.marked);
   const [token, setToken] = useState("");
@@ -85,29 +86,45 @@ const Detail = ({ navigation, route }) => {
 
   getUserToken();
 
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
   const getPlace = () => {
+    let isMount = true;
+
     axios
-      .get(preURL.preURL + `location/${locationId}`, locationId)
+      .get(preURL.preURL + `location/${locationId}`, config)
       .then((res) => {
+        setLoading(true);
         console.log("장소 요청 보냈다!");
-        console.log(res.data);
-        setPlace(res.data);
+        console.log(res.data.data);
+        setPlace(res.data.data);
+        console.log("res.data: ", res.data);
+        console.log("place: ", place);
       })
       .catch((err) => {
         console.log("에러 발생 ");
         console.log(err);
       });
+
+    return () => {
+      isMount = false;
+    };
   };
 
   getPlace();
 
   const getPlaces = () => {
     axios
-      .get(preURL.preURL + `${locationId}/posts`)
+      .get(preURL.preURL + `${locationId}/posts`, config)
       .then((res) => {
+        setLoading(true);
         console.log("근처 장소 요청 보냈다!");
-        console.log(res.data);
-        setPlaces(res.data);
+        console.log(res.data.data);
+        setPlaces(res.data.data);
       })
       .catch((err) => {
         console.log("에러 발생 ");
@@ -116,13 +133,6 @@ const Detail = ({ navigation, route }) => {
   };
 
   getPlaces();
-
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data",
-    },
-  };
 
   const postMark = () => {
     console.log("전송:", config, locationId);
@@ -158,21 +168,31 @@ const Detail = ({ navigation, route }) => {
       });
   };
 
-  const listItems = places.map((place) => (
-    <View>
-      <TouchableOpacity
-        onPress={() => {
-          setModal(true);
-          setModalPlace(place);
-        }}
-      >
-        <Image
-          source={{ uri: place.pictureUrl }}
-          style={{ width: 150, height: 150 }}
-        />
-      </TouchableOpacity>
-    </View>
-  ));
+  const listItems = ({ item }) => {
+    console.log("item(근처 포토 스팟): ", item);
+    return (
+      <View>
+        <TouchableOpacity
+          onPress={() => {
+            setModal(true);
+            setModalPlace(place);
+          }}
+        >
+          <Image
+            source={{ uri: place.pictureUrl }}
+            style={{ width: 150, height: 150 }}
+          />
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  useEffect(() => {
+    console.log("place => ", place);
+    return () => setLoading(false); // cleanup function을 이용
+  }, [place]);
+
+  console.log("place222: ", place);
 
   return (
     <SafeAreaView style={{ padding: 10 }}>
@@ -234,7 +254,7 @@ const Detail = ({ navigation, route }) => {
         <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 20 }}>
           근처 포토스팟
         </Text>
-        <View>{listItems}</View>
+        <FlatList data={place} renderItem={listItems} numColumns={2} />
       </View>
       {modal ? (
         <View style={{ display: "flex", justifyContent: "flex-end" }}>
