@@ -35,7 +35,7 @@ const SearchMain = () => {
 
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjM3MzcyNTUyLCJleHAiOjE2MzgwOTI1NTJ9.ODrxTHg0A4SDB5qSf348XlbpNM5HQPef-jO8MZx8Bfw`,
+      Authorization: `Bearer ${token}`,
     },
   };
 
