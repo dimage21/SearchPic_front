@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   TouchableOpacity,
@@ -7,71 +7,71 @@ import {
   Image,
   StyleSheet,
   Modal,
+  FlatList,
 } from "react-native";
 import axios from "axios";
 import Icon from "react-native-vector-icons/AntDesign";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import preURL from "../../preURL/preURL";
-import GridImageView from "react-native-grid-image-viewer";
 import GestureRecognizer from "react-native-swipe-gestures";
 
 const Detail = ({ navigation, route }) => {
   const locationId = route.params.locationId;
-  const [place, setPlace] = useState({});
-  const [places, setPlaces] = useState([]);
+  let [place, setPlace] = useState({});
+  let [places, setPlaces] = useState([]);
   const [modal, setModal] = useState(false);
   const [modalPlace, setModalPlace] = useState({});
   const [loading, setLoading] = useState(false);
 
   // 임시 data
-  //   const place = {
-  //     id: 276,
-  //     address: "제주특별자치도 제주시 구좌읍 종달리 2690",
-  //     x: 126.888955399,
-  //     y: 33.49808308,
-  //     placeName: null,
-  //     repImageUrl:
-  //       "/Users/oghyewon/Documents/search-pic/2/16c678d3-7bde-4d8f-9d37-1b4f3efe89b7.jpg",
-  //     repTags: ["강릉", "진수", "이이"],
-  //     marked: false,
-  //   };
-  //   const places = [
-  //     {
-  //       postId: 65,
-  //       pictureUrl:
-  //         "https://s3-ap-northeast-1.amazonaws.com/dcreviewsresized/300_300_20200701035909_photo2_aad9545a5655.jpg",
-  //       tagNames: ["자연", "액자", "바다"],
-  //       address: "서울 강남구 테헤란로1길 28-3",
-  //       description: "메모입니다.",
-  //       locationId: 248,
-  //     },
-  //     {
-  //       postId: 60,
-  //       pictureUrl:
-  //         "https://cdn.eyesmag.com/content/uploads/posts/2021/01/20/ottogi-rolyopoly-cotto-info-01-2c657350-9240-4670-96a5-364bb35c0a62.jpg",
-  //       tagNames: ["자연", "액자", "바다"],
-  //       address: "서울 강남구 봉은사로51길 19",
-  //       description: "메모입니다.",
-  //       locationId: 243,
-  //     },
-  //     {
-  //       postId: 62,
-  //       pictureUrl: "http://www.newstof.com/news/photo/201908/1901_5129_155.jpg",
-  //       tagNames: ["자연", "액자", "바다"],
-  //       address: "서울 종로구 계동길 5",
-  //       description: "메모입니다.",
-  //       locationId: 245,
-  //     },
-  //     {
-  //       postId: 91,
-  //       pictureUrl:
-  //         "https://search.pstatic.net/common/?autoRotate=true&quality=95&type=w750&src=https%3A%2F%2Fmyplace-phinf.pstatic.net%2F20210926_120%2F1632614979878HBmqX_JPEG%2Fupload_4107e2439955abfadb6e61d2496e2ef2.jpeg",
-  //       tagNames: ["자연", "액자", "바다"],
-  //       address: "서울특별시 중구 정동 세종대로 99",
-  //       description: "메모입니다.",
-  //       locationId: 274,
-  //     },
-  //   ];
+  // const place = {
+  //   id: 276,
+  //   address: "제주특별자치도 제주시 구좌읍 종달리 2690",
+  //   x: 126.888955399,
+  //   y: 33.49808308,
+  //   placeName: null,
+  //   repImageUrl:
+  //     "https://s3-ap-northeast-1.amazonaws.com/dcreviewsresized/300_300_20200701035909_photo2_aad9545a5655.jpg",
+  //   repTags: ["강릉", "진수", "이이"],
+  //   marked: false,
+  // };
+  // const places = [
+  //   {
+  //     postId: 65,
+  //     pictureUrl:
+  //       "https://s3-ap-northeast-1.amazonaws.com/dcreviewsresized/300_300_20200701035909_photo2_aad9545a5655.jpg",
+  //     tagNames: ["자연", "액자", "바다"],
+  //     address: "서울 강남구 테헤란로1길 28-3",
+  //     description: "메모입니다.",
+  //     locationId: 248,
+  //   },
+  //   {
+  //     postId: 60,
+  //     pictureUrl:
+  //       "https://cdn.eyesmag.com/content/uploads/posts/2021/01/20/ottogi-rolyopoly-cotto-info-01-2c657350-9240-4670-96a5-364bb35c0a62.jpg",
+  //     tagNames: ["자연", "액자", "바다"],
+  //     address: "서울 강남구 봉은사로51길 19",
+  //     description: "메모입니다.",
+  //     locationId: 243,
+  //   },
+  //   {
+  //     postId: 62,
+  //     pictureUrl: "http://www.newstof.com/news/photo/201908/1901_5129_155.jpg",
+  //     tagNames: ["자연", "액자", "바다"],
+  //     address: "서울 종로구 계동길 5",
+  //     description: "메모입니다.",
+  //     locationId: 245,
+  //   },
+  //   {
+  //     postId: 91,
+  //     pictureUrl:
+  //       "https://search.pstatic.net/common/?autoRotate=true&quality=95&type=w750&src=https%3A%2F%2Fmyplace-phinf.pstatic.net%2F20210926_120%2F1632614979878HBmqX_JPEG%2Fupload_4107e2439955abfadb6e61d2496e2ef2.jpeg",
+  //     tagNames: ["자연", "액자", "바다"],
+  //     address: "서울특별시 중구 정동 세종대로 99",
+  //     description: "메모입니다.",
+  //     locationId: 274,
+  //   },
+  // ];
 
   const [mark, setMark] = useState(place.marked);
   const [token, setToken] = useState("");
@@ -175,12 +175,13 @@ const Detail = ({ navigation, route }) => {
         <TouchableOpacity
           onPress={() => {
             setModal(true);
-            setModalPlace(place);
+            setModalPlace(item);
           }}
+          key={item.locationId}
         >
           <Image
-            source={{ uri: place.pictureUrl }}
-            style={{ width: 150, height: 150 }}
+            source={{ uri: item.pictureUrl }}
+            style={{ width: 150, height: 150, margin: 10 }}
           />
         </TouchableOpacity>
       </View>
@@ -195,7 +196,7 @@ const Detail = ({ navigation, route }) => {
   console.log("place222: ", place);
 
   return (
-    <SafeAreaView style={{ padding: 10 }}>
+    <SafeAreaView style={{ padding: 10, flex: 1, backgroundColor: "#ffffff" }}>
       <View
         style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
       >
@@ -205,16 +206,18 @@ const Detail = ({ navigation, route }) => {
         <Text style={{ fontSize: 18, fontWeight: "bold" }}>포토스팟</Text>
       </View>
       <View style={styles.main}>
-        <Image />
+        <Image
+          source={{ uri: `${place.repImageUrl}` }}
+          style={{ width: "95%", height: 200 }}
+        />
         <View
           style={{
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            justifyContent: "space-between",
           }}
         >
-          <View>
+          <View style={{ marginRight: "10%" }}>
             {place.placeName ? (
               <Text style={{ fontSize: 18 }}>{place.placeName}</Text>
             ) : (
@@ -229,7 +232,7 @@ const Detail = ({ navigation, route }) => {
           </View>
           {mark ? (
             <Icon
-              size={35}
+              size={27}
               color="#001A72"
               name="heart"
               onPress={() => {
@@ -239,7 +242,7 @@ const Detail = ({ navigation, route }) => {
             />
           ) : (
             <Icon
-              size={35}
+              size={27}
               color="#001A72"
               name="hearto"
               onPress={() => {
@@ -250,11 +253,28 @@ const Detail = ({ navigation, route }) => {
           )}
         </View>
       </View>
-      <View>
-        <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 20 }}>
-          근처 포토스팟
-        </Text>
-        <FlatList data={place} renderItem={listItems} numColumns={2} />
+      <View style={{ marginTop: 20, marginLeft: 10, marginRight: 10 }}>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: "bold",
+            }}
+          >
+            근처 포토스팟
+          </Text>
+          <TouchableOpacity>
+            <Text>더보기</Text>
+          </TouchableOpacity>
+        </View>
+        <FlatList data={places} renderItem={listItems} numColumns={2} />
       </View>
       {modal ? (
         <View style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -311,6 +331,10 @@ export default Detail;
 const styles = StyleSheet.create({
   main: {
     width: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 15,
   },
   hashtags: {
     display: "flex",
