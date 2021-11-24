@@ -23,6 +23,7 @@ const NavTabs = () => {
           borderTopRightRadius: 20,
         },
       }}
+      initialRouteName="Home"
     >
       <Tab.Screen
         name="Analysis"
