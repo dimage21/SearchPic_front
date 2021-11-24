@@ -49,36 +49,10 @@ const Profile = ({ navigation }) => {
     } else return true;
   };
 
-  const chooseFile = (type) => {
-    let options = {
-      mediaType: type,
-      maxWidth: 300,
-      maxHeight: 550,
-      quality: 1,
-    };
-    launchImageLibrary(options, (response) => {
-      console.log("Response = ", response);
-      const assets = response.assets[0];
-      console.log("asset:", assets);
-      if (response.didCancel) {
-        alert("User cancelled camera picker");
-        return;
-      } else if (response.errorCode == "camera_unavailable") {
-        alert("Camera not available on device");
-        return;
-      } else if (response.errorCode == "permission") {
-        alert("Permission not satisfied");
-        return;
-      } else if (response.errorCode == "others") {
-        alert(response.errorMessage);
-        return;
-      }
-      setFilePath(assets);
-      console.log(assets);
-      console.log("filePath:", filePath);
-      setPicSelected(!picSelected);
-    });
-  };
+  useEffect(() => {
+    chooseFile("photo");
+    return () => setLoading(false); // cleanup function을 이용
+  }, []);
 
   const onClickHandler = (event) => {
     let isMount = true;
@@ -122,54 +96,44 @@ const Profile = ({ navigation }) => {
       isMount = false;
     };
   };
-  useEffect(() => {
-    return () => setLoading(false); // cleanup function을 이용
-  }, []);
+
+  const chooseFile = (type) => {
+    let options = {
+      mediaType: type,
+      maxWidth: 300,
+      maxHeight: 550,
+      quality: 1,
+    };
+    launchImageLibrary(options, (response) => {
+      console.log("Response = ", response);
+      const assets = response.assets[0];
+      console.log("asset:", assets);
+      if (response.didCancel) {
+        alert("User cancelled camera picker");
+        return;
+      } else if (response.errorCode == "camera_unavailable") {
+        alert("Camera not available on device");
+        return;
+      } else if (response.errorCode == "permission") {
+        alert("Permission not satisfied");
+        return;
+      } else if (response.errorCode == "others") {
+        alert(response.errorMessage);
+        return;
+      }
+      setFilePath(assets);
+      console.log(assets);
+      console.log("filePath:", filePath);
+      setPicSelected(!picSelected);
+    });
+    onClickHandler();
+    navigation.navigate("Result", { result: result.data });
+  };
 
   console.log(result);
   return (
     <SafeAreaView style={{ backgroundColor: "white", flex: 1 }}>
-      <View
-        style={{
-          height: 50,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text style={{ fontSize: 20 }}>분석하기</Text>
-      </View>
-      <View>
-        <View style={styles.imgContainer}>
-          {picSelected ? (
-            <Image
-              source={{ uri: filePath.uri }}
-              style={styles.pic}
-              onPress={onClickHandler()}
-            />
-          ) : (
-            <View
-              style={{ height: "100%", width: "100%", backgroundColor: "gray" }}
-            />
-          )}
-        </View>
-        <TouchableOpacity
-          activeOpacity={0.5}
-          style={styles.buttonStyle}
-          onPress={() => chooseFile("photo")}
-        >
-          <Text style={styles.textStyle}>사진 선택</Text>
-        </TouchableOpacity>
-        <View>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Result", { result: result.data });
-            }}
-          >
-            <Text>다음</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      <Text>탭을 다시 클릭해주세요</Text>
     </SafeAreaView>
   );
 };
