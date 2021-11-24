@@ -148,7 +148,7 @@ const SearchMain = () => {
   };
 
   return (
-    <SafeAreaView style={{ padding: 15 }}>
+    <SafeAreaView style={{ flex: 1, padding: 15, backgroundColor: "#ffffff" }}>
       <View
         style={{
           display: "flex",
@@ -210,23 +210,31 @@ const SearchMain = () => {
               />
             </View>
             <FlatList data={result} renderItem={listItems} numColumns={3} />
-            <Modal visible={modal}>
-              <View
-                style={{ width: 370, height: 440, backgroundColor: "#ffffff" }}
-              >
-                <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate("Detail", { locationId: info.postId })
-                  }
+            {info.tagNames != {} ? (
+              <View></View>
+            ) : (
+              <Modal visible={modal}>
+                <View
+                  style={{
+                    width: 370,
+                    height: 440,
+                    backgroundColor: "#ffffff",
+                  }}
                 >
-                  <Image source={{ uri: `${info.pictureUrl}` }} />
-                </TouchableOpacity>
-                <Text>{info.address}</Text>
-                {info.tagNames.map((tag) => (
-                  <Text>#{tag} </Text>
-                ))}
-              </View>
-            </Modal>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("Detail", { locationId: info.postId })
+                    }
+                  >
+                    <Image source={{ uri: `${info.pictureUrl}` }} />
+                  </TouchableOpacity>
+                  <Text>{info.address}</Text>
+                  {info.tagNames.map((tag) => (
+                    <Text>#{tag} </Text>
+                  ))}
+                </View>
+              </Modal>
+            )}
           </View>
         </View>
       ) : (
