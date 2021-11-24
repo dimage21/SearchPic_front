@@ -117,8 +117,11 @@ const SearchMain = () => {
     };
 
     console.log("body: ", body);
+
+    const jBody = JSON.stringify(body);
+
     axios
-      .get(preURL.preURL + "/posts/search", config, body)
+      .get(preURL.preURL + "/posts/search", config, jBody)
       .then((res) => {
         console.log("검색 결과 받았다! ", res.data.data);
         setResult(res.data.data);
