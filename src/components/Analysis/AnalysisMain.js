@@ -126,14 +126,54 @@ const Profile = ({ navigation }) => {
       console.log("filePath:", filePath);
       setPicSelected(!picSelected);
     });
-    onClickHandler();
-    navigation.navigate("Result", { result: result.data });
+    // onClickHandler();
+    // navigation.navigate("Result", { result: result.data });
   };
 
   console.log(result);
   return (
     <SafeAreaView style={{ backgroundColor: "white", flex: 1 }}>
-      <Text>탭을 다시 클릭해주세요</Text>
+      <View
+        style={{
+          height: 50,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text style={{ fontSize: 20 }}>분석하기</Text>
+      </View>
+      <View>
+        <View style={styles.imgContainer}>
+          {picSelected ? (
+            <Image
+              source={{ uri: filePath.uri }}
+              style={styles.pic}
+              onPress={onClickHandler()}
+            />
+          ) : (
+            <View
+              style={{ height: "100%", width: "100%", backgroundColor: "gray" }}
+            />
+          )}
+        </View>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          style={styles.buttonStyle}
+          onPress={() => chooseFile("photo")}
+        >
+          <Text style={styles.textStyle}>사진 선택</Text>
+        </TouchableOpacity>
+        <View>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Result", { result: result.data });
+            }}
+          >
+            <Text>다음</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </SafeAreaView>
   );
 };
