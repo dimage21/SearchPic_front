@@ -10,7 +10,7 @@ import Icon from "react-native-vector-icons/AntDesign";
 
 const Setting = ({ navigation }) => {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
       <View style={{ padding: 15 }}>
         <TouchableOpacity onPress={() => navigation.navigate("MypageMain")}>
           <Icon size={40} color="black" name="close" />
