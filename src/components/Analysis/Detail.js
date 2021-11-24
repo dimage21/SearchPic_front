@@ -19,6 +19,7 @@ const Detail = ({ navigation, route }) => {
   const locationId = route.params.locationId;
   let [place, setPlace] = useState({});
   let [places, setPlaces] = useState([]);
+  let [repTags, setRepTags] = useState([]);
   const [modal, setModal] = useState(false);
   const [modalPlace, setModalPlace] = useState({});
   const [loading, setLoading] = useState(false);
@@ -102,7 +103,8 @@ const Detail = ({ navigation, route }) => {
         console.log("장소 요청 보냈다!");
         console.log(res.data.data);
         setPlace(res.data.data);
-        console.log("res.data: ", res.data);
+        console.log("res.data: ", res.data.data);
+        setRepTags(res.data.data.repTags);
         console.log("place: ", place);
       })
       .catch((err) => {
@@ -191,7 +193,7 @@ const Detail = ({ navigation, route }) => {
   useEffect(() => {
     console.log("place => ", place);
     return () => setLoading(false); // cleanup function을 이용
-  }, [place]);
+  }, []);
 
   console.log("place222: ", place);
 
@@ -225,9 +227,9 @@ const Detail = ({ navigation, route }) => {
             )}
             <Text style={{ fontSize: 16 }}>{place.address}</Text>
             <View style={styles.hashtags}>
-              <Text style={styles.hashtag}>#{place.repTags[0]}</Text>
-              <Text style={styles.hashtag}>#{place.repTags[1]}</Text>
-              <Text style={styles.hashtag}>#{place.repTags[2]}</Text>
+              <Text style={styles.hashtag}>#{repTags[0]}</Text>
+              <Text style={styles.hashtag}>#{repTags[1]}</Text>
+              <Text style={styles.hashtag}>#{repTags[2]}</Text>
             </View>
           </View>
           {mark ? (
