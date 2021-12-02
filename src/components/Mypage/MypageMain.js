@@ -12,15 +12,20 @@ import Icon from "react-native-vector-icons/AntDesign";
 import preURL from "../../preURL/preURL";
 
 const MypageMain = ({ navigation }) => {
+  const [token, setToken] = useState("");
+
   const [userInfo, setUserInfo] = useState({});
   const [data, setData] = useState({});
+  const [page, setPage] = useState(0);
+
+  const getUserToken = async () => {
+    const userToken = await AsyncStorage.getItem("userToken");
+    setToken(userToken);
+    console.log("userToken ", userToken);
+  };
 
   useEffect(() => {
-    const config = {
-      headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjM3MzcyNTUyLCJleHAiOjE2MzgwOTI1NTJ9.ODrxTHg0A4SDB5qSf348XlbpNM5HQPef-jO8MZx8Bfw`,
-      },
-    };
+    getUserToken();
 
     axios
       .get(preURL.preURL + "/profile", config)
@@ -31,17 +36,30 @@ const MypageMain = ({ navigation }) => {
       .catch((err) => {
         console.log("에러 발생❗️ ", err);
       });
+    getData();
+  }, []);
 
+  const config = {
+    headers: {
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjM3MzcyNTUyLCJleHAiOjE2MzgwOTI1NTJ9.ODrxTHg0A4SDB5qSf348XlbpNM5HQPef-jO8MZx8Bfw`,
+    },
+  };
+
+  const getData = () => {
     axios
-      .get(preURL.preURL + "/posts/member", config)
+      .get(preURL.preURL + `/posts/member?page=${page}`, config)
       .then((res) => {
         console.log("게시글 받았다! ", res.data.data);
-        setData(res.data.data);
+        let datas = data.concat(res.data.data);
+        setData(datas);
+        () => {
+          setPage(page + 1);
+        };
       })
       .catch((err) => {
         console.log("에러 발생❗️ ", err);
       });
-  }, []);
+  };
 
   const photoItems = ({ item }) => {
     console.log("item(게시글): ", item);
@@ -106,7 +124,12 @@ const MypageMain = ({ navigation }) => {
             alignItems: "center",
           }}
         >
-          <FlatList data={data} renderItem={photoItems} numColumns={2} />
+          <FlatList
+            data={data}
+            renderItem={photoItems}
+            numColumns={2}
+            onEndReached={() => getData()}
+          />
         </View>
       </View>
     </SafeAreaView>
