@@ -13,6 +13,7 @@ import { launchImageLibrary } from "react-native-image-picker";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import preURL from "../../preURL/preURL";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 const Profile = ({ navigation }) => {
   const [filePath, setFilePath] = useState({});
@@ -48,11 +49,6 @@ const Profile = ({ navigation }) => {
       return false;
     } else return true;
   };
-
-  useEffect(() => {
-    chooseFile("photo");
-    return () => setLoading(false); // cleanup function을 이용
-  }, []);
 
   const onClickHandler = (event) => {
     let isMount = true;
@@ -97,9 +93,9 @@ const Profile = ({ navigation }) => {
     };
   };
 
-  const chooseFile = (type) => {
+  const chooseFile = () => {
     let options = {
-      mediaType: type,
+      mediaType: "photo",
       maxWidth: 300,
       maxHeight: 550,
       quality: 1,
@@ -125,6 +121,7 @@ const Profile = ({ navigation }) => {
       console.log(assets);
       console.log("filePath:", filePath);
       setPicSelected(!picSelected);
+      navigation.navigate("Result", { result: result.data });
     });
     // onClickHandler();
     // navigation.navigate("Result", { result: result.data });
@@ -144,25 +141,18 @@ const Profile = ({ navigation }) => {
         <Text style={{ fontSize: 20 }}>분석하기</Text>
       </View>
       <View>
-        <View style={styles.imgContainer}>
-          {picSelected ? (
-            <Image
-              source={{ uri: filePath.uri }}
-              style={styles.pic}
-              onPress={onClickHandler()}
-            />
-          ) : (
-            <View
-              style={{ height: "100%", width: "100%", backgroundColor: "gray" }}
-            />
-          )}
-        </View>
         <TouchableOpacity
           activeOpacity={0.5}
-          style={styles.buttonStyle}
-          onPress={() => chooseFile("photo")}
+          onPress={() => chooseFile()}
+          style={{
+            width: "100%",
+            height: "80%",
+            displa: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
-          <Text style={styles.textStyle}>사진 선택</Text>
+          <Icon size={100} color="#001A72" name="upload" />
         </TouchableOpacity>
         <View>
           <TouchableOpacity
@@ -184,27 +174,10 @@ const styles = StyleSheet.create({
   textContainer: {
     left: "10%",
   },
-  imgContainer: {
-    display: "flex",
-    alignItems: "center",
-    width: "100%",
-    height: 500,
-  },
+
   pic: {
     width: "100%",
     height: "100%",
     margin: 0,
-  },
-  textStyle: {
-    padding: 1,
-    color: "black",
-  },
-  buttonStyle: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-    backgroundColor: "#DDDDDD",
-    padding: 5,
   },
 });
