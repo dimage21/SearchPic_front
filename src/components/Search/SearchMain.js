@@ -17,6 +17,8 @@ import preURL from "../../preURL/preURL";
 import DropDownPicker from "react-native-dropdown-picker";
 
 const SearchMain = () => {
+  const [token, setToken] = useState("");
+
   const [keyword, setKeyword] = useState("");
   const [pData, setPData] = useState([]);
   const [resultPage, setResultPage] = useState(false);
@@ -30,6 +32,7 @@ const SearchMain = () => {
     { label: "조회수순", value: "VIEW" },
   ]);
   const [value, setValue] = useState("RECENT");
+  const [page, setPage] = useState(0);
 
   console.log("======================[SearchMain]===================");
 
@@ -39,7 +42,15 @@ const SearchMain = () => {
     },
   };
 
+  const getUserToken = async () => {
+    const userToken = await AsyncStorage.getItem("userToken");
+    setToken(userToken);
+    console.log("userToken ", userToken);
+  };
+
   useEffect(() => {
+    getUserToken();
+
     axios
       .get(preURL.preURL + "/tags", config)
       .then((res) => {
@@ -121,10 +132,14 @@ const SearchMain = () => {
     const jBody = JSON.stringify(body);
 
     axios
-      .get(preURL.preURL + "/posts/search", config, jBody)
+      .get(preURL.preURL + `/posts/search?page=${page}`, config, jBody)
       .then((res) => {
         console.log("검색 결과 받았다! ", res.data.data);
-        setResult(res.data.data);
+        let datas = result.concat(res.data.data);
+        setResult(datas);
+        () => {
+          setPage(page + 1);
+        };
       })
       .catch((err) => {
         console.log("에러 발생❗️ ", err);
@@ -212,7 +227,12 @@ const SearchMain = () => {
                 }}
               />
             </View>
-            <FlatList data={result} renderItem={listItems} numColumns={3} />
+            <FlatList
+              data={result}
+              renderItem={listItems}
+              numColumns={3}
+              onEndReached={() => postKeyword()}
+            />
             {info.tagNames != {} ? (
               <View></View>
             ) : (
