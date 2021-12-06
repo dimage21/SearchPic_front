@@ -16,8 +16,8 @@ const MypageMain = ({ navigation }) => {
   const [token, setToken] = useState("");
 
   const [userInfo, setUserInfo] = useState({});
-  const [data, setData] = useState({});
   const [page, setPage] = useState(0);
+  const [pData, setPData] = useState([]);
 
   const getUserToken = async () => {
     const userToken = await AsyncStorage.getItem("userToken");
@@ -51,11 +51,11 @@ const MypageMain = ({ navigation }) => {
       .get(preURL.preURL + `/posts/member?page=${page}`, config)
       .then((res) => {
         console.log("게시글 받았다! ", res.data.data);
-        () => {
-          setData(...data, res.data.data);
-          console.log("DATA: ", data);
-          setPage(page + 1);
-        };
+        pData.push(...res.data.data);
+        setPData(pData);
+        console.log("DATA: ", pData);
+        setPage(page + 1);
+        console.log("PAGE: ", page);
       })
       .catch((err) => {
         console.log("에러 발생❗️ ", err);
@@ -81,7 +81,9 @@ const MypageMain = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ padding: 15, backgroundColor: "#ffffff" }}>
+    <SafeAreaView
+      style={{ padding: 15, backgroundColor: "#ffffff", marginBottom: "50%" }}
+    >
       <View
         style={{
           display: "flex",
@@ -126,7 +128,8 @@ const MypageMain = ({ navigation }) => {
           }}
         >
           <FlatList
-            data={data}
+            data={pData}
+            extraData={pData}
             renderItem={photoItems}
             numColumns={2}
             onEndReached={() => getData()}

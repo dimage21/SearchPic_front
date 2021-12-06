@@ -23,7 +23,10 @@ const Setting = ({ navigation }) => {
           padding: 5,
         }}
       >
-        <TouchableOpacity style={styles.line}>
+        <TouchableOpacity
+          style={styles.line}
+          onPress={() => navigation.navigate("ChangeProfile")}
+        >
           <Text style={styles.text}>프로필 수정</Text>
           <Icon size={40} color="black" name="right" />
         </TouchableOpacity>
