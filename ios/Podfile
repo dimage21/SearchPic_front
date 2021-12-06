@@ -15,7 +15,6 @@ target 'searchpicture_front' do
 
 
 
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   target 'searchpicture_frontTests' do
     inherit! :complete

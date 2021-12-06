@@ -17,8 +17,6 @@ import preURL from "../../preURL/preURL";
 import DropDownPicker from "react-native-dropdown-picker";
 
 const SearchMain = () => {
-  const [token, setToken] = useState("");
-
   const [keyword, setKeyword] = useState("");
   const [pData, setPData] = useState([]);
   const [resultPage, setResultPage] = useState(false);
@@ -36,23 +34,11 @@ const SearchMain = () => {
 
   console.log("======================[SearchMain]===================");
 
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  const getUserToken = async () => {
-    const userToken = await AsyncStorage.getItem("userToken");
-    setToken(userToken);
-    console.log("userToken ", userToken);
-  };
-
   useEffect(() => {
     getUserToken();
 
     axios
-      .get(preURL.preURL + "/tags", config)
+      .get(preURL.preURL + "/tags")
       .then((res) => {
         console.log("응답 받았다!(인기 태그) ", res.data.data);
         setPData(res.data.data);
@@ -132,7 +118,7 @@ const SearchMain = () => {
     const jBody = JSON.stringify(body);
 
     axios
-      .get(preURL.preURL + `/posts/search?page=${page}`, config, jBody)
+      .get(preURL.preURL + `/posts/search?page=${page}`, jBody)
       .then((res) => {
         console.log("검색 결과 받았다! ", res.data.data);
         let datas = result.concat(res.data.data);

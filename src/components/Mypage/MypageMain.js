@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
 import preURL from "../../preURL/preURL";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const MypageMain = ({ navigation }) => {
   const [token, setToken] = useState("");
@@ -22,6 +23,12 @@ const MypageMain = ({ navigation }) => {
     const userToken = await AsyncStorage.getItem("userToken");
     setToken(userToken);
     console.log("userToken ", userToken);
+  };
+
+  const config = {
+    headers: {
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjM4NDM5MzYxLCJleHAiOjE2MzkxNTkzNjF9.6w88W_vkHeq2sV1O409awYb03329NJZgj0_PdhLZq4s`,
+    },
   };
 
   useEffect(() => {
@@ -39,20 +46,14 @@ const MypageMain = ({ navigation }) => {
     getData();
   }, []);
 
-  const config = {
-    headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjM3MzcyNTUyLCJleHAiOjE2MzgwOTI1NTJ9.ODrxTHg0A4SDB5qSf348XlbpNM5HQPef-jO8MZx8Bfw`,
-    },
-  };
-
   const getData = () => {
     axios
       .get(preURL.preURL + `/posts/member?page=${page}`, config)
       .then((res) => {
         console.log("게시글 받았다! ", res.data.data);
-        let datas = data.concat(res.data.data);
-        setData(datas);
         () => {
+          setData(...data, res.data.data);
+          console.log("DATA: ", data);
           setPage(page + 1);
         };
       })
