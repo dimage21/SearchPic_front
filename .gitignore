@@ -59,3 +59,7 @@ buck-out/
 /ios/Pods/
 
 config.json
+
+# Google API
+/ios/searchpicture_front/AppDelegate.m
+
