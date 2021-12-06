@@ -123,8 +123,6 @@ const Profile = ({ navigation }) => {
       setPicSelected(!picSelected);
       navigation.navigate("Result", { result: result.data });
     });
-    // onClickHandler();
-    // navigation.navigate("Result", { result: result.data });
   };
 
   console.log(result);
@@ -154,15 +152,9 @@ const Profile = ({ navigation }) => {
         >
           <Icon size={100} color="#001A72" name="upload" />
         </TouchableOpacity>
-        <View>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Result", { result: result.data });
-            }}
-          >
-            <Text>다음</Text>
-          </TouchableOpacity>
-        </View>
+        <Text style={{ textAlign: "center" }}>
+          사진을 선택하시면 분석이 시작됩니다
+        </Text>
       </View>
     </SafeAreaView>
   );

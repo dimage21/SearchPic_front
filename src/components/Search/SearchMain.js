@@ -16,7 +16,7 @@ import Icon from "react-native-vector-icons/AntDesign";
 import preURL from "../../preURL/preURL";
 import DropDownPicker from "react-native-dropdown-picker";
 
-const SearchMain = () => {
+const SearchMain = ({ navigation }) => {
   const [keyword, setKeyword] = useState("");
   const [pData, setPData] = useState([]);
   const [resultPage, setResultPage] = useState(false);
@@ -112,18 +112,19 @@ const SearchMain = () => {
     };
 
     console.log("body: ", body);
-
     const jBody = JSON.stringify(body);
+    console.log("body2: ", jBody);
+    console.log("page: ", page);
 
     axios
       .get(preURL.preURL + `/posts/search?page=${page}`, jBody)
       .then((res) => {
         console.log("검색 결과 받았다! ", res.data.data);
-        let datas = result.concat(res.data.data);
-        setResult(datas);
-        () => {
-          setPage(page + 1);
-        };
+        result.push(...res.data.data);
+        setResult(result);
+        console.log("DATA: ", result);
+        setPage(page + 1);
+        console.log("PAGE: ", page);
       })
       .catch((err) => {
         console.log("에러 발생❗️ ", err);
@@ -158,7 +159,7 @@ const SearchMain = () => {
           alignItems: "center",
         }}
       >
-        <TouchableOpacity onPress={() => navigation.navigate("AnalysisMain")}>
+        <TouchableOpacity onPress={() => setResultPage(false)}>
           <Icon size={40} color="black" name="left" />
         </TouchableOpacity>
         <Text style={{ fontSize: 18, fontWeight: "bold" }}>탐색하기</Text>
@@ -213,6 +214,7 @@ const SearchMain = () => {
             </View>
             <FlatList
               data={result}
+              extraData={result}
               renderItem={listItems}
               numColumns={3}
               onEndReached={() => postKeyword()}
