@@ -35,8 +35,6 @@ const SearchMain = () => {
   console.log("======================[SearchMain]===================");
 
   useEffect(() => {
-    getUserToken();
-
     axios
       .get(preURL.preURL + "/tags")
       .then((res) => {
