@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   SafeAreaView,
   TouchableOpacity,
@@ -83,9 +83,10 @@ const Detail = ({ navigation, route }) => {
     const userToken = await AsyncStorage.getItem("userToken");
     setToken(userToken);
     console.log("userToken ", userToken);
+    setToken(
+      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjM4NDM5MzYxLCJleHAiOjE2MzkxNTkzNjF9.6w88W_vkHeq2sV1O409awYb03329NJZgj0_PdhLZq4s"
+    );
   };
-
-  getUserToken();
 
   const config = {
     headers: {
@@ -93,19 +94,30 @@ const Detail = ({ navigation, route }) => {
     },
   };
 
-  const getPlace = () => {
+  useEffect(() => {
+    getUserToken();
+
     let isMount = true;
 
     axios
       .get(preURL.preURL + `location/${locationId}`, config)
       .then((res) => {
-        setLoading(true);
-        console.log("장소 요청 보냈다!");
-        console.log(res.data.data);
+        console.log("장소 요청 보냈다!", res.data.data);
         setPlace(res.data.data);
         console.log("res.data: ", res.data.data);
         setRepTags(res.data.data.repTags);
         console.log("place: ", place);
+      })
+      .catch((err) => {
+        console.log("에러 발생 ", err);
+        console.log(err);
+      });
+
+    axios
+      .get(preURL.preURL + `${locationId}/posts/10000`, config)
+      .then((res) => {
+        console.log("근처 장소 요청 보냈다!", res.data.data);
+        setPlaces(res.data.data);
       })
       .catch((err) => {
         console.log("에러 발생 ");
@@ -115,26 +127,7 @@ const Detail = ({ navigation, route }) => {
     return () => {
       isMount = false;
     };
-  };
-
-  getPlace();
-
-  const getPlaces = () => {
-    axios
-      .get(preURL.preURL + `${locationId}/posts`, config)
-      .then((res) => {
-        setLoading(true);
-        console.log("근처 장소 요청 보냈다!");
-        console.log(res.data.data);
-        setPlaces(res.data.data);
-      })
-      .catch((err) => {
-        console.log("에러 발생 ");
-        console.log(err);
-      });
-  };
-
-  getPlaces();
+  }, []);
 
   const postMark = () => {
     console.log("전송:", config, locationId);
@@ -171,7 +164,6 @@ const Detail = ({ navigation, route }) => {
   };
 
   const listItems = ({ item }) => {
-    console.log("item(근처 포토 스팟): ", item);
     return (
       <View>
         <TouchableOpacity
@@ -195,14 +187,12 @@ const Detail = ({ navigation, route }) => {
     return () => setLoading(false); // cleanup function을 이용
   }, []);
 
-  console.log("place222: ", place);
-
   return (
     <SafeAreaView style={{ padding: 10, flex: 1, backgroundColor: "#ffffff" }}>
       <View
         style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
       >
-        <TouchableOpacity onPress={() => navigation.navigate("Result")}>
+        <TouchableOpacity onPress={() => navigation.navigate("MypageMain")}>
           <Icon size={40} color="black" name="left" />
         </TouchableOpacity>
         <Text style={{ fontSize: 18, fontWeight: "bold" }}>포토스팟</Text>
@@ -210,7 +200,7 @@ const Detail = ({ navigation, route }) => {
       <View style={styles.main}>
         <Image
           source={{ uri: `${place.repImageUrl}` }}
-          style={{ width: "95%", height: 200 }}
+          style={{ width: "95%", height: 200, marginBottom: 10 }}
         />
         <View
           style={{
