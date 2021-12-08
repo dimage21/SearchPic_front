@@ -16,6 +16,8 @@ target 'searchpicture_front' do
 
 
 
+  pod 'react-native-config', :path => '../node_modules/react-native-config'
+
   target 'searchpicture_frontTests' do
     inherit! :complete
   end

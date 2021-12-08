@@ -15,14 +15,17 @@ import {
 import Icon from "react-native-vector-icons/AntDesign";
 import preURL from "../../preURL/preURL";
 import DropDownPicker from "react-native-dropdown-picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SearchMain = ({ navigation }) => {
+  const [token, setToken] = useState("");
+
   const [keyword, setKeyword] = useState("");
   const [pData, setPData] = useState([]);
   const [resultPage, setResultPage] = useState(false);
-  const [result, setResult] = useState({});
+  const [result, setResult] = useState([]);
   const [modal, setModal] = useState(false);
-  const [info, setInfo] = useState({});
+  const [info, setInfo] = useState();
   // Dropdown
   const [open, setOpen] = useState(false);
   const [item, setItem] = useState([
@@ -34,7 +37,18 @@ const SearchMain = ({ navigation }) => {
 
   console.log("======================[SearchMain]===================");
 
+  const getUserToken = async () => {
+    const userToken = await AsyncStorage.getItem("userToken");
+    setToken(userToken);
+    console.log("userToken ", userToken);
+    setToken(
+      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjM4NDM5MzYxLCJleHAiOjE2MzkxNTkzNjF9.6w88W_vkHeq2sV1O409awYb03329NJZgj0_PdhLZq4s"
+    );
+  };
+
   useEffect(() => {
+    getUserToken();
+
     axios
       .get(preURL.preURL + "/tags")
       .then((res) => {
@@ -45,40 +59,6 @@ const SearchMain = ({ navigation }) => {
         console.log("에러 발생❗️ ", err);
       });
   }, []);
-
-  // 임시 data
-  // const pData = [
-  //   {
-  //     id: 2,
-  //     name: "액자",
-  //     url: "https://postfiles.pstatic.net/MjAyMDA1MTdfMjEg/MDAxNTg5NzE1NzcwMzYx.YvWUNQQFolEIZapddpe11fuNQe1C8_b1TMVmZ8GaF80g.cgRtMr6GCrERiJlaLie84jAuoDvfWR856YiOECE0kEsg.JPEG.minimal_mk/IMG_6507.JPG?type=w966",
-  //   },
-  //   {
-  //     id: 1,
-  //     name: "자연",
-  //     url: "https://postfiles.pstatic.net/MjAyMDA1MTdfMjEg/MDAxNTg5NzE1NzcwMzYx.YvWUNQQFolEIZapddpe11fuNQe1C8_b1TMVmZ8GaF80g.cgRtMr6GCrERiJlaLie84jAuoDvfWR856YiOECE0kEsg.JPEG.minimal_mk/IMG_6507.JPG?type=w966",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "바다",
-  //     url: "https://postfiles.pstatic.net/MjAyMDA1MTdfMjEg/MDAxNTg5NzE1NzcwMzYx.YvWUNQQFolEIZapddpe11fuNQe1C8_b1TMVmZ8GaF80g.cgRtMr6GCrERiJlaLie84jAuoDvfWR856YiOECE0kEsg.JPEG.minimal_mk/IMG_6507.JPG?type=w966",
-  //   },
-  //   {
-  //     id: 8,
-  //     name: "테스트1",
-  //     url: "https://postfiles.pstatic.net/MjAyMDA1MTdfMjEg/MDAxNTg5NzE1NzcwMzYx.YvWUNQQFolEIZapddpe11fuNQe1C8_b1TMVmZ8GaF80g.cgRtMr6GCrERiJlaLie84jAuoDvfWR856YiOECE0kEsg.JPEG.minimal_mk/IMG_6507.JPG?type=w966",
-  //   },
-  //   {
-  //     id: 9,
-  //     name: "기념",
-  //     url: "https://postfiles.pstatic.net/MjAyMDA1MTdfMjEg/MDAxNTg5NzE1NzcwMzYx.YvWUNQQFolEIZapddpe11fuNQe1C8_b1TMVmZ8GaF80g.cgRtMr6GCrERiJlaLie84jAuoDvfWR856YiOECE0kEsg.JPEG.minimal_mk/IMG_6507.JPG?type=w966",
-  //   },
-  //   {
-  //     id: 5,
-  //     name: "강릉",
-  //     url: "https://postfiles.pstatic.net/MjAyMDA1MTdfMjEg/MDAxNTg5NzE1NzcwMzYx.YvWUNQQFolEIZapddpe11fuNQe1C8_b1TMVmZ8GaF80g.cgRtMr6GCrERiJlaLie84jAuoDvfWR856YiOECE0kEsg.JPEG.minimal_mk/IMG_6507.JPG?type=w966",
-  //   },
-  // ];
 
   const renderItem = ({ item }) => {
     console.log("item(인기 태그): ", item);
@@ -106,33 +86,43 @@ const SearchMain = ({ navigation }) => {
   };
 
   const postKeyword = () => {
-    const body = {
-      tags: [keyword],
-      order: value,
-    };
-
-    console.log("body: ", body);
-    const jBody = JSON.stringify(body);
-    console.log("body2: ", jBody);
+    console.log("검색 키워드: ", keyword);
+    const keywords = [];
+    const array = keyword.split(" ");
+    console.log("보낼 키워드: ", array);
+    console.log("보낼 정렬 기준: ", value);
     console.log("page: ", page);
 
-    axios
-      .get(preURL.preURL + `/posts/search?page=${page}`, jBody)
-      .then((res) => {
-        console.log("검색 결과 받았다! ", res.data.data);
-        result.push(...res.data.data);
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        tags: array,
+        order: value,
+      }),
+    };
+
+    fetch(preURL.preURL + `posts/search?page=${page}`, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        console.log("검색 결과 받았다! ", data.data);
+        result.push(...data.data);
         setResult(result);
         console.log("DATA: ", result);
         setPage(page + 1);
         console.log("PAGE: ", page);
       })
+
       .catch((err) => {
         console.log("에러 발생❗️ ", err);
       });
   };
 
   const listItems = ({ item }) => {
-    console.log("item(검색 결과): ", item);
     return (
       <View>
         <TouchableOpacity
@@ -143,7 +133,7 @@ const SearchMain = ({ navigation }) => {
         >
           <Image
             source={{ uri: `${item.pictureUrl}` }}
-            style={{ width: 140, height: 140 }}
+            style={{ width: 125, height: 125 }}
           />
         </TouchableOpacity>
       </View>
@@ -169,7 +159,7 @@ const SearchMain = ({ navigation }) => {
           style={styles.input}
           value={keyword}
           onChange={(event) => {
-            const { eventCount, target, text } = event.nativeEvent;
+            const { text } = event.nativeEvent;
             setKeyword(text);
             setResultPage(true);
           }}
@@ -184,7 +174,8 @@ const SearchMain = ({ navigation }) => {
         />
       </View>
       {resultPage ? (
-        <View style={{ paddingLeft: "5%", paddingRight: "5%" }}>
+        // 검색창에 입력했을 경우
+        <View>
           <Text style={{ fontSize: 13, color: "#FD0000" }}>
             태그는 5개까지 입력 가능합니다
           </Text>
@@ -209,17 +200,21 @@ const SearchMain = ({ navigation }) => {
                 setItems={setItem}
                 containerStyle={{
                   width: "30%",
+                  marginBottom: 10,
                 }}
               />
             </View>
-            <FlatList
-              data={result}
-              extraData={result}
-              renderItem={listItems}
-              numColumns={3}
-              onEndReached={() => postKeyword()}
-            />
-            {info.tagNames != {} ? (
+            {/* 검색 결과 */}
+            <View style={{ width: "100%" }}>
+              <FlatList
+                data={result}
+                extraData={result}
+                renderItem={listItems}
+                numColumns={3}
+                onEndReached={() => postKeyword()}
+              />
+            </View>
+            {/* {info.tagNames != {} ? (
               <View></View>
             ) : (
               <Modal visible={modal}>
@@ -243,10 +238,11 @@ const SearchMain = ({ navigation }) => {
                   ))}
                 </View>
               </Modal>
-            )}
+            )} */}
           </View>
         </View>
       ) : (
+        // 인기 태그
         <View style={{ paddingLeft: "5%", paddingRight: "5%" }}>
           <Text style={{ fontSize: 18, fontWeight: "bold" }}>인기 태그</Text>
           <View style={{ marginTop: 20 }}>
