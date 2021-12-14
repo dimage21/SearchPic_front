@@ -243,6 +243,7 @@ const SearchMain = ({ navigation }) => {
                 extraData={result}
                 renderItem={listItems}
                 numColumns={3}
+                keyExtractor={(item) => item.id}
                 onEndReached={() => {
                   setPage(page + 1);
                   postKeyword();
@@ -322,7 +323,12 @@ const SearchMain = ({ navigation }) => {
         <View style={{ paddingLeft: "5%", paddingRight: "5%" }}>
           <Text style={{ fontSize: 18, fontWeight: "bold" }}>인기 태그</Text>
           <View style={{ marginTop: 20 }}>
-            <FlatList data={pData} renderItem={renderItem} numColumns={2} />
+            <FlatList
+              data={pData}
+              renderItem={renderItem}
+              numColumns={2}
+              keyExtractor={(item) => item.id}
+            />
           </View>
         </View>
       )}

@@ -22,7 +22,6 @@ const App = () => {
     <NavigationContainer>
       <MainStack.Navigator
         initialRouteName={"Home"}
-        headerMode="none"
         screenOptions={{
           headerShown: false,
         }}

@@ -212,7 +212,12 @@ const Detail = ({ navigation, route }) => {
             <Text>더보기</Text>
           </TouchableOpacity>
         </View>
-        <FlatList data={places} renderItem={listItems} numColumns={2} />
+        <FlatList
+          data={places}
+          renderItem={listItems}
+          numColumns={2}
+          keyExtractor={(item) => item.id}
+        />
       </View>
       {modal ? (
         <View style={{ display: "flex", justifyContent: "flex-end" }}>
