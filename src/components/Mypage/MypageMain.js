@@ -21,19 +21,36 @@ const MypageMain = ({ navigation }) => {
 
   const getUserToken = async () => {
     const userToken = await AsyncStorage.getItem("userToken");
-    setToken(userToken);
+    if (userToken !== null) {
+      console.log("userToken: ", userToken);
+      setToken(userToken);
+    } else {
+      console.log("토큰 아직 못 받음!");
+    }
     console.log("userToken ", userToken);
+    setToken(
+      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjM5MjIwMjc2LCJleHAiOjE2Mzk5NDAyNzZ9.dMJANe3DNDgrPPpoMvrb4fHXcq-Q4TNRqjyIY6e9vHs"
+    );
   };
 
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjM4NDM5MzYxLCJleHAiOjE2MzkxNTkzNjF9.6w88W_vkHeq2sV1O409awYb03329NJZgj0_PdhLZq4s`,
+      Authorization: `Bearer ${token}`,
     },
   };
 
   useEffect(() => {
     getUserToken();
+    console.log("토큰: ", token);
+  }, [token]);
 
+  useEffect(() => {
+    console.log("config: ", config);
+    getInfo();
+    getData();
+  }, [token]);
+
+  const getInfo = () => {
     axios
       .get(preURL.preURL + "/profile", config)
       .then((res) => {
@@ -43,8 +60,7 @@ const MypageMain = ({ navigation }) => {
       .catch((err) => {
         console.log("에러 발생❗️ ", err);
       });
-    getData();
-  }, []);
+  };
 
   const getData = () => {
     axios
@@ -130,6 +146,7 @@ const MypageMain = ({ navigation }) => {
           <FlatList
             data={pData}
             extraData={pData}
+            keyExtractor={(item) => item.id}
             renderItem={photoItems}
             numColumns={2}
             onEndReached={() => getData()}

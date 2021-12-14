@@ -26,9 +26,14 @@ const AnalysisMain = ({ navigation }) => {
     const userToken = await AsyncStorage.getItem("userToken");
     setToken(userToken);
     console.log("userToken ", userToken);
+    setToken(
+      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjM5MjIwMjc2LCJleHAiOjE2Mzk5NDAyNzZ9.dMJANe3DNDgrPPpoMvrb4fHXcq-Q4TNRqjyIY6e9vHs"
+    );
   };
 
-  getUserToken();
+  useEffect(() => {
+    getUserToken();
+  }, []);
 
   const requestExternalWritePermission = async () => {
     if (Platform.OS === "android") {
@@ -74,6 +79,7 @@ const AnalysisMain = ({ navigation }) => {
 
     console.log("요청:", formData, config);
     console.log("imageFormData: ", imageFormData);
+
     axios
       .post(preURL.preURL + "analysis", imageFormData, config)
       .then((res) => {
@@ -97,8 +103,7 @@ const AnalysisMain = ({ navigation }) => {
         ]);
       })
       .catch((err) => {
-        console.log("에러 발생 ");
-        console.log(err);
+        console.log("에러 발생 ", err);
       });
 
     return () => {
