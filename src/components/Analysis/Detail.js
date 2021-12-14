@@ -24,56 +24,6 @@ const Detail = ({ navigation, route }) => {
   const [modalPlace, setModalPlace] = useState({});
   const [loading, setLoading] = useState(false);
 
-  // 임시 data
-  // const place = {
-  //   id: 276,
-  //   address: "제주특별자치도 제주시 구좌읍 종달리 2690",
-  //   x: 126.888955399,
-  //   y: 33.49808308,
-  //   placeName: null,
-  //   repImageUrl:
-  //     "https://s3-ap-northeast-1.amazonaws.com/dcreviewsresized/300_300_20200701035909_photo2_aad9545a5655.jpg",
-  //   repTags: ["강릉", "진수", "이이"],
-  //   marked: false,
-  // };
-  // const places = [
-  //   {
-  //     postId: 65,
-  //     pictureUrl:
-  //       "https://s3-ap-northeast-1.amazonaws.com/dcreviewsresized/300_300_20200701035909_photo2_aad9545a5655.jpg",
-  //     tagNames: ["자연", "액자", "바다"],
-  //     address: "서울 강남구 테헤란로1길 28-3",
-  //     description: "메모입니다.",
-  //     locationId: 248,
-  //   },
-  //   {
-  //     postId: 60,
-  //     pictureUrl:
-  //       "https://cdn.eyesmag.com/content/uploads/posts/2021/01/20/ottogi-rolyopoly-cotto-info-01-2c657350-9240-4670-96a5-364bb35c0a62.jpg",
-  //     tagNames: ["자연", "액자", "바다"],
-  //     address: "서울 강남구 봉은사로51길 19",
-  //     description: "메모입니다.",
-  //     locationId: 243,
-  //   },
-  //   {
-  //     postId: 62,
-  //     pictureUrl: "http://www.newstof.com/news/photo/201908/1901_5129_155.jpg",
-  //     tagNames: ["자연", "액자", "바다"],
-  //     address: "서울 종로구 계동길 5",
-  //     description: "메모입니다.",
-  //     locationId: 245,
-  //   },
-  //   {
-  //     postId: 91,
-  //     pictureUrl:
-  //       "https://search.pstatic.net/common/?autoRotate=true&quality=95&type=w750&src=https%3A%2F%2Fmyplace-phinf.pstatic.net%2F20210926_120%2F1632614979878HBmqX_JPEG%2Fupload_4107e2439955abfadb6e61d2496e2ef2.jpeg",
-  //     tagNames: ["자연", "액자", "바다"],
-  //     address: "서울특별시 중구 정동 세종대로 99",
-  //     description: "메모입니다.",
-  //     locationId: 274,
-  //   },
-  // ];
-
   const [mark, setMark] = useState(place.marked);
   const [token, setToken] = useState("");
 
@@ -109,7 +59,7 @@ const Detail = ({ navigation, route }) => {
         console.log("place: ", place);
       })
       .catch((err) => {
-        console.log("에러 발생 ", err);
+        console.log("에러 발생 - 장소 요청", err);
         console.log(err);
       });
 
@@ -120,7 +70,7 @@ const Detail = ({ navigation, route }) => {
         setPlaces(res.data.data);
       })
       .catch((err) => {
-        console.log("에러 발생 ");
+        console.log("에러 발생 - 근처 장소 요청 ");
         console.log(err);
       });
 
@@ -132,15 +82,13 @@ const Detail = ({ navigation, route }) => {
   const postMark = () => {
     console.log("전송:", config, locationId);
     axios
-      .post(preURL.preURL + `location/${locationId}/mark`, config, locationId)
+      .post(preURL.preURL + `location/${locationId}/mark`, "", config)
       .then((res) => {
-        console.log("마크 추가 보냈다!");
-        console.log(res.data);
+        console.log("마크 추가 보냈다! ", res.data);
         setResult(res.data);
       })
       .catch((err) => {
-        console.log("에러 발생 ");
-        console.log(err);
+        console.log("에러 발생 - postMark ", err);
       });
   };
 
@@ -153,13 +101,11 @@ const Detail = ({ navigation, route }) => {
         locationId
       )
       .then((res) => {
-        console.log("마크 취소 보냈다!");
-        console.log(res.data);
+        console.log("마크 취소 보냈다! ", res.data);
         setResult(res.data);
       })
       .catch((err) => {
-        console.log("에러 발생 ");
-        console.log(err);
+        console.log("에러 발생 - deleteMark ", err);
       });
   };
 

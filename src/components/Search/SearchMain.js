@@ -113,7 +113,11 @@ const SearchMain = ({ navigation }) => {
       .then((data) => {
         console.log(data);
         console.log("검색 결과 받았다! ", data.data);
-        result.push(...data.data);
+        if (page == 0) {
+          setResult(data.data);
+        } else {
+          result.push(...data.data);
+        }
         setResult(result);
         setPrev(keywords);
         console.log("DATA: ", result);
