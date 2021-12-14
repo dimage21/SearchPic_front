@@ -24,7 +24,7 @@ const SearchMain = ({ navigation }) => {
   const [prev, setPrev] = useState("");
   const [pData, setPData] = useState([]);
   const [resultPage, setResultPage] = useState(false);
-  const [result, setResult] = useState([]);
+  let [result, setResult] = useState([]);
   const [modal, setModal] = useState(false);
   const [info, setInfo] = useState();
   // Dropdown
@@ -99,9 +99,7 @@ const SearchMain = ({ navigation }) => {
     console.log("보낼 키워드: ", keywords);
     console.log("보낼 정렬 기준: ", value);
     console.log("page: ", page);
-    if (keywords == prev) {
-      setPage(page + 1);
-    } else {
+    if (keywords != prev) {
       setPage(0);
     }
 
@@ -113,18 +111,17 @@ const SearchMain = ({ navigation }) => {
       .then((data) => {
         console.log(data);
         console.log("검색 결과 받았다! ", data.data);
+
         if (page == 0) {
           setResult(data.data);
         } else {
           result.push(...data.data);
         }
-        setResult(result);
+
+        // setResult(result);
         setPrev(keywords);
-        console.log("DATA: ", result);
-        console.log("개수: ", result.length);
         console.log("PAGE: ", page);
       })
-
       .catch((err) => {
         console.log("에러 발생❗️ ", err);
       });
@@ -200,6 +197,7 @@ const SearchMain = ({ navigation }) => {
           color="#001A72"
           name="search1"
           onPress={() => {
+            setPage(0);
             postKeyword();
           }}
         />
@@ -245,7 +243,10 @@ const SearchMain = ({ navigation }) => {
                 extraData={result}
                 renderItem={listItems}
                 numColumns={3}
-                onEndReached={() => postKeyword()}
+                onEndReached={() => {
+                  setPage(page + 1);
+                  postKeyword();
+                }}
               />
             </View>
             <View

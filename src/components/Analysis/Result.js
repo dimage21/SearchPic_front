@@ -29,7 +29,7 @@ const Result = ({ navigation, route }) => {
   useEffect(() => {
     console.log("=======================[Result]=====================");
     getUserToken();
-  });
+  }, []);
 
   const Result1 = result.data[0];
   const Result2 = result.data[1];
