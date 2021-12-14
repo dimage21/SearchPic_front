@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   SafeAreaView,
   TouchableOpacity,
@@ -16,7 +16,7 @@ const Result = ({ navigation, route }) => {
   const result = route.params.result;
   console.log("Result에서 이상한 걸까?", result);
   const [token, setToken] = useState("");
-  console.log("=======================[Result]=====================");
+
   const getUserToken = async () => {
     const userToken = await AsyncStorage.getItem("userToken");
     setToken(userToken);
@@ -26,7 +26,10 @@ const Result = ({ navigation, route }) => {
     );
   };
 
-  getUserToken();
+  useEffect(() => {
+    console.log("=======================[Result]=====================");
+    getUserToken();
+  });
 
   const Result1 = result.data[0];
   const Result2 = result.data[1];
