@@ -21,6 +21,7 @@ const AnalysisMain = ({ navigation }) => {
   const [token, setToken] = useState("");
   let [result, setResult] = useState({});
   const [loading, setLoading] = useState(false);
+  const [process, setProcess] = useState(false);
 
   const getUserToken = async () => {
     const userToken = await AsyncStorage.getItem("userToken");
@@ -112,6 +113,8 @@ const AnalysisMain = ({ navigation }) => {
   };
 
   const chooseFile = () => {
+    requestExternalWritePermission();
+
     let options = {
       mediaType: "photo",
       maxWidth: 300,
@@ -138,6 +141,7 @@ const AnalysisMain = ({ navigation }) => {
       setFilePath(assets);
       console.log(assets);
       console.log("filePath:", filePath);
+      setProcess(true);
     });
   };
 
@@ -159,7 +163,7 @@ const AnalysisMain = ({ navigation }) => {
           onPress={() => chooseFile()}
           style={{
             width: "100%",
-            height: "80%",
+            height: "75%",
             displa: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -167,15 +171,35 @@ const AnalysisMain = ({ navigation }) => {
         >
           <Icon size={100} color="#001A72" name="upload" />
         </TouchableOpacity>
-        <Text style={{ textAlign: "center" }}>
-          사진을 선택하시면 분석이 시작됩니다
-        </Text>
+        {process ? (
+          <Text style={{ textAlign: "center" }}>
+            분석을 원하시면 다음을 눌러주세요{" "}
+          </Text>
+        ) : (
+          <Text style={{ textAlign: "center" }}>
+            {" "}
+            위 아이콘을 클릭해 사진을 선택해주세요
+          </Text>
+        )}
         <TouchableOpacity
           onPress={() => {
             onClickHandler();
           }}
+          style={{
+            width: "70%",
+            height: "8%",
+            backgroundColor: "#001A72",
+            borderRadius: 15,
+            alignSelf: "center",
+            marginTop: "3%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
-          <Text>다음</Text>
+          <Text style={{ color: "white", fontSize: 16, fontWeight: "bold" }}>
+            다음
+          </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
