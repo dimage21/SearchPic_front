@@ -16,6 +16,7 @@ import Icon from "react-native-vector-icons/AntDesign";
 import preURL from "../../preURL/preURL";
 import DropDownPicker from "react-native-dropdown-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import GestureRecognizer from "react-native-swipe-gestures";
 
 const SearchMain = ({ navigation }) => {
   const [token, setToken] = useState("");
@@ -259,59 +260,70 @@ const SearchMain = ({ navigation }) => {
               }}
             >
               {info !== undefined ? (
-                <Modal animationType="slide" visible={modal} transparent>
-                  <View
-                    style={{
-                      height: "50%",
-                      width: "85%",
-
-                      alignSelf: "center",
-                      backgroundColor: "rgba(255,255,255,0.8)",
-                      borderRadius: 20,
-                      padding: 10,
-                      marginTop: "60%",
-                    }}
-                  >
-                    <TouchableOpacity>
-                      <Icon
-                        size={27}
-                        color="black"
-                        name="close"
-                        style={{ alignSelf: "flex-end", padding: 5 }}
-                      />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() =>
-                        navigation.navigate("Detail", {
-                          locationId: info.postId,
-                        })
-                      }
+                <GestureRecognizer onSwipeDown={() => setModal(false)}>
+                  <Modal animationType="slide" visible={modal} transparent>
+                    <View
+                      style={{
+                        height: "50%",
+                        width: "80%",
+                        alignSelf: "center",
+                        backgroundColor: "rgba(255,255,255,0.8)",
+                        borderRadius: 20,
+                        padding: 10,
+                        marginTop: "60%",
+                      }}
                     >
-                      <Image
-                        source={{ uri: `${info.pictureUrl}` }}
-                        style={{ width: 310, height: 310, alignSelf: "center" }}
-                      />
-                    </TouchableOpacity>
-                    <View style={{ padding: 10 }}>
-                      <Text>{info.address}</Text>
-                      <View
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          justifyContent: "flex-start",
-                        }}
+                      <TouchableOpacity>
+                        <Icon
+                          size={25}
+                          color="black"
+                          name="close"
+                          style={{
+                            alignSelf: "flex-end",
+                            margin: 5,
+                            backgroundColor: "rgba(245,245,245,1)",
+                            borderRadius: 15,
+                            padding: 3,
+                          }}
+                        />
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() =>
+                          navigation.navigate("Detail", {
+                            locationId: info.postId,
+                          })
+                        }
                       >
-                        {info.tagNames.length != 0 ? (
-                          info.tagNames.map((tag) => (
-                            <Text style={{ color: "#001A72" }}>#{tag} </Text>
-                          ))
-                        ) : (
-                          <View></View>
-                        )}
+                        <Image
+                          source={{ uri: `${info.pictureUrl}` }}
+                          style={{
+                            width: 310,
+                            height: 310,
+                            alignSelf: "center",
+                          }}
+                        />
+                      </TouchableOpacity>
+                      <View style={{ padding: 10 }}>
+                        <Text>{info.address}</Text>
+                        <View
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "flex-start",
+                          }}
+                        >
+                          {info.tagNames.length != 0 ? (
+                            info.tagNames.map((tag) => (
+                              <Text style={{ color: "#001A72" }}>#{tag} </Text>
+                            ))
+                          ) : (
+                            <View></View>
+                          )}
+                        </View>
                       </View>
                     </View>
-                  </View>
-                </Modal>
+                  </Modal>
+                </GestureRecognizer>
               ) : (
                 <View></View>
               )}
