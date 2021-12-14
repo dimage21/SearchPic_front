@@ -121,7 +121,7 @@ const Detail = ({ navigation, route }) => {
         >
           <Image
             source={{ uri: item.pictureUrl }}
-            style={{ width: 150, height: 150, margin: 10 }}
+            style={{ width: 165, aspectRatio: 1, margin: 10 }}
           />
         </TouchableOpacity>
       </View>
@@ -136,7 +136,12 @@ const Detail = ({ navigation, route }) => {
   return (
     <SafeAreaView style={{ padding: 10, flex: 1, backgroundColor: "#ffffff" }}>
       <View
-        style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          flex: 1,
+        }}
       >
         <TouchableOpacity onPress={() => navigation.navigate("MypageMain")}>
           <Icon size={40} color="black" name="left" />
@@ -198,6 +203,8 @@ const Detail = ({ navigation, route }) => {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
+            paddingLeft: 15,
+            paddingRight: 15,
           }}
         >
           <Text
@@ -216,48 +223,66 @@ const Detail = ({ navigation, route }) => {
           data={places}
           renderItem={listItems}
           numColumns={2}
-          keyExtractor={(item) => item.id}
+          style={{ alignSelf: "center" }}
         />
       </View>
       {modal ? (
         <View style={{ display: "flex", justifyContent: "flex-end" }}>
-          <GestureRecognizer
-            onSwipeUp={() => setModal(true)}
-            onSwipeDown={() => setModal(false)}
-          >
-            <Modal
-              animationType="slide"
-              presentationStyle="formSheet"
-              style={{
-                height: "50%",
-                display: "flex",
-                justifyContent: "flex-end",
-                margin: 0,
-                backgroundColor: "green",
-              }}
-            >
+          <GestureRecognizer onSwipeDown={() => setModal(false)}>
+            <Modal animationType="slide" visible={modal} transparent>
               <View
                 style={{
-                  width: "100%",
-                  height: "50%",
-                  backgroundColor: "yellow",
-                  justifyContent: "flex-end",
+                  height: "45%",
+                  width: "85%",
+                  alignSelf: "center",
+                  backgroundColor: "rgba(230,230,230, 0.99)",
+                  borderTopLeftRadius: 30,
+                  borderTopRightRadius: 30,
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                  marginTop: "60%",
+                  position: "absolute",
+                  bottom: "10%",
                 }}
               >
-                <View
-                  style={{
-                    backgroundColor: "blue",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                  }}
-                >
-                  <Image
-                    source={{ uri: modalPlace.pictureUrl }}
-                    style={{ width: 362, height: 170 }}
+                <TouchableOpacity>
+                  <Icon
+                    size={25}
+                    color="black"
+                    name="close"
+                    style={{
+                      alignSelf: "flex-end",
+                      marginRight: 15,
+                      marginBottom: 15,
+                      backgroundColor: "rgba(245,245,245,1)",
+                      borderRadius: 15,
+                      padding: 3,
+                    }}
+                    onPress={() => setModal(false)}
                   />
+                </TouchableOpacity>
+                <Image
+                  source={{ uri: modalPlace.pictureUrl }}
+                  style={{ width: "80%", height: "65%", alignSelf: "center" }}
+                />
+                <View style={{ margin: 10, paddingLeft: 25 }}>
+                  <Text style={{ fontSize: 17 }}>{modalPlace.address}</Text>
+                  {modalPlace.tagNames.length != 0 ? (
+                    <View style={styles.hashtags}>
+                      <Text style={styles.hashtag}>
+                        #{modalPlace.tagNames[0]}
+                      </Text>
+                      <Text style={styles.hashtag}>
+                        #{modalPlace.tagNames[1]}
+                      </Text>
+                      <Text style={styles.hashtag}>
+                        #{modalPlace.tagNames[2]}
+                      </Text>
+                    </View>
+                  ) : (
+                    <View></View>
+                  )}
                 </View>
-                <Text>{modalPlace.address}</Text>
               </View>
             </Modal>
           </GestureRecognizer>
