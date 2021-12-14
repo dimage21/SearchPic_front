@@ -8,6 +8,7 @@ import {
   Platform,
   PermissionsAndroid,
   SafeAreaView,
+  Alert,
 } from "react-native";
 import { launchImageLibrary } from "react-native-image-picker";
 import axios from "axios";
@@ -15,20 +16,24 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import preURL from "../../preURL/preURL";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
-const Profile = ({ navigation }) => {
+const AnalysisMain = ({ navigation }) => {
   const [filePath, setFilePath] = useState({});
-  const [picSelected, setPicSelected] = useState(false);
   const [token, setToken] = useState("");
-  const [result, setResult] = useState();
+  let [result, setResult] = useState({});
   const [loading, setLoading] = useState(false);
 
   const getUserToken = async () => {
     const userToken = await AsyncStorage.getItem("userToken");
     setToken(userToken);
     console.log("userToken ", userToken);
+    setToken(
+      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjM5MjIwMjc2LCJleHAiOjE2Mzk5NDAyNzZ9.dMJANe3DNDgrPPpoMvrb4fHXcq-Q4TNRqjyIY6e9vHs"
+    );
   };
 
-  getUserToken();
+  useEffect(() => {
+    getUserToken();
+  }, []);
 
   const requestExternalWritePermission = async () => {
     if (Platform.OS === "android") {
@@ -74,18 +79,31 @@ const Profile = ({ navigation }) => {
 
     console.log("요청:", formData, config);
     console.log("imageFormData: ", imageFormData);
+
     axios
       .post(preURL.preURL + "analysis", imageFormData, config)
       .then((res) => {
         setLoading(true);
         console.log("사진 보냈다!");
         setResult(res.data);
-        console.log("res.data", res.data);
-        console.log("result", result);
+        console.log("res.data: ", res.data);
+        console.log("result: ", result);
+        Alert.alert("이미지 분석", "분석을 진행하시려면 다음을 눌러주세요", [
+          {
+            text: "다시 선택",
+            style: "cancel",
+          },
+          {
+            text: "다음",
+            onPress: () => {
+              console.log("Result.data => params: ", result.data),
+                navigation.navigate("Result", { result: res.data });
+            },
+          },
+        ]);
       })
       .catch((err) => {
-        console.log("에러 발생 ");
-        console.log(err);
+        console.log("에러 발생 ", err);
       });
 
     return () => {
@@ -120,12 +138,9 @@ const Profile = ({ navigation }) => {
       setFilePath(assets);
       console.log(assets);
       console.log("filePath:", filePath);
-      setPicSelected(!picSelected);
-      navigation.navigate("Result", { result: result.data });
     });
   };
 
-  console.log(result);
   return (
     <SafeAreaView style={{ backgroundColor: "white", flex: 1 }}>
       <View
@@ -155,12 +170,19 @@ const Profile = ({ navigation }) => {
         <Text style={{ textAlign: "center" }}>
           사진을 선택하시면 분석이 시작됩니다
         </Text>
+        <TouchableOpacity
+          onPress={() => {
+            onClickHandler();
+          }}
+        >
+          <Text>다음</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
 };
 
-export default Profile;
+export default AnalysisMain;
 
 const styles = StyleSheet.create({
   textContainer: {

@@ -15,14 +15,18 @@ import {
 import Icon from "react-native-vector-icons/AntDesign";
 import preURL from "../../preURL/preURL";
 import DropDownPicker from "react-native-dropdown-picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SearchMain = ({ navigation }) => {
+  const [token, setToken] = useState("");
+
   const [keyword, setKeyword] = useState("");
+  const [prev, setPrev] = useState("");
   const [pData, setPData] = useState([]);
   const [resultPage, setResultPage] = useState(false);
-  const [result, setResult] = useState({});
+  const [result, setResult] = useState([]);
   const [modal, setModal] = useState(false);
-  const [info, setInfo] = useState({});
+  const [info, setInfo] = useState();
   // Dropdown
   const [open, setOpen] = useState(false);
   const [item, setItem] = useState([
@@ -34,7 +38,18 @@ const SearchMain = ({ navigation }) => {
 
   console.log("======================[SearchMain]===================");
 
+  const getUserToken = async () => {
+    const userToken = await AsyncStorage.getItem("userToken");
+    setToken(userToken);
+    console.log("userToken ", userToken);
+    setToken(
+      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjM5MjIwMjc2LCJleHAiOjE2Mzk5NDAyNzZ9.dMJANe3DNDgrPPpoMvrb4fHXcq-Q4TNRqjyIY6e9vHs"
+    );
+  };
+
   useEffect(() => {
+    getUserToken();
+
     axios
       .get(preURL.preURL + "/tags")
       .then((res) => {
@@ -44,106 +59,86 @@ const SearchMain = ({ navigation }) => {
       .catch((err) => {
         console.log("에러 발생❗️ ", err);
       });
+    setResultPage(false);
+    setKeyword("");
+    setModal(false);
   }, []);
 
-  // 임시 data
-  // const pData = [
-  //   {
-  //     id: 2,
-  //     name: "액자",
-  //     url: "https://postfiles.pstatic.net/MjAyMDA1MTdfMjEg/MDAxNTg5NzE1NzcwMzYx.YvWUNQQFolEIZapddpe11fuNQe1C8_b1TMVmZ8GaF80g.cgRtMr6GCrERiJlaLie84jAuoDvfWR856YiOECE0kEsg.JPEG.minimal_mk/IMG_6507.JPG?type=w966",
-  //   },
-  //   {
-  //     id: 1,
-  //     name: "자연",
-  //     url: "https://postfiles.pstatic.net/MjAyMDA1MTdfMjEg/MDAxNTg5NzE1NzcwMzYx.YvWUNQQFolEIZapddpe11fuNQe1C8_b1TMVmZ8GaF80g.cgRtMr6GCrERiJlaLie84jAuoDvfWR856YiOECE0kEsg.JPEG.minimal_mk/IMG_6507.JPG?type=w966",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "바다",
-  //     url: "https://postfiles.pstatic.net/MjAyMDA1MTdfMjEg/MDAxNTg5NzE1NzcwMzYx.YvWUNQQFolEIZapddpe11fuNQe1C8_b1TMVmZ8GaF80g.cgRtMr6GCrERiJlaLie84jAuoDvfWR856YiOECE0kEsg.JPEG.minimal_mk/IMG_6507.JPG?type=w966",
-  //   },
-  //   {
-  //     id: 8,
-  //     name: "테스트1",
-  //     url: "https://postfiles.pstatic.net/MjAyMDA1MTdfMjEg/MDAxNTg5NzE1NzcwMzYx.YvWUNQQFolEIZapddpe11fuNQe1C8_b1TMVmZ8GaF80g.cgRtMr6GCrERiJlaLie84jAuoDvfWR856YiOECE0kEsg.JPEG.minimal_mk/IMG_6507.JPG?type=w966",
-  //   },
-  //   {
-  //     id: 9,
-  //     name: "기념",
-  //     url: "https://postfiles.pstatic.net/MjAyMDA1MTdfMjEg/MDAxNTg5NzE1NzcwMzYx.YvWUNQQFolEIZapddpe11fuNQe1C8_b1TMVmZ8GaF80g.cgRtMr6GCrERiJlaLie84jAuoDvfWR856YiOECE0kEsg.JPEG.minimal_mk/IMG_6507.JPG?type=w966",
-  //   },
-  //   {
-  //     id: 5,
-  //     name: "강릉",
-  //     url: "https://postfiles.pstatic.net/MjAyMDA1MTdfMjEg/MDAxNTg5NzE1NzcwMzYx.YvWUNQQFolEIZapddpe11fuNQe1C8_b1TMVmZ8GaF80g.cgRtMr6GCrERiJlaLie84jAuoDvfWR856YiOECE0kEsg.JPEG.minimal_mk/IMG_6507.JPG?type=w966",
-  //   },
-  // ];
-
   const renderItem = ({ item }) => {
-    console.log("item(인기 태그): ", item);
+    console.log("item(인기 태그) 불러옴");
     return (
       <View style={{ margin: 10 }}>
-        <ImageBackground
-          source={{ uri: `${item.url}` }}
-          style={{
-            width: 155,
-            height: 155,
-            borderRadius: 30,
-            overflow: "hidden",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-          imageStyle={{ opacity: 0.7 }}
-        >
-          <Text style={{ fontSize: 18, color: "#ffffff", fontWeight: "bold" }}>
-            #{item.name}
-          </Text>
-        </ImageBackground>
+        <TouchableOpacity>
+          <ImageBackground
+            source={{ uri: `${item.url}` }}
+            style={{
+              width: 155.5,
+              height: 155.5,
+              borderRadius: 30,
+              overflow: "hidden",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            imageStyle={{ opacity: 0.7 }}
+          >
+            <Text
+              style={{ fontSize: 18, color: "#ffffff", fontWeight: "bold" }}
+            >
+              #{item.name}
+            </Text>
+          </ImageBackground>
+        </TouchableOpacity>
       </View>
     );
   };
 
   const postKeyword = () => {
-    const body = {
-      tags: [keyword],
-      order: value,
-    };
-
-    console.log("body: ", body);
-    const jBody = JSON.stringify(body);
-    console.log("body2: ", jBody);
+    console.log("검색 키워드: ", keyword);
+    const keywords = keyword.replace(" ", ",");
+    console.log("보낼 키워드: ", keywords);
+    console.log("보낼 정렬 기준: ", value);
     console.log("page: ", page);
+    if (keywords == prev) {
+      setPage(page + 1);
+    } else {
+      setPage(0);
+    }
 
-    axios
-      .get(preURL.preURL + `/posts/search?page=${page}`, jBody)
-      .then((res) => {
-        console.log("검색 결과 받았다! ", res.data.data);
-        result.push(...res.data.data);
+    fetch(
+      preURL.preURL +
+        `posts/search?page=${page}&tags=${keywords}&order=${value}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        console.log("검색 결과 받았다! ", data.data);
+        result.push(...data.data);
         setResult(result);
+        setPrev(keywords);
         console.log("DATA: ", result);
-        setPage(page + 1);
+        console.log("개수: ", result.length);
         console.log("PAGE: ", page);
       })
+
       .catch((err) => {
         console.log("에러 발생❗️ ", err);
       });
   };
 
   const listItems = ({ item }) => {
-    console.log("item(검색 결과): ", item);
     return (
       <View>
         <TouchableOpacity
           onPress={() => {
             setInfo(item);
+            console.log("info: ", info);
             setModal(true);
           }}
         >
           <Image
             source={{ uri: `${item.pictureUrl}` }}
-            style={{ width: 140, height: 140 }}
+            style={{ width: 125, height: 125 }}
           />
         </TouchableOpacity>
       </View>
@@ -152,26 +147,48 @@ const SearchMain = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1, padding: 15, backgroundColor: "#ffffff" }}>
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-        }}
-      >
-        <TouchableOpacity onPress={() => setResultPage(false)}>
-          <Icon size={40} color="black" name="left" />
-        </TouchableOpacity>
-        <Text style={{ fontSize: 18, fontWeight: "bold" }}>탐색하기</Text>
-      </View>
+      {resultPage ? (
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              setResultPage(false);
+              setResult([]);
+            }}
+          >
+            <Icon size={40} color="black" name="left" />
+          </TouchableOpacity>
+          <Text style={{ fontSize: 18, fontWeight: "bold" }}>탐색하기</Text>
+        </View>
+      ) : (
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ fontSize: 18, fontWeight: "bold", paddingTop: 10 }}>
+            탐색하기
+          </Text>
+        </View>
+      )}
       <View style={{ padding: 20, display: "flex", flexDirection: "row" }}>
         <TextInput
           style={styles.input}
           value={keyword}
           onChange={(event) => {
-            const { eventCount, target, text } = event.nativeEvent;
+            const { text } = event.nativeEvent;
             setKeyword(text);
             setResultPage(true);
+            if (text == "") {
+              setResult([]);
+            }
           }}
         />
         <Icon
@@ -184,11 +201,9 @@ const SearchMain = ({ navigation }) => {
         />
       </View>
       {resultPage ? (
-        <View style={{ paddingLeft: "5%", paddingRight: "5%" }}>
-          <Text style={{ fontSize: 13, color: "#FD0000" }}>
-            태그는 5개까지 입력 가능합니다
-          </Text>
-          <View style={{ marginTop: 10 }}>
+        // 검색창에 입력했을 경우
+        <View>
+          <View>
             <View
               style={{
                 display: "flex",
@@ -196,9 +211,14 @@ const SearchMain = ({ navigation }) => {
                 justifyContent: "space-between",
               }}
             >
-              <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-                검색 결과
-              </Text>
+              <View>
+                <Text style={{ fontSize: 13, color: "#FD0000" }}>
+                  태그는 5개까지 입력 가능합니다
+                </Text>
+                <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+                  검색 결과
+                </Text>
+              </View>
               <DropDownPicker
                 placeholder={"최신순"}
                 open={open}
@@ -209,44 +229,91 @@ const SearchMain = ({ navigation }) => {
                 setItems={setItem}
                 containerStyle={{
                   width: "30%",
+                  marginBottom: 10,
                 }}
               />
             </View>
-            <FlatList
-              data={result}
-              extraData={result}
-              renderItem={listItems}
-              numColumns={3}
-              onEndReached={() => postKeyword()}
-            />
-            {info.tagNames != {} ? (
-              <View></View>
-            ) : (
-              <Modal visible={modal}>
-                <View
-                  style={{
-                    width: 370,
-                    height: 440,
-                    backgroundColor: "#ffffff",
-                  }}
-                >
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate("Detail", { locationId: info.postId })
-                    }
+
+            {/* 검색 결과 */}
+            <View style={{ width: "100%" }}>
+              <FlatList
+                data={result}
+                extraData={result}
+                renderItem={listItems}
+                numColumns={3}
+                onEndReached={() => postKeyword()}
+              />
+            </View>
+            <View
+              style={{
+                flex: 1,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {info !== undefined ? (
+                <Modal animationType="slide" visible={modal} transparent>
+                  <View
+                    style={{
+                      height: "50%",
+                      width: "85%",
+
+                      alignSelf: "center",
+                      backgroundColor: "rgba(255,255,255,0.8)",
+                      borderRadius: 20,
+                      padding: 10,
+                      marginTop: "60%",
+                    }}
                   >
-                    <Image source={{ uri: `${info.pictureUrl}` }} />
-                  </TouchableOpacity>
-                  <Text>{info.address}</Text>
-                  {info.tagNames.map((tag) => (
-                    <Text>#{tag} </Text>
-                  ))}
-                </View>
-              </Modal>
-            )}
+                    <TouchableOpacity>
+                      <Icon
+                        size={27}
+                        color="black"
+                        name="close"
+                        style={{ alignSelf: "flex-end", padding: 5 }}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() =>
+                        navigation.navigate("Detail", {
+                          locationId: info.postId,
+                        })
+                      }
+                    >
+                      <Image
+                        source={{ uri: `${info.pictureUrl}` }}
+                        style={{ width: 310, height: 310, alignSelf: "center" }}
+                      />
+                    </TouchableOpacity>
+                    <View style={{ padding: 10 }}>
+                      <Text>{info.address}</Text>
+                      <View
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "flex-start",
+                        }}
+                      >
+                        {info.tagNames.length != 0 ? (
+                          info.tagNames.map((tag) => (
+                            <Text style={{ color: "#001A72" }}>#{tag} </Text>
+                          ))
+                        ) : (
+                          <View></View>
+                        )}
+                      </View>
+                    </View>
+                  </View>
+                </Modal>
+              ) : (
+                <View></View>
+              )}
+            </View>
           </View>
         </View>
       ) : (
+        // 인기 태그
         <View style={{ paddingLeft: "5%", paddingRight: "5%" }}>
           <Text style={{ fontSize: 18, fontWeight: "bold" }}>인기 태그</Text>
           <View style={{ marginTop: 20 }}>

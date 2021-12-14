@@ -21,13 +21,16 @@ const Result = ({ navigation, route }) => {
     const userToken = await AsyncStorage.getItem("userToken");
     setToken(userToken);
     console.log("userToken ", userToken);
+    setToken(
+      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjM5MjIwMjc2LCJleHAiOjE2Mzk5NDAyNzZ9.dMJANe3DNDgrPPpoMvrb4fHXcq-Q4TNRqjyIY6e9vHs"
+    );
   };
 
   getUserToken();
 
-  const Result1 = result[0];
-  const Result2 = result[1];
-  const Result3 = result[2];
+  const Result1 = result.data[0];
+  const Result2 = result.data[1];
+  const Result3 = result.data[2];
 
   const [mark1, setMark1] = useState(Result1.marked);
   const [mark2, setMark2] = useState(Result2.marked);

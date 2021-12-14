@@ -3,6 +3,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MypageMain from "../components/Mypage/MypageMain";
 import Setting from "../components/Mypage/Setting";
 import ChangeProfile from "../components/Mypage/ChangeProfile";
+import Detail from "../components/Analysis/Detail";
+import Result from "../components/Analysis/Result";
 
 const MypageStack = createNativeStackNavigator();
 
@@ -22,6 +24,11 @@ const Mypage = () => {
       <MypageStack.Screen
         name="ChangeProfile"
         component={ChangeProfile}
+        options={{ headerShown: false }}
+      />
+      <MypageStack.Screen
+        name="Detail"
+        component={Detail}
         options={{ headerShown: false }}
       />
     </MypageStack.Navigator>
