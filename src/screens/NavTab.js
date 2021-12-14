@@ -32,12 +32,13 @@ const NavTabs = () => {
           tabBarIcon: ({ focused }) => (
             <View style={styles.container}>
               <Icon
-                size={30}
+                size={27}
                 color={focused ? "#001A72" : "#7D7D7D"}
                 name="camera"
               />
               <Text
                 style={{
+                  fontSize: 13,
                   color: focused ? "#001A72" : "#7D7D7D",
                   fontWeight: focused ? "bold" : "normal",
                 }}
@@ -55,12 +56,13 @@ const NavTabs = () => {
           tabBarIcon: ({ focused }) => (
             <View style={styles.container}>
               <Icon
-                size={30}
+                size={27}
                 color={focused ? "#001A72" : "#7D7D7D"}
                 name="hashtag"
               />
               <Text
                 style={{
+                  fontSize: 13,
                   color: focused ? "#001A72" : "#7D7D7D",
                   fontWeight: focused ? "bold" : "normal",
                 }}
@@ -78,13 +80,14 @@ const NavTabs = () => {
           tabBarIcon: ({ focused }) => (
             <View style={styles.container}>
               <Icon
-                size={30}
+                size={27}
                 color={focused ? "#001A72" : "#7D7D7D"}
                 name="map-marker-alt"
               />
 
               <Text
                 style={{
+                  fontSize: 13,
                   color: focused ? "#001A72" : "#7D7D7D",
                   fontWeight: focused ? "bold" : "normal",
                 }}
@@ -102,12 +105,13 @@ const NavTabs = () => {
           tabBarIcon: ({ focused }) => (
             <View style={styles.container}>
               <Icon
-                size={30}
+                size={27}
                 color={focused ? "#001A72" : "#7D7D7D"}
                 name="user-circle"
               />
               <Text
                 style={{
+                  fontSize: 13,
                   color: focused ? "#001A72" : "#7D7D7D",
                   fontWeight: focused ? "bold" : "normal",
                 }}
