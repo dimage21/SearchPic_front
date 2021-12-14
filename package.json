@@ -34,6 +34,7 @@
     "react-native-gesture-handler": "^1.10.3",
     "react-native-grid-image-viewer": "^1.2.2",
     "react-native-image-picker": "^4.1.1",
+    "react-native-maps": "^0.29.4",
     "react-native-modal": "^13.0.0",
     "react-native-naver-font": "^1.0.0",
     "react-native-orientation": "^3.1.3",
