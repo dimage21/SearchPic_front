@@ -6,7 +6,9 @@ import preURL from "../../preURL/preURL";
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-function MapMain(){
+
+
+const MapMain=({navigation})=>{
 
 
   useEffect(() => {
@@ -14,12 +16,37 @@ function MapMain(){
       .get(preURL.preURL + "/locations/filter")
       .then((res) =>{
         console.log("지도 응답 받았다! ", res.data.data);
-        setPData(res.data.data);
+        // setPData(res.data.data);
       })
       .catch((err)=>{
         console.log("지도 에러 발생❗️ ", err);
       });
   }, []);
+
+  // const placeMarkers = ()=>{
+  //   const formData = new FormData();
+  //   const imageFormData = new FormData();
+
+  //   let file ={
+  //       id: res.data.data.id,
+  //       imageUrl: res.data.data.imageUrl,
+  //       latitude: res.data.data.y,
+  //       longitude: res.data.data.x,
+
+  //   };
+  //   imageFormData.append("file", file,{ type: "application/octet-stream" });
+
+  //       const config = {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //             "Content-Type": "multipart/form-data",
+  //           },
+  //       };
+  //   console.log("저장된장소:", formData, config);
+  //   console.log("imageFormData: ", imageFormData);
+  // }
+
+
 
   //initialRegion
   const [initialRegion, setInitalResion] = useState({
@@ -88,7 +115,7 @@ function MapMain(){
         </MapView>
         <View style={styles.addPhotoContainer}>
           <TouchableOpacity
-          onPress={()=>Alert.alert('사진추가페이지로 이동')}
+          onPress={()=>navigation.navigate("AddPlaceMain")}
           style={{
             width:"100%", height:"100%", displa: "flex", justifyContent:"center", alignItems:"center",}}
           >
