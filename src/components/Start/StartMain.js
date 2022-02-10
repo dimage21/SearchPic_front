@@ -135,7 +135,7 @@ const StartMain = ({ navigation }) => {
           console.log(res.data);
           setRefreshToken(res.data.refreshToken);
           AsyncStorage.setItem("refreshToken", res.data.refreshToken);
-          // 엑세스 토큰 추가
+          AsyncStorage.setItem("userToken", res.data.accessToken);
         })
         .catch((err) => {
           console.log("에러 발생 ❗️ - 로그인 ", err);

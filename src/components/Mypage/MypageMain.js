@@ -11,6 +11,7 @@ import {
 import Icon from "react-native-vector-icons/AntDesign";
 import preURL from "../../preURL/preURL";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as tokenHandling from "../../constants/TokenErrorHandle";
 
 const MypageMain = ({ navigation }) => {
   const [token, setToken] = useState("");
@@ -59,6 +60,7 @@ const MypageMain = ({ navigation }) => {
       })
       .catch((err) => {
         console.log("에러 발생❗️ ", err);
+        tokenHandling.tokenErrorHandling();
       });
   };
 
@@ -75,6 +77,7 @@ const MypageMain = ({ navigation }) => {
       })
       .catch((err) => {
         console.log("에러 발생❗️ ", err);
+        tokenHandling.tokenErrorHandling();
       });
   };
 

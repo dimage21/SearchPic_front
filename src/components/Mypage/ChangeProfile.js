@@ -13,6 +13,7 @@ import Icon from "react-native-vector-icons/AntDesign";
 import { launchImageLibrary } from "react-native-image-picker";
 import axios from "axios";
 import preURL from "../../preURL/preURL";
+import * as tokenHandling from "../../constants/TokenErrorHandle";
 
 const ChangeProfile = ({ navigation }) => {
   const [nickName, setNickName] = useState("");
@@ -128,6 +129,7 @@ const ChangeProfile = ({ navigation }) => {
       .catch((err) => {
         console.log("에러 발생 ");
         console.log(err);
+        tokenHandling.tokenErrorHandling();
       });
   };
   return (

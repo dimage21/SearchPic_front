@@ -17,8 +17,8 @@ import preURL from "../../preURL/preURL";
 import DropDownPicker from "react-native-dropdown-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import GestureRecognizer from "react-native-swipe-gestures";
-
 import Tags from "react-native-tags";
+import * as tokenHandling from "../../constants/TokenErrorHandle";
 
 const SearchMain = ({ navigation }) => {
   const [token, setToken] = useState("");
@@ -61,6 +61,7 @@ const SearchMain = ({ navigation }) => {
       })
       .catch((err) => {
         console.log("에러 발생❗️ ", err);
+        tokenHandling.tokenErrorHandling();
       });
     setResultPage(false);
     setKeyword([]);
@@ -137,6 +138,7 @@ const SearchMain = ({ navigation }) => {
       })
       .catch((err) => {
         console.log("에러 발생❗️ ", err);
+        tokenHandling.tokenErrorHandling();
       });
   };
 
@@ -268,9 +270,6 @@ const SearchMain = ({ navigation }) => {
               }}
             >
               <View>
-                <Text style={{ fontSize: 13, color: "#FD0000" }}>
-                  태그는 5개까지 입력 가능합니다
-                </Text>
                 <Text style={{ fontSize: 18, fontWeight: "bold" }}>
                   검색 결과
                 </Text>

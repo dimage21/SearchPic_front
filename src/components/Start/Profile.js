@@ -14,6 +14,7 @@ import {
 import { launchImageLibrary } from "react-native-image-picker";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as tokenHandling from "../../constants/TokenErrorHandle";
 
 const Profile = ({ navigation }) => {
   const [nickName, setNickName] = useState("");
@@ -130,7 +131,6 @@ const Profile = ({ navigation }) => {
     console.log("imageFormData: ", imageFormData);
     axios
       .post("http://192.168.19.25:8080/profile", imageFormData, config)
-      // .post("http://192.168.19.25:8080/test", null, config)
       .then((res) => {
         console.log("토큰 보냈다!");
         console.log(res);
@@ -139,6 +139,7 @@ const Profile = ({ navigation }) => {
       .catch((err) => {
         console.log("에러 발생 ");
         console.log(err);
+        tokenHandling.tokenErrorHandling();
       });
   };
 

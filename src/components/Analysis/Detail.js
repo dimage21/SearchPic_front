@@ -14,6 +14,7 @@ import Icon from "react-native-vector-icons/AntDesign";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import preURL from "../../preURL/preURL";
 import GestureRecognizer from "react-native-swipe-gestures";
+import * as tokenHandling from "../../constants/TokenErrorHandle";
 
 const Detail = ({ navigation, route }) => {
   const locationId = route.params.locationId;
@@ -61,6 +62,7 @@ const Detail = ({ navigation, route }) => {
       .catch((err) => {
         console.log("에러 발생 - 장소 요청", err);
         console.log(err);
+        tokenHandling.tokenErrorHandling();
       });
 
     axios
@@ -72,6 +74,7 @@ const Detail = ({ navigation, route }) => {
       .catch((err) => {
         console.log("에러 발생 - 근처 장소 요청 ");
         console.log(err);
+        tokenHandling.tokenErrorHandling();
       });
 
     return () => {

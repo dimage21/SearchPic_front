@@ -15,6 +15,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import preURL from "../../preURL/preURL";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import * as tokenHandling from "../../constants/TokenErrorHandle";
 
 const AnalysisMain = ({ navigation }) => {
   const [filePath, setFilePath] = useState({});
@@ -105,6 +106,7 @@ const AnalysisMain = ({ navigation }) => {
       })
       .catch((err) => {
         console.log("에러 발생 ", err);
+        tokenHandling.tokenErrorHandling();
       });
 
     return () => {
@@ -177,7 +179,6 @@ const AnalysisMain = ({ navigation }) => {
           </Text>
         ) : (
           <Text style={{ textAlign: "center" }}>
-            {" "}
             위 아이콘을 클릭해 사진을 선택해주세요
           </Text>
         )}

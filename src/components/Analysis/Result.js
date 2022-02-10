@@ -11,6 +11,7 @@ import axios from "axios";
 import Icon from "react-native-vector-icons/AntDesign";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import preURL from "../../preURL/preURL";
+import * as tokenHandling from "../../constants/TokenErrorHandle";
 
 const Result = ({ navigation, route }) => {
   const result = route.params.result;
@@ -58,6 +59,7 @@ const Result = ({ navigation, route }) => {
       .catch((err) => {
         console.log("에러 발생 ");
         console.log(err);
+        tokenHandling.tokenErrorHandling();
       });
   };
 
@@ -72,6 +74,7 @@ const Result = ({ navigation, route }) => {
       .catch((err) => {
         console.log("에러 발생 ");
         console.log(err);
+        tokenHandling.tokenErrorHandling();
       });
   };
 
