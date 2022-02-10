@@ -17,6 +17,8 @@ target 'searchpicture_front' do
     :hermes_enabled => false
     )
 
+    pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+
     target 'searchpicture_frontTests' do
     inherit! :complete
     end

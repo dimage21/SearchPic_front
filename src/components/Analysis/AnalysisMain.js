@@ -25,7 +25,7 @@ const AnalysisMain = ({ navigation }) => {
   const [process, setProcess] = useState(false);
 
   const getUserToken = async () => {
-    const userToken = await AsyncStorage.getItem("userToken");
+    const userToken = await AsyncStorage("userToken");
     setToken(userToken);
     console.log("userToken ", userToken);
     setToken(
