@@ -18,10 +18,12 @@ import DropDownPicker from "react-native-dropdown-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import GestureRecognizer from "react-native-swipe-gestures";
 
+import Tags from "react-native-tags";
+
 const SearchMain = ({ navigation }) => {
   const [token, setToken] = useState("");
 
-  const [keyword, setKeyword] = useState("");
+  const [keyword, setKeyword] = useState([]);
   const [prev, setPrev] = useState("");
   const [pData, setPData] = useState([]);
   const [resultPage, setResultPage] = useState(false);
@@ -44,7 +46,7 @@ const SearchMain = ({ navigation }) => {
     setToken(userToken);
     console.log("userToken ", userToken);
     setToken(
-      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjM5MjIwMjc2LCJleHAiOjE2Mzk5NDAyNzZ9.dMJANe3DNDgrPPpoMvrb4fHXcq-Q4TNRqjyIY6e9vHs"
+      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjM5OTg2MjU5LCJleHAiOjIzNTk5ODYyNTl9.2X8FGvxEO6DJklEsSDE4nTVZ4wKFb0sC4kBaycEXlOE"
     );
   };
 
@@ -61,7 +63,7 @@ const SearchMain = ({ navigation }) => {
         console.log("에러 발생❗️ ", err);
       });
     setResultPage(false);
-    setKeyword("");
+    setKeyword([]);
     setModal(false);
   }, []);
 
@@ -96,17 +98,27 @@ const SearchMain = ({ navigation }) => {
 
   const postKeyword = () => {
     console.log("검색 키워드: ", keyword);
-    const keywords = keyword.replace(" ", ",");
-    console.log("보낼 키워드: ", keywords);
+    console.log("보낼 키워드: ", keyword);
     console.log("보낼 정렬 기준: ", value);
     console.log("page: ", page);
-    if (keywords != prev) {
+    if (keyword != prev) {
       setPage(0);
     }
-
+    let keywords = "";
+    for (let i = 0; i < keyword.length; i++) {
+      keywords = keywords + keyword[i] + ",";
+      console.log(keywords);
+    }
+    let rkeywords = keywords.slice(0, -1);
+    console.log("실제 보낼 태그 : ", rkeywords);
+    console.log(
+      "url 확인 : ",
+      preURL.preURL +
+        `posts/search?page=${page}&tags=${rkeywords}&order=${value}`
+    );
     fetch(
       preURL.preURL +
-        `posts/search?page=${page}&tags=${keywords}&order=${value}`
+        `posts/search?page=${page}&tags=${rkeywords}&order=${value}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -120,7 +132,7 @@ const SearchMain = ({ navigation }) => {
         }
 
         // setResult(result);
-        setPrev(keywords);
+        setPrev(keyword);
         console.log("PAGE: ", page);
       })
       .catch((err) => {
@@ -180,29 +192,70 @@ const SearchMain = ({ navigation }) => {
           </Text>
         </View>
       )}
-      <View style={{ padding: 20, display: "flex", flexDirection: "row" }}>
-        <TextInput
-          style={styles.input}
-          value={keyword}
-          onChange={(event) => {
-            const { text } = event.nativeEvent;
-            setKeyword(text);
-            setResultPage(true);
-            if (text == "") {
-              setResult([]);
-            }
-          }}
-        />
-        <Icon
-          size={30}
-          color="#001A72"
-          name="search1"
-          onPress={() => {
-            setPage(0);
-            postKeyword();
-          }}
-        />
-      </View>
+      <View
+        style={{ padding: 20, display: "flex", flexDirection: "row" }}
+      ></View>
+      <Tags
+        initialText="태그 ..."
+        textInputProps={{
+          placeholder: "검색하실 태그를 입력해주세요",
+        }}
+        onChangeTags={(tags) => {
+          console.log(tags);
+          setKeyword(tags);
+          setResultPage(true);
+          if (tags == "") {
+            setResult([]);
+          }
+        }}
+        onTagPress={(index, tagLabel, event, deleted) =>
+          console.log(
+            index,
+            tagLabel,
+            event,
+            deleted ? "deleted" : "not deleted"
+          )
+        }
+        containerStyle={{ justifyContent: "center" }}
+        inputStyle={{
+          backgroundColor: "white",
+          borderBottomColor: "#000",
+          borderBottomWidth: 1,
+        }}
+        maxNumberOfTags={5}
+        renderTag={({ tag, index, onPress, deleteTagOnPress, readonly }) => (
+          <TouchableOpacity
+            key={`${tag}-${index}`}
+            onPress={onPress}
+            style={{
+              padding: 7,
+              backgroundColor: "#D0DBFB",
+              borderRadius: 10,
+              margin: 2,
+            }}
+          >
+            <Text>{tag}</Text>
+          </TouchableOpacity>
+        )}
+      />
+      <TouchableOpacity
+        onPress={() => {
+          setPage(0);
+          postKeyword();
+        }}
+        style={{
+          width: "95%",
+          backgroundColor: "#001A72",
+          padding: 10,
+          justifyContent: "center",
+          alignItems: "center",
+          alignSelf: "center",
+          borderRadius: 10,
+          margin: 10,
+        }}
+      >
+        <Text style={{ color: "white" }}>검색</Text>
+      </TouchableOpacity>
       {resultPage ? (
         // 검색창에 입력했을 경우
         <View>
