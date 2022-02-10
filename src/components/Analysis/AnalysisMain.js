@@ -82,6 +82,9 @@ const AnalysisMain = ({ navigation }) => {
     console.log("요청:", formData, config);
     console.log("imageFormData: ", imageFormData);
 
+    AsyncStorage.setItem("imageFormFormData", imageFormData);
+    AsyncStorage.setItem("config", config);
+
     axios
       .post(preURL.preURL + "analysis", imageFormData, config)
       .then((res) => {
