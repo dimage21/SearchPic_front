@@ -29,10 +29,10 @@ const App = () => {
           }}
         >
           {/* <MainStack.Screen
-          name="Start"
-          component={Start}
-          options={{ headerShown: false }}
-        /> */}
+            name="Start"
+            component={Start}
+            options={{ headerShown: false }}
+          /> */}
           <MainStack.Screen
             name="NavTabs"
             component={NavTabs}
