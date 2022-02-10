@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import {
   SafeAreaView,
@@ -5,10 +6,37 @@ import {
   View,
   Text,
   StyleSheet,
+  Alert,
 } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
+import preURL from "../../preURL/preURL";
 
 const Setting = ({ navigation }) => {
+  const [refreshToken, setRefreshToken] = useState("");
+
+  getRefreshToken = async () => {
+    const refreshToken = await AsyncStorage.getItem("refreshToken");
+    setRefreshToken(refreshToken);
+  };
+
+  const config = {
+    headers: {
+      "refresh-token": refreshToken,
+    },
+  };
+
+  const logout = () => {
+    axios
+      .delete(preURL.preURL + "/logout", config)
+      .then((res) => {
+        console.log("로그아웃했다!", res);
+        Alert.alert("로그아웃되었습니다.");
+      })
+      .catch((err) => {
+        console.log("에러 발생 ❗️ - 로그아웃", err);
+      });
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>
       <View style={{ padding: 15 }}>
@@ -30,7 +58,7 @@ const Setting = ({ navigation }) => {
           <Text style={styles.text}>프로필 수정</Text>
           <Icon size={40} color="black" name="right" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.line}>
+        <TouchableOpacity style={styles.line} onPress={logout()}>
           <Text style={styles.text}>로그아웃</Text>
           <Icon size={40} color="black" name="right" />
         </TouchableOpacity>

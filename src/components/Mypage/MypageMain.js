@@ -28,9 +28,9 @@ const MypageMain = ({ navigation }) => {
       console.log("토큰 아직 못 받음!");
     }
     console.log("userToken ", userToken);
-    setToken(
-      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjM5MjIwMjc2LCJleHAiOjE2Mzk5NDAyNzZ9.dMJANe3DNDgrPPpoMvrb4fHXcq-Q4TNRqjyIY6e9vHs"
-    );
+    // setToken(
+    //   "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjM5OTg2MjU5LCJleHAiOjIzNTk5ODYyNTl9.2X8FGvxEO6DJklEsSDE4nTVZ4wKFb0sC4kBaycEXlOE"
+    // );
   };
 
   const config = {
@@ -42,7 +42,7 @@ const MypageMain = ({ navigation }) => {
   useEffect(() => {
     getUserToken();
     console.log("토큰: ", token);
-  }, [token]);
+  }, []);
 
   useEffect(() => {
     console.log("config: ", config);
