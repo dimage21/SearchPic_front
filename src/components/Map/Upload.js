@@ -31,30 +31,66 @@ const Upload = () =>{
         } else return true;
     };
     
-    const TakePhoto = () => {
-        let options = {
-            mediaType: "photo",
-            cameraType: "back",
-            includeBase64: true,
-            saveToPhotos: true,
-        };
-        launchCamera(options, useCallback);
+    // const TakePhoto = () => {
+    //     let options = {
+    //         mediaType: "photo",
+    //         cameraType: "back",
+    //         includeBase64: true,
+    //         saveToPhotos: true,
+    //     };
+    //     launchCamera(options, useCallback);
 
-    }
+    // }
+
+        const TakePhoto = () => {
+            let options = {
+                mediaType: "photo",
+                cameraType: "back",
+                includeBase64: true,
+                saveToPhotos: true,
+                storageOptions: {
+                    skipBackup: true,
+                    path: 'images',
+                },
+            };
+            launchCamera(options, (response) => {
+                // console.log('📸사진업로드 사진촬영 : ', response);
+                const assets = response.assets[0];
+                // console.log("asset:", assets);
+                if (response.didCancel) {
+                    console.log('User cancelled image picker');
+                } else if (response.error){
+                    console.log('ImagePicker Error: ', response.error);
+                } else if (response.custonButton){
+                    console.log('User tapped custom button: ', response.customButtom);
+                    alert(response.customButton);
+                } 
+              
+                setFilePath(assets);
+                // console.log(assets);
+                // console.log("filePath:", filePath);
+                setProcess(true);
+            });
+
+        }
     
     const ImagePicker = () => {
         requestExternalWritePermission();
         
+        // let launchImageLibrary = require('react-native-image-picker');
         let options = {
           mediaType: "photo",
+          cameraType : 'back',
           maxWidth: 300,
           maxHeight: 550,
           quality: 1,
+          allowsEditing: false,
+          noData : true,
         };
         launchImageLibrary(options, (response) => {
-            console.log("Response = ", response);
+            // console.log("Response = ", response);
             const assets = response.assets[0];
-            console.log("asset:", assets);
+            // console.log("asset:", assets);
             if (response.didCancel) {
                 alert("User cancelled camera picker");
                 return;
@@ -69,11 +105,13 @@ const Upload = () =>{
                 return;
             }
             setFilePath(assets);
-            console.log(assets);
-            console.log("filePath:", filePath);
+            // console.log(assets);
+            // console.log("filePath:", filePath);
             setProcess(true);
 
-            console.log("장소uri:", assets.uri);
+            console.log("📸장소uri:", assets.uri);
+            console.log("📸장소logitude:", response.longitude);
+            console.log("📸장소latitude:", response.latitude);
 
         });
     };
