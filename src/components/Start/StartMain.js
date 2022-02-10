@@ -12,6 +12,7 @@ import Styled from "styled-components/native";
 import { NaverLogin, getProfile } from "@react-native-seoul/naver-login";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import preURL from "../../preURL/preURL";
 
 const iosKeys = {
   kConsumerKey: "WfY6pghIqcFwpkxA7YYj",
@@ -34,7 +35,7 @@ const StartMain = ({ navigation }) => {
   const [naverToken, setNaverToken] = React.useState(null);
   const [userId, setUserId] = useState(-1);
   const [aToken, setAccessToken] = useState("");
-  const [refresh, setRefresh] = useState(false);
+  const [refreshToken, setRefreshToken] = useState("");
   const [spToken, setSpToken] = useState("");
 
   const naverLogin = (props) => {
@@ -125,8 +126,20 @@ const StartMain = ({ navigation }) => {
         // console.log("accessToken:", naverToken.accessToken);
         setAccessToken(naverToken.accessToken);
         console.log("accessToken 2:", aToken);
+        AsyncStorage.setItem("userToken", aToken);
         postUserInfo(naverToken.accessToken);
       }
+      axios
+        .get(preURL.preURL + `/login/naver?token=${accessToken}`)
+        .then((res) => {
+          console.log(res.data);
+          setRefreshToken(res.data.refreshToken);
+          AsyncStorage.setItem("refreshToken", res.data.refreshToken);
+          // 엑세스 토큰 추가
+        })
+        .catch((err) => {
+          console.log("에러 발생 ❗️ - 로그인 ", err);
+        });
       console.log("로그인 성공");
       Alert.alert(`${profileResult.response.email}님 환영합니다`);
       navigation.navigate("Profile", { name: profileResult.response.name });
