@@ -1,15 +1,19 @@
 import axios from "axios";
 import React, {useEffect, useState, Component} from "react";
-import {View, Text, Button, Alert, StyleSheet, Image} from "react-native";
+import {View, Text, Button, Alert, StyleSheet, Image,} from "react-native";
 import MapView, {PROVIDER_GOOGLE, Marker, Callout} from "react-native-maps";
 import preURL from "../../preURL/preURL";
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Searchbar } from "react-native-paper";
+import Geolocation from '@react-native-community/geolocation';
+
 
 
 
 const MapMain=({navigation})=>{
+  
+
   const [markers, setMarkers] = useState(null);
   const [search, setSearch] = useState("");
   
@@ -17,7 +21,6 @@ const MapMain=({navigation})=>{
   const updateSearch = (search) => {
     setSearch(search);
   };
-
 
   //load Data
   useEffect(() => {
@@ -34,23 +37,53 @@ const MapMain=({navigation})=>{
       
   }, []);
 
-
-    //initialRegion
-  const [initialRegion, setInitalResion] = useState({
-      latitude: 33.4099997,
-      longitude: 126.4873745,
-      latitudeDelta: 1,
-      longitudeDelta: 1,
-   })
- 
-  //안드로이드용 현재위치 버튼 활성화
-  const [mapWidth, setMapWidth] = useState('99%');
-  const updateMapStyle = () => {
-    setMapWidth('100%')
-  }
+  const [currentLaditude, setCurrentLaditude] = useState();
+  const [currentLongitude, setCurrentLongitude] = useState();
 
   
+  useEffect(()=> {
+    Geolocation.getCurrentPosition((info) => {
+      console.log('현재 위치 정보', info);
+      console.log('현재 latitude 정보 : ',info.coords.latitude);
+      console.log('현재 longitude 정보 : ',info.coords.longitude);
+      setCurrentLaditude(info.coords.latitude);
+      setCurrentLongitude(info.coords.longitude);
+    });
+    
+  },[]);
 
+
+
+  // const initialRegion = {
+  //     latitude:{currentLaditude},
+  //     longitude:{currentLongitude},
+    
+  // };
+
+  
+  const [initialRegion, setInitialRegion] = useState({
+      
+    // // latitude: 33.4099997,
+    // // longitude: 126.4873745,
+    // latitude : currentLaditude,
+    // longitude : currentLongitude,
+    // latitudeDelta: 1,
+    // longitudeDelta: 1,
+    
+    
+  })
+
+  useEffect(()=>{setInitialRegion({
+    latitude : currentLaditude,
+    longitude : currentLongitude,
+  })
+  },[currentLaditude])
+
+    //안드로이드용 현재위치 버튼 활성화
+    const [mapWidth, setMapWidth] = useState('99%');
+    const updateMapStyle = () => {
+      setMapWidth('100%')
+    }
 
   return(
     <>
@@ -70,6 +103,12 @@ const MapMain=({navigation})=>{
         followsUserLocation={true}
         zoomEnabled = {true}
         onPress={this.pickLocationHandler}
+        // initialRegion={{
+        //   latitude: initialRegion.latitude,
+        //   longitude: initialRegion.longitude,
+        //   latitudeDelta:1,
+        //   longitudeDelta:1,
+        // }}
         initialRegion={initialRegion}
         onMapReady={()=> {
           updateMapStyle()
@@ -79,6 +118,7 @@ const MapMain=({navigation})=>{
             markers.map((marker)=>(
               <Marker
                 coordinate={{
+                  id : marker.id,
                   latitude : marker.y,
                   longitude: marker.x,
                 }}
@@ -163,16 +203,13 @@ const MapMain=({navigation})=>{
 
         </View>
 
-
       </View>
     </>
   );
 
 
 
-
 }
-
 
 
 
@@ -266,3 +303,5 @@ image:{
 })
 
 export default MapMain;
+
+

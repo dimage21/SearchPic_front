@@ -6,10 +6,13 @@ import preURL from "../../preURL/preURL";
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Searchbar } from "react-native-paper";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as tokenHandling from "../../constants/TokenErrorHandle";
 
 
 const LikedMarkers=({navigation})=>{
+  const [token, setToken] = useState("");
+
   const [markers, setMarkers] = useState(null);
   const [search, setSearch] = useState("");
   
@@ -17,28 +20,56 @@ const LikedMarkers=({navigation})=>{
   const updateSearch = (search) => {
     setSearch(search);
   };
+
+  console.log("======================[내가좋아요한장소]===================");
+
+  const getUserToken = async () => {
+    const userToken = await AsyncStorage.getItem("userToken");
+    setToken(userToken);
+    console.log("userToken ", userToken);
+    setToken(
+      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjQzMjU0OTQ4LCJleHAiOjE2NDU0MDI0MzJ9.UdIPl8AtRoX9mFKfrA_dLcp8aQXGZ65x8EcmcyTX3XM"
+    );
+  };
   
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
 
   useEffect(() => {
+    getUserToken();
+    console.log("토큰: ", token);
+  }, []);
+
+  useEffect(() => {
+    console.log("config: ", config);
+    getMarkInfo();
+  }, [token]);
+  
+  //load Data
+  const getMarkInfo = () => {
     axios
-      .get(preURL.preURL + "/locations/filter/mark")
+      .get(preURL.preURL + "/locations/filter/mark", config)
       .then((res) =>{
         console.log("📍좋아요한 장소 응답 받았다! ", res.data.data);
         setMarkers(res.data.data);
       })
       .catch((err)=>{
         console.log("📍좋아요한 장소 에러 발생❗️ ", err);
+        tokenHandling.tokenErrorHandling();
       });
       
       
-  }, []);
+  };
  
 
 
 
 
   //initialRegion
-  const [initialRegion, setInitalResion] = useState({
+  const [initialRegion, setInitialRegion] = useState({
     latitude: 33.4099997,
             longitude: 126.4873745,
             latitudeDelta: 1,
@@ -79,6 +110,7 @@ const LikedMarkers=({navigation})=>{
             markers.map((marker)=>(
               <Marker
                 coordinate={{
+                  id : marker.id,
                   latitude : marker.y,
                   longitude: marker.x,
                 }}
@@ -86,8 +118,8 @@ const LikedMarkers=({navigation})=>{
                 <Callout tooltip>
                   <View>
                     <View style={styles.bubble}>
-                      <Text style={styles.name}>Place Name</Text>
-                      <Text>포토스팟 위치 주소</Text>   
+                      <Text style={styles.name}>{marker.placeName}</Text>
+                      <Text>{marker.address}</Text>   
                       <Image
                         style={styles.image}
                         source={{
@@ -104,6 +136,8 @@ const LikedMarkers=({navigation})=>{
             ))}
           
         </MapView>
+
+        {/* 상단 버튼 3개 */}
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={{
@@ -143,7 +177,9 @@ const LikedMarkers=({navigation})=>{
           >
             <Text>내가 좋아요한 장소</Text>
           </TouchableOpacity>
-      </View>
+        </View>
+
+        {/* 포토스팟 추가버튼 */}
         <View style={styles.addPhotoContainer}>
           <TouchableOpacity
           onPress={()=>navigation.navigate("AddPlaceMain")}
