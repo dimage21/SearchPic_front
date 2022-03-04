@@ -109,7 +109,7 @@ const AnalysisMain = ({ navigation }) => {
       })
       .catch((err) => {
         console.log("에러 발생 ", err);
-        tokenHandling.tokenErrorHandling();
+        tokenHandling.tokenErrorHandling(err);
       });
 
     return () => {

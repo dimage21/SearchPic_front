@@ -37,18 +37,18 @@ const App = () => {
         "refresh-token": rToken,
       },
     };
-    if (token == null || "") {
-      axios
-        .get(preURL.preURL + "reissue/access-token", config)
-        .then((res) => {
-          console.log("응답 받았다! - 엑세스 토큰", res.data);
-          AsyncStorage.setItem("userToken", res.data.accessToken);
-          AsyncStorage.setItem("refreshToken", res.data.refreshToken);
-        })
-        .catch((err) => {
-          console.log("에러 발생❗️ - 엑세스 토큰 재발급", err);
-        });
-    }
+    // if (token == null || "") {
+    //   axios
+    //     .get(preURL.preURL + "reissue/access-token", config)
+    //     .then((res) => {
+    //       console.log("응답 받았다! - 엑세스 토큰", res.data);
+    //       AsyncStorage.setItem("userToken", res.data.accessToken);
+    //       AsyncStorage.setItem("refreshToken", res.data.refreshToken);
+    //     })
+    //     .catch((err) => {
+    //       console.log("App 에러 발생❗️ - 엑세스 토큰 재발급", err);
+    //     });
+    // }
   }, []);
 
   return (
@@ -60,7 +60,7 @@ const App = () => {
             headerShown: false,
           }}
         >
-          {token ? (
+          {/* {token == null || rtoken == null ? (
             <MainStack.Screen
               name="Start"
               component={Start}
@@ -68,7 +68,7 @@ const App = () => {
             />
           ) : (
             <></>
-          )}
+          )} */}
           <MainStack.Screen
             name="NavTabs"
             component={NavTabs}

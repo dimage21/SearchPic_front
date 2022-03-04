@@ -13,6 +13,7 @@ import { NaverLogin, getProfile } from "@react-native-seoul/naver-login";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import preURL from "../../preURL/preURL";
+import * as tokenHandling from "../../constants/TokenErrorHandle";
 
 const iosKeys = {
   kConsumerKey: "WfY6pghIqcFwpkxA7YYj",
@@ -34,47 +35,58 @@ const initials = Platform.OS === "ios" ? iosKeys : androidKeys;
 const StartMain = ({ navigation }) => {
   const [naverToken, setNaverToken] = React.useState(null);
   const [userId, setUserId] = useState(-1);
-  const [aToken, setAccessToken] = useState("");
+  let [aToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
   const [spToken, setSpToken] = useState("");
 
-  const naverLogin = (props) => {
-    NaverLogin.login(props, (err, token) => {
-      console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
-      setNaverToken(token);
+  useEffect(() => {
+    console.log("=============[StartMain]============");
+  });
 
-      if (err) {
-        return err;
-      }
-      console.log("pass token");
-      return token;
+  const naverLogin = (props) => {
+    return new Promise((resolve, reject) => {
+      NaverLogin.login(props, (err, token) => {
+        console.log("token : ", token);
+        console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
+        setNaverToken(token);
+        console.log("naverToken : ", naverToken);
+        setAccessToken(token.accessToken);
+        AsyncStorage.setItem("token", aToken);
+        console.log("aToken : ", aToken);
+        setRefreshToken(token.refreshToken);
+        AsyncStorage.setItem("userToken", spToken);
+        AsyncStorage.setItem("refreshToken", refreshToken);
+        if (err) {
+          reject(err);
+
+          return;
+        }
+        resolve(token);
+      });
+      AsyncStorage.setItem("isLogin", "true");
     });
   };
+
+  useEffect(() => {
+    getUserProfile();
+  }, [naverToken]);
 
   const naverLogout = () => {
     NaverLogin.logout();
     setNaverToken("");
   };
 
-  useEffect(() => {
-    AsyncStorage.setItem("isLogin", "false");
-    if (naverToken !== null && AsyncStorage.getItem("isLogin") !== "true") {
-      getUserProfile();
-    }
-  }, [naverToken]);
-
   const postUserInfo = async (token) => {
     console.log("postUserInfo - accessToken:", token);
     await axios
-      .get(`http://192.168.19.25:8080/login/naver?token=${token}`)
+      .get(preURL.preURL + `/login/naver?token=${token}`)
       .then(async (res) => {
         console.log("토큰 보냈다!");
         console.log("응답:", res.data.data.accessToken);
         setSpToken(res.data.data.accessToken);
       })
       .catch((err) => {
-        console.log("에러 발생 ");
-        console.log(err);
+        console.log("에러 발생 - 유저 정보 전송", err.response.data);
       });
 
     if (userId !== -1) {
@@ -86,38 +98,48 @@ const StartMain = ({ navigation }) => {
     naverLogin(props);
   };
 
-  const setLogin = async () => {
-    await AsyncStorage.setItem("isLogin", "true");
-    await AsyncStorage.setItem("token", JSON.stringify(naverToken));
-    await AsyncStorage.setItem("userToken", JSON.stringify(spToken));
+  const config = {
+    headers: {
+      Authorization: `Bearer ${refreshToken}`,
+    },
   };
+
+  useEffect(() => {
+    AsyncStorage.setItem("isLogin", "false");
+  }, []);
 
   const hanldeContinue = async () => {
     const isLogin = await AsyncStorage.getItem("isLogin");
-    Alert.alert("환영합니다.");
-    navigation.navigate("Profile", { spToken: spToken });
-    /*if (isLogin === "true") {
+    // navigation.navigate("Profile", { spToken: spToken });
+    console.log(isLogin, "&&", aToken, "&&", refreshToken);
+    if (
+      isLogin != null &&
+      aToken != null &&
+      aToken != "" &&
+      refreshToken != null &&
+      refreshToken != ""
+    ) {
       Alert.alert("환영합니다.");
       navigation.navigate("NavTab");
     } else {
       Alert.alert(
         "사용자 정보가 없습니다.\n시작하기 버튼을 눌러 가입을 해주세요."
       );
-    }*/
+    }
   };
 
   const getUserProfile = async () => {
     const profileResult = await getProfile(naverToken.accessToken);
-    console.log("profile:", profileResult);
-    console.log("email:", profileResult.response.email);
     if (profileResult.resultcode === "024") {
       Alert.alert("로그인 실패", profileResult.message);
       return;
     } else {
-      // const id = await postUserInfo({
-      //   username: profileResult.response.name,
-      //   identifier: profileResult.response.id,
-      // });
+      const id = await postUserInfo({
+        username: profileResult.response.name,
+        identifier: profileResult.response.id,
+      });
+      console.log("profileResult", profileResult);
+
       if (naverToken == null) {
         console.log("Token: null");
       } else {
@@ -127,22 +149,26 @@ const StartMain = ({ navigation }) => {
         setAccessToken(naverToken.accessToken);
         console.log("accessToken 2:", aToken);
         AsyncStorage.setItem("userToken", aToken);
-        postUserInfo(naverToken.accessToken);
+        postUserInfo(aToken);
       }
+      console.log(
+        "로그인 url : ",
+        preURL.preURL + `/login/naver?token=${aToken}`
+      );
       axios
-        .get(preURL.preURL + `/login/naver?token=${accessToken}`)
+        .get(preURL.preURL + `/login/naver?token=${aToken}`)
         .then((res) => {
-          console.log(res.data);
+          console.log("로그인했다! : ", res.data);
           setRefreshToken(res.data.refreshToken);
           AsyncStorage.setItem("refreshToken", res.data.refreshToken);
           AsyncStorage.setItem("userToken", res.data.accessToken);
+          console.log("로그인 성공");
+          Alert.alert(`${profileResult.response.email}님 환영합니다`);
+          navigation.navigate("Profile", { name: profileResult.response.name });
         })
         .catch((err) => {
-          console.log("에러 발생 ❗️ - 로그인 ", err);
+          console.log("에러 발생 ❗️ - 로그인 ", err.response.data);
         });
-      console.log("로그인 성공");
-      Alert.alert(`${profileResult.response.email}님 환영합니다`);
-      navigation.navigate("Profile", { name: profileResult.response.name });
     }
   };
 

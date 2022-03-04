@@ -1,5 +1,5 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   SafeAreaView,
   TouchableOpacity,
@@ -10,12 +10,14 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
 import preURL from "../../preURL/preURL";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Setting = ({ navigation }) => {
   const [refreshToken, setRefreshToken] = useState("");
 
-  getRefreshToken = async () => {
+  const getRefreshToken = async () => {
     const refreshToken = await AsyncStorage.getItem("refreshToken");
+    console.log("refreshToken-Test : ", refreshToken);
     setRefreshToken(refreshToken);
   };
 
@@ -36,6 +38,10 @@ const Setting = ({ navigation }) => {
         console.log("에러 발생 ❗️ - 로그아웃", err);
       });
   };
+
+  useEffect(() => {
+    getRefreshToken();
+  }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#ffffff" }}>

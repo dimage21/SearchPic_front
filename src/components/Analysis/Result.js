@@ -59,7 +59,7 @@ const Result = ({ navigation, route }) => {
       .catch((err) => {
         console.log("에러 발생 ");
         console.log(err);
-        tokenHandling.tokenErrorHandling();
+        tokenHandling.tokenErrorHandling(err);
       });
   };
 
@@ -74,7 +74,7 @@ const Result = ({ navigation, route }) => {
       .catch((err) => {
         console.log("에러 발생 ");
         console.log(err);
-        tokenHandling.tokenErrorHandling();
+        tokenHandling.tokenErrorHandling(err);
       });
   };
 

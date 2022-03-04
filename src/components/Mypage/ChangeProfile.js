@@ -127,9 +127,8 @@ const ChangeProfile = ({ navigation }) => {
         navigation.navigate("Setting");
       })
       .catch((err) => {
-        console.log("에러 발생 ");
-        console.log(err);
-        tokenHandling.tokenErrorHandling();
+        console.log("에러 발생 - 프로필 변경 : ", err.response.data);
+        tokenHandling.tokenErrorHandling(err.response.data);
       });
   };
   return (

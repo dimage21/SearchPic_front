@@ -5,8 +5,7 @@ import AddPlaceMain from "../components/Map/AddPlaceMain";
 import Upload from "../components/Map/Upload";
 import UploadMarkers from "../components/Map/UploadMarkers";
 import LikedMarkers from "../components/Map/LikedMarkers";
-import PlaceInfo from "../components/Map/PlaceInfo";
-
+// import PlaceInfo from "../components/Map/PlaceInfo";
 
 const MapStack = createNativeStackNavigator();
 
@@ -38,11 +37,11 @@ const Map = () => {
         component={LikedMarkers}
         options={{ headerShown: false }}
       />
-      <MapStack.Screen
+      {/* <MapStack.Screen
         name="PlaceInfo"
         component={PlaceInfo}
         options={{ headerShown: false }}
-      />
+      /> */}
     </MapStack.Navigator>
   );
 };

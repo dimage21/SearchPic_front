@@ -67,8 +67,7 @@ const Detail = ({ navigation, route }) => {
       })
       .catch((err) => {
         console.log("에러 발생 - 장소 요청", err);
-        console.log(err);
-        tokenHandling.tokenErrorHandling();
+        tokenHandling.tokenErrorHandling(err);
       });
 
     axios
@@ -80,7 +79,7 @@ const Detail = ({ navigation, route }) => {
       .catch((err) => {
         console.log("에러 발생 - 근처 장소 요청 ");
         console.log(err);
-        tokenHandling.tokenErrorHandling();
+        tokenHandling.tokenErrorHandling(err);
       });
 
     return () => {
@@ -147,7 +146,7 @@ const Detail = ({ navigation, route }) => {
       .catch((err) => {
         console.log("에러 발생 - 분석 결과 요청 ");
         console.log(err);
-        tokenHandling.tokenErrorHandling();
+        tokenHandling.tokenErrorHandling(err);
       });
   };
 
