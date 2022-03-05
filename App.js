@@ -60,7 +60,7 @@ const App = () => {
             headerShown: false,
           }}
         >
-          {/* {token == null || rtoken == null ? (
+          {token == null || rtoken == null ? (
             <MainStack.Screen
               name="Start"
               component={Start}
@@ -68,7 +68,7 @@ const App = () => {
             />
           ) : (
             <></>
-          )} */}
+          )}
           <MainStack.Screen
             name="NavTabs"
             component={NavTabs}

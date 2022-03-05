@@ -38,13 +38,15 @@ const StartMain = ({ navigation }) => {
   let [aToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
   const [spToken, setSpToken] = useState("");
+  const [email, setEmail] = useState("");
+  const [id, setID] = useState("");
 
   useEffect(() => {
     console.log("=============[StartMain]============");
   });
 
-  const naverLogin = (props) => {
-    return new Promise((resolve, reject) => {
+  const naverLogin = async (props) => {
+    return await new Promise((resolve, reject) => {
       NaverLogin.login(props, (err, token) => {
         console.log("token : ", token);
         console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
@@ -54,7 +56,7 @@ const StartMain = ({ navigation }) => {
         AsyncStorage.setItem("token", aToken);
         console.log("aToken : ", aToken);
         setRefreshToken(token.refreshToken);
-        AsyncStorage.setItem("userToken", spToken);
+        // AsyncStorage.setItem("userToken", spToken);
         AsyncStorage.setItem("refreshToken", refreshToken);
         if (err) {
           reject(err);
@@ -69,6 +71,19 @@ const StartMain = ({ navigation }) => {
 
   useEffect(() => {
     getUserProfile();
+    // console.log("aToken-test : ", aToken);
+    // axios
+    //   .get("https://openapi.naver.com/v1/nid/me", {
+    //     headers: {
+    //       Authorization: `Bearer ${aToken}`,
+    //     },
+    //   })
+    //   .then((res) => {
+    //     console.log("res-test : ", res);
+    //   })
+    //   .catch((err) => {
+    //     console.log("err-test : ", err);
+    //   });
   }, [naverToken]);
 
   const naverLogout = () => {
@@ -76,23 +91,30 @@ const StartMain = ({ navigation }) => {
     setNaverToken("");
   };
 
-  const postUserInfo = async (token) => {
+  /*const postUserInfo = async (token) => {
     console.log("postUserInfo - accessToken:", token);
     await axios
-      .get(preURL.preURL + `/login/naver?token=${token}`)
+      // .get(preURL.preURL + `/login/naver?token=${token}`)
+      .post(preURL.preURL + `/login`, {
+        email: email,
+        provider: {
+          providerId: id,
+          providerName: "NAVER",
+        },
+      })
       .then(async (res) => {
         console.log("토큰 보냈다!");
         console.log("응답:", res.data.data.accessToken);
         setSpToken(res.data.data.accessToken);
       })
       .catch((err) => {
-        console.log("에러 발생 - 유저 정보 전송", err.response.data);
+        console.log("에러 발생 - 유저 정보 전송", err);
       });
 
     if (userId !== -1) {
       await setLogin();
     }
-  };
+  };*/
 
   const Login = (props) => {
     naverLogin(props);
@@ -134,12 +156,9 @@ const StartMain = ({ navigation }) => {
       Alert.alert("로그인 실패", profileResult.message);
       return;
     } else {
-      const id = await postUserInfo({
-        username: profileResult.response.name,
-        identifier: profileResult.response.id,
-      });
       console.log("profileResult", profileResult);
-
+      setEmail(profileResult.response.email);
+      setID(profileResult.response.id);
       if (naverToken == null) {
         console.log("Token: null");
       } else {
@@ -149,19 +168,26 @@ const StartMain = ({ navigation }) => {
         setAccessToken(naverToken.accessToken);
         console.log("accessToken 2:", aToken);
         AsyncStorage.setItem("userToken", aToken);
-        postUserInfo(aToken);
+        // postUserInfo(aToken);
       }
-      console.log(
-        "로그인 url : ",
-        preURL.preURL + `/login/naver?token=${aToken}`
-      );
+      // console.log(
+      //   "로그인 url : ",
+      //   preURL.preURL + `/login/naver?token=${aToken}`
+      // );
       axios
-        .get(preURL.preURL + `/login/naver?token=${aToken}`)
+        // .get(preURL.preURL + `/login/naver?token=${aToken}`)
+        .post(preURL.preURL + `/login`, {
+          email: email,
+          provider: {
+            providerId: id,
+            providerName: "NAVER",
+          },
+        })
         .then((res) => {
-          console.log("로그인했다! : ", res.data);
-          setRefreshToken(res.data.refreshToken);
-          AsyncStorage.setItem("refreshToken", res.data.refreshToken);
-          AsyncStorage.setItem("userToken", res.data.accessToken);
+          console.log("로그인했다! : ", res.data.data);
+          setRefreshToken(res.data.data.refreshToken);
+          AsyncStorage.setItem("refreshToken", res.data.data.refreshToken);
+          AsyncStorage.setItem("userToken", res.data.data.accessToken);
           console.log("로그인 성공");
           Alert.alert(`${profileResult.response.email}님 환영합니다`);
           navigation.navigate("Profile", { name: profileResult.response.name });
@@ -169,6 +195,9 @@ const StartMain = ({ navigation }) => {
         .catch((err) => {
           console.log("에러 발생 ❗️ - 로그인 ", err.response.data);
         });
+    }
+    if (userId !== -1) {
+      await setLogin();
     }
   };
 

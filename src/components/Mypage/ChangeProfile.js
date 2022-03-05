@@ -14,6 +14,7 @@ import { launchImageLibrary } from "react-native-image-picker";
 import axios from "axios";
 import preURL from "../../preURL/preURL";
 import * as tokenHandling from "../../constants/TokenErrorHandle";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ChangeProfile = ({ navigation }) => {
   const [nickName, setNickName] = useState("");
