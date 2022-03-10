@@ -1,25 +1,50 @@
 import axios from "axios";
 import React, {useEffect, useState, Component} from "react";
-import {View, Text, Button, Alert, StyleSheet, Image} from "react-native";
+import {View, Text, Button, Alert, StyleSheet, Image,TextInput} from "react-native";
 import MapView, {PROVIDER_GOOGLE, Marker, Callout} from "react-native-maps";
 import preURL from "../../preURL/preURL";
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Searchbar } from "react-native-paper";
+import Geolocation from '@react-native-community/geolocation';
+// import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
+
+
+
 
 
 
 const MapMain=({navigation})=>{
-  const [markers, setMarkers] = useState(null);
-  const [search, setSearch] = useState("");
   
+
+  const [markers, setMarkers] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [location, setLocation] = useState(null)
+  
+  console.log("======================[MapMain]===================");
+
   //search bar
-  const updateSearch = (search) => {
-    setSearch(search);
+  const updateSearch = (searchQuery) => {
+    setSearchQuery(searchQuery);
+    console.log("🔍검색창 : ", searchQuery)
   };
 
+    // // load Search Bar Data
+    // useEffect(() => {
 
-  //load Data
+    //   axios
+    //     .get(preURL.preURL + '/locations?query='+searchQuery)
+    //     .then((res) => {
+    //       console.log("🔍지도검색 응답 받았다! ", res.data.data);
+    //       setPData(res.data.data);
+    //     })
+    //     .catch((err) => {
+    //       console.log("🔍지도검색 에러 발생❗️ ", err);
+    //     });
+    //   setValue();
+    // }, [value]);
+
+  //load Location Data
   useEffect(() => {
     axios
       .get(preURL.preURL + "/locations/filter")
@@ -34,34 +59,38 @@ const MapMain=({navigation})=>{
       
   }, []);
 
+  useEffect(() => { 
+    Geolocation.getCurrentPosition(
+      position => {
+        const { latitude, longitude } = position.coords
+        setLocation({ latitude, longitude })
+      },
+      error => {
+        console.log(error.code, error.message)
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+    )
+  }, [])
 
-    //initialRegion
-  const [initialRegion, setInitalResion] = useState({
-      latitude: 33.4099997,
-      longitude: 126.4873745,
-      latitudeDelta: 1,
-      longitudeDelta: 1,
-   })
- 
-  //안드로이드용 현재위치 버튼 활성화
-  const [mapWidth, setMapWidth] = useState('99%');
-  const updateMapStyle = () => {
-    setMapWidth('100%')
-  }
-
-  
-
+    //안드로이드용 현재위치 버튼 활성화
+    const [mapWidth, setMapWidth] = useState('99%');
+    const updateMapStyle = () => {
+      setMapWidth('100%')
+    }
 
   return(
     <>
       <View style = {{flex : 1}}>
         <View style={styles.searchBar}>
           <Searchbar
+            value={searchQuery}
+            // onIconPress={}
             placeholder="Type Here..."
             onChangeText={updateSearch}
-            value={search}
+            // updateSearch = {updateSearch}
           />
         </View>
+        { location && (
         <MapView
         style={[{flex: 1}, {width : mapWidth} ]}
         provider={PROVIDER_GOOGLE}
@@ -70,7 +99,13 @@ const MapMain=({navigation})=>{
         followsUserLocation={true}
         zoomEnabled = {true}
         onPress={this.pickLocationHandler}
-        initialRegion={initialRegion}
+        initialRegion={{
+          latitude: location.latitude,
+          longitude: location.longitude,
+          latitudeDelta:1,
+          longitudeDelta:1,
+        }}
+        // initialRegion={initialRegion}
         onMapReady={()=> {
           updateMapStyle()
         }}
@@ -79,6 +114,7 @@ const MapMain=({navigation})=>{
             markers.map((marker)=>(
               <Marker
                 coordinate={{
+                  id : marker.id,
                   latitude : marker.y,
                   longitude: marker.x,
                 }}
@@ -102,8 +138,8 @@ const MapMain=({navigation})=>{
                 </Callout>
               </Marker>
             ))}
-          
-        </MapView>
+        
+        </MapView>)}
 
         {/* 상단 버튼 3개 */}
         <View style={styles.buttonContainer}>
@@ -163,17 +199,12 @@ const MapMain=({navigation})=>{
 
         </View>
 
-
       </View>
     </>
   );
 
 
-
-
 }
-
-
 
 
 const styles = StyleSheet.create({

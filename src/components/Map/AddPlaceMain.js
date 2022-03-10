@@ -31,6 +31,7 @@ const AddPlaceMain = ({navigation}) =>{
                     backgroundColor: "#ffffff",
                     padding:16,
                     margin: 10,
+                    alignItems : 'center',
                     }}
                 onPress={()=>navigation.navigate("Upload")}
             >
@@ -42,6 +43,7 @@ const AddPlaceMain = ({navigation}) =>{
                 backgroundColor: "#ffffff",
                 padding:16,
                 margin: 10,
+                alignItems: 'center',
                 }}
                 onPress={()=>navigation.navigate("MapMain")}
             >
