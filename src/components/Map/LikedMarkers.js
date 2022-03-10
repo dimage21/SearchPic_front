@@ -28,7 +28,7 @@ const LikedMarkers=({navigation})=>{
     setToken(userToken);
     console.log("userToken ", userToken);
     setToken(
-      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjQzMjU0OTQ4LCJleHAiOjE2NDU0MDI0MzJ9.UdIPl8AtRoX9mFKfrA_dLcp8aQXGZ65x8EcmcyTX3XM"
+      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjQ1NTMwNDQ5LCJleHAiOjE2NDc2Nzc5MzN9.65q5K9uUUeCrXt7ZckdaKhheKPBROrSBrbX8TqdKVTk"
     );
   };
   

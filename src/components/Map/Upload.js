@@ -30,7 +30,7 @@ const Upload = ({navigation}) =>{
         setToken(userToken);
         console.log("userToken ", userToken);
         setToken(
-          "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjQ1NTMwNDQ5LCJleHAiOjE2NDc2Nzc5MzN9.65q5K9uUUeCrXt7ZckdaKhheKPBROrSBrbX8TqdKVTk"
+          'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjQ1NTMwNDQ5LCJleHAiOjE2NDc2Nzc5MzN9.65q5K9uUUeCrXt7ZckdaKhheKPBROrSBrbX8TqdKVTk'
         );
     };
     
@@ -184,8 +184,9 @@ const Upload = ({navigation}) =>{
             // console.log(assets);
             // console.log("filePath:", filePath);
             setProcess(true);
-            
+
             console.log("📸장소uri:", assets.uri);
+            
             // console.log("📸장소logitude:", response.longitude);
             // console.log("📸장소latitude:", response.latitude);
 
@@ -212,12 +213,12 @@ const Upload = ({navigation}) =>{
   },[]);
     
     const onClickHandler = (event) =>{
-        const formData = new FormData();
-
         const imageFormData = new FormData();
-
+        
         let image = {
             uri : filePath.uri,
+            type: filePath.type,
+            name: filePath.fileName,
             latitude : currentLaditude,
             longitude : currentLongitude,
         };
@@ -233,9 +234,6 @@ const Upload = ({navigation}) =>{
             },
         };
 
-        // console.log("사진추가요청:", formData, config);
-        // console.log("imageFormData: ", imageFormData);
-
         let data = {
             memo : memo,
             tags : keyWord,
@@ -244,13 +242,13 @@ const Upload = ({navigation}) =>{
         // console.log("tags = ", keyWord);
 
         console.log ("data 출력 ", data)
-        
-        
+        console.log ("data stringify ", JSON.stringify(data))
         imageFormData.append("data", {
             string: JSON.stringify(data),
             type: "application/json",
         });
-        // console.log("데이터 요청:", formData, config);
+        
+        console.log("long = "+currentLongitude + " lat: "+currentLaditude)
         console.log("imageFormData : ", imageFormData);
         console.log("post : ", preURL.preURL + "/post?x="+currentLongitude+"&y="+currentLaditude)
         axios
@@ -267,7 +265,7 @@ const Upload = ({navigation}) =>{
                 tokenHandling.tokenErrorHandling();
             });
     };
-    
+
     return(
         <>
         <SafeAreaView style={{ flex: 1, padding: 15, backgroundColor: "#ffffff" }}>
@@ -308,14 +306,14 @@ const Upload = ({navigation}) =>{
                             <TouchableOpacity style = {styles.button1}  
                                             onPress={TakePhoto}
                             >
-                                <Text style={{color:"#000000", fontsize: 10}}>
+                                <Text style={{color:'black', fontsize: 10}}>
                                 사진 촬영
                                 </Text>
                             </TouchableOpacity>
                             <TouchableOpacity style ={styles.button2}
                                             onPress={ImagePicker}
                             >
-                                <Text style={{color:"#000000", fontsize: 10}}>
+                                <Text style={{color:'black', fontsize: 10}}>
                                 갤러리
                                 </Text>
                             </TouchableOpacity>
@@ -401,6 +399,7 @@ const Upload = ({navigation}) =>{
             <View
                 style={{
                 // display: "flex",
+                flexDirection : 'row',
                 justifyContent: "center",
                 alignItems: "center",
                 marginTop: "10%",
@@ -408,19 +407,36 @@ const Upload = ({navigation}) =>{
                 <TouchableOpacity
                     onPress={() => {
                         onClickHandler()
-                        // navigation.navigate("MapMain")
                     }}
                     style={{
-                    width: 200,
+                    width: 100,
                     height: 50,
                     backgroundColor: "#001A72",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
                     borderRadius: 15,
+                    margin: 10,
                     }}
                 >
                     <Text style={{ color: "white", fontSize: 17 }}>저장하기</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.navigate('MapMain')
+                    }}
+                    style={{
+                    width: 100,
+                    height: 50,
+                    backgroundColor: "#c4c4c4",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: 15,
+                    margin : 10,
+                    }}
+                >
+                    <Text style={{ color: "black", fontSize: 17 }}>취소하기</Text>
                 </TouchableOpacity>
             </View>
             </ScrollView>
@@ -468,7 +484,3 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
   });
-  
-  
-
-
