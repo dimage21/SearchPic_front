@@ -26,7 +26,7 @@ const Detail = ({ navigation, route }) => {
   const [loading, setLoading] = useState(false);
 
   const [mark, setMark] = useState(place.marked);
-  const [token, setToken] = useState("");
+  let [token, setToken] = useState("");
   const [IFF, setIFF] = useState();
 
   console.log("=======================[Detail]======================");
@@ -35,19 +35,21 @@ const Detail = ({ navigation, route }) => {
     const userToken = await AsyncStorage.getItem("userToken");
     setToken(userToken);
     console.log("userToken ", userToken);
-  };
+    console.log("token : ", token);
 
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  useEffect(() => {
-    getUserToken();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    };
 
     let isMount = true;
 
+    console.log(
+      "하나의 장소 조회 request ",
+      preURL.preURL + `/location/${locationId}`,
+      config
+    );
     axios
       .get(preURL.preURL + `/location/${locationId}`, config)
       .then((res) => {
@@ -77,6 +79,10 @@ const Detail = ({ navigation, route }) => {
     return () => {
       isMount = false;
     };
+  };
+
+  useEffect(() => {
+    getUserToken();
   }, []);
 
   const postMark = () => {

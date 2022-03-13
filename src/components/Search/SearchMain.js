@@ -65,11 +65,18 @@ const SearchMain = ({ navigation }) => {
     setModal(false);
   }, []);
 
+  const searchPop = (name) => {
+    setKeyword(name);
+    setValue("RECENT");
+    postKeyword();
+    setResultPage(true);
+  };
+
   const renderItem = ({ item }) => {
     console.log("item(인기 태그) 불러옴");
     return (
       <View style={{ margin: 10 }}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => searchPop(`${itme.name}`)}>
           <ImageBackground
             source={{ uri: `${item.url}` }}
             style={{
@@ -95,7 +102,6 @@ const SearchMain = ({ navigation }) => {
   };
 
   const postKeyword = () => {
-    console.log("검색 키워드: ", keyword);
     console.log("보낼 키워드: ", keyword);
     console.log("보낼 정렬 기준: ", value);
     console.log("page: ", page);
@@ -112,11 +118,11 @@ const SearchMain = ({ navigation }) => {
     console.log(
       "url 확인 : ",
       preURL.preURL +
-        `posts/search?page=${page}&tags=${rkeywords}&order=${value}`
+        `/posts/search?page=${page}&tags=${rkeywords}&order=${value}`
     );
     fetch(
       preURL.preURL +
-        `posts/search?page=${page}&tags=${rkeywords}&order=${value}`
+        `/posts/search?page=${page}&tags=${rkeywords}&order=${value}`
     )
       .then((response) => response.json())
       .then((data) => {
