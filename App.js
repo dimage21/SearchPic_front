@@ -60,14 +60,15 @@ const App = () => {
             headerShown: false,
           }}
         >
-          {token ? (
-            <MainStack.Screen
-              name="Start"
-              component={Start}
-              options={{ headerShown: false }}
-            />
-          ) : (
-            <></>
+          { (token !== null || token !== "null") ? 
+          ( 
+            <></> 
+          ) :
+          ( 
+            <MainStack.Screen name="Start" 
+            component={Start} 
+            options={{ headerShown: false }} 
+            /> 
           )}
           <MainStack.Screen
             name="NavTabs"
@@ -100,3 +101,4 @@ const App = () => {
   );
 };
 export default App;
+console.disableYellowBox = true;

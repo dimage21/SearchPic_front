@@ -14,11 +14,11 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import preURL from "../../preURL/preURL";
 
-const iosKeys = {
+const iosKeys = { 
   kConsumerKey: "WfY6pghIqcFwpkxA7YYj",
   kConsumerSecret: "UpneszQ3W_",
   kServiceAppName: "테스트앱(iOS)",
-  kServiceAppUrlScheme: "searchpicture_frontlogin",
+  kServiceAppUrlScheme: "searchpicturefrontlogin",
 };
 
 const androidKeys = {
@@ -47,6 +47,7 @@ const StartMain = ({ navigation }) => {
         return err;
       }
       console.log("pass token");
+      getUserProfile();
       return token;
     });
   };
@@ -66,7 +67,7 @@ const StartMain = ({ navigation }) => {
   const postUserInfo = async (token) => {
     console.log("postUserInfo - accessToken:", token);
     await axios
-      .get(`http://192.168.19.25:8080/login/naver?token=${token}`)
+      .get(preURL.preURL + `/login/naver?token=${token}`)
       .then(async (res) => {
         console.log("토큰 보냈다!");
         console.log("응답:", res.data.data.accessToken);
@@ -130,7 +131,7 @@ const StartMain = ({ navigation }) => {
         postUserInfo(naverToken.accessToken);
       }
       axios
-        .get(preURL.preURL + `/login/naver?token=${accessToken}`)
+        .get(preURL.preURL + `/login/naver?token=${aToken}`)
         .then((res) => {
           console.log(res.data);
           setRefreshToken(res.data.refreshToken);
@@ -199,7 +200,6 @@ const StartMain = ({ navigation }) => {
                 source={require("../../assets/icons/Home/naverLogin.png")}
               />
             </Btn2>
-
             <Btn
               style={{ marginTop: height * 0.025 }}
               onPress={() => hanldeContinue()}
