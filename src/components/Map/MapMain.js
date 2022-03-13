@@ -1,48 +1,64 @@
 import axios from "axios";
 import React, {useEffect, useState, Component} from "react";
-import {View, Text, Button, Alert, StyleSheet, Image,TextInput} from "react-native";
+import {View, Text, Button, Alert, StyleSheet, Image,Feather} from "react-native";
 import MapView, {PROVIDER_GOOGLE, Marker, Callout} from "react-native-maps";
 import preURL from "../../preURL/preURL";
+import * as tokenHandling from "../../constants/TokenErrorHandle";
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Searchbar } from "react-native-paper";
 import Geolocation from '@react-native-community/geolocation';
-// import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 
 
 
 
 
 
-const MapMain=({navigation})=>{
-  
+const MapMain=({navigation})=>{  
 
   const [markers, setMarkers] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [location, setLocation] = useState(null)
+  const [locationSelected, setLocationSelected] = useState(null);
+  const [nearPlace, setNearPlace] = useState(null);
+  const [location, setLocation] = useState(null);
   
   console.log("======================[MapMain]===================");
 
-  //search bar
+  //search bar Data
   const updateSearch = (searchQuery) => {
     setSearchQuery(searchQuery);
     console.log("🔍검색창 : ", searchQuery)
+    axios
+      .get(preURL.preURL + '/api/locations?query='+searchQuery)
+      .then((res) => {
+              console.log("🔍지도검색 응답 받았다! ", res.data.data);
+              setNearPlace(res.data.data);
+            })
+      .catch((err) => {
+               console.log("🔍지도검색 에러 발생❗️ ", err);
+            });
+    
   };
 
-    // // load Search Bar Data
-    // useEffect(() => {
+  // select Location
+  const updateLocation = (locationSelected)=>{
+    setLocationSelected(locationSelected);
+    console.log("리스트 선택 : ", locationSelected)
+  };
 
-    //   axios
-    //     .get(preURL.preURL + '/locations?query='+searchQuery)
-    //     .then((res) => {
-    //       console.log("🔍지도검색 응답 받았다! ", res.data.data);
-    //       setPData(res.data.data);
-    //     })
-    //     .catch((err) => {
-    //       console.log("🔍지도검색 에러 발생❗️ ", err);
-    //     });
-    //   setValue();
-    // }, [value]);
+  // Region Change
+  // const [updateRegion, setUpdateRegion] = useState(null);
+  // const onRegionChange = () => {
+  //   setUpdateRegion({
+  //     latitude: setLocationSelected.y,
+  //     longitude : setLocationSelected.x,
+  //     latitudeDelta:0.2,
+  //     longitudeDelta:0.2,
+  //    })
+  // }
+
 
   //load Location Data
   useEffect(() => {
@@ -59,6 +75,7 @@ const MapMain=({navigation})=>{
       
   }, []);
 
+  //Get User's Current Position
   useEffect(() => { 
     Geolocation.getCurrentPosition(
       position => {
@@ -72,24 +89,19 @@ const MapMain=({navigation})=>{
     )
   }, [])
 
-    //안드로이드용 현재위치 버튼 활성화
-    const [mapWidth, setMapWidth] = useState('99%');
-    const updateMapStyle = () => {
+  //안드로이드용 현재위치 버튼 활성화
+  const [mapWidth, setMapWidth] = useState('99%');
+  const updateMapStyle = () => {
       setMapWidth('100%')
-    }
+  }
+    
+  
 
   return(
     <>
-      <View style = {{flex : 1}}>
-        <View style={styles.searchBar}>
-          <Searchbar
-            value={searchQuery}
-            // onIconPress={}
-            placeholder="Type Here..."
-            onChangeText={updateSearch}
-            // updateSearch = {updateSearch}
-          />
-        </View>
+    <View style = {{flex : 1}}>
+
+        
         { location && (
         <MapView
         style={[{flex: 1}, {width : mapWidth} ]}
@@ -109,6 +121,9 @@ const MapMain=({navigation})=>{
         onMapReady={()=> {
           updateMapStyle()
         }}
+        // onRegionChangeComplete={()=> {
+        //   onRegionChange()
+        // }}
         >
           {markers &&
             markers.map((marker)=>(
@@ -182,7 +197,7 @@ const MapMain=({navigation})=>{
             <Text>내가 좋아요한 장소</Text>
           </TouchableOpacity>
         </View>
-
+          
         {/* 포토스팟 추가버튼 */}
         <View style={styles.addPhotoContainer}>
           <TouchableOpacity
@@ -199,7 +214,47 @@ const MapMain=({navigation})=>{
 
         </View>
 
-      </View>
+        {/* 검색창 */}
+        <View style={styles.searchBar}>
+            <AutocompleteDropdown
+              clearOnFocus={false}
+              closeOnBlur={true}
+              closeOnSubmit={false}
+              dataSet={nearPlace}
+              onChangeText={updateSearch}
+              textInputProps={{
+                placeholder: "위치검색",
+                autoCorrect: false,
+                autoCapitalize: "none",
+                style: {
+                  borderRadius: 15,
+                  backgroundColor: "white",
+                  color: "black",
+                  paddingLeft: 18
+                }
+              }}
+              rightButtonsContainerStyle={{
+                borderRadius: 15,
+                right: 8,
+                height: 30,
+                top: 5,
+                alignSelfs: "center",
+                backgroundColor: "white"
+              }}
+              suggestionsListContainerStyle={{
+                backgroundColor: "white"
+              }}
+              containerStyle={{ flexGrow: 1, flexShrink: 1 }}
+              renderItem={(item, text) => (
+                <Text style={{ color: "green", padding: 15 }}>{item.placeName}</Text>
+                
+              )}
+              onSelectItem={updateLocation}
+            />
+        </View>
+
+
+    </View>
     </>
   );
 
@@ -210,23 +265,21 @@ const MapMain=({navigation})=>{
 const styles = StyleSheet.create({
 
 searchBar:{
-  marginLeft:15,
-  marginRight:15,
-  marginTop:10,
-  marginBottom:45,
-  top:'5%',
-  backgroundColor:'transparent',
-
+  position : "absolute",
+  top:"5%",
+  alignSelf:'center',
+  backgroundColor:'white',
+  width: "95%",
+  height:0,
 },
 
 buttonContainer:{
   position: "absolute",
-  top: '13%',
+  top: '10%',
   flexDirection: 'row',
   alignSelf:'center',
   backgroundColor: 'transparent',
   margin: 5,
-
 },
 
 allPlaceButton:{
@@ -271,7 +324,6 @@ name:{
   fontSize:16,
   marginBottom:5,
 },
-
 arrow:{
   backgroundColor: 'transparent',
   borderColor: 'transparent',

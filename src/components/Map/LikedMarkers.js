@@ -1,27 +1,31 @@
 import axios from "axios";
 import React, {useEffect, useState, Component} from "react";
-import {View, Text, Button, Alert, StyleSheet, Image} from "react-native";
+import {View, Text, Button, Alert, StyleSheet, Image,Feather} from "react-native";
 import MapView, {PROVIDER_GOOGLE, Marker, Callout} from "react-native-maps";
 import preURL from "../../preURL/preURL";
+import * as tokenHandling from "../../constants/TokenErrorHandle";
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Searchbar } from "react-native-paper";
+import Geolocation from '@react-native-community/geolocation';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as tokenHandling from "../../constants/TokenErrorHandle";
+import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 
 
-const LikedMarkers=({navigation})=>{
+
+
+
+
+const LikedMarkers=({navigation})=>{  
   const [token, setToken] = useState("");
 
-  const [markers, setMarkers] = useState(null);
-  const [search, setSearch] = useState("");
+  const [likedMarkers, setLikedMarkers] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [nearPlace, setNearPlace] = useState(null);
+  const [selectedLat, setSelectedLat] = useState('');
+  const [selectedLong, setSelectedLong] = useState('');
+  const [location, setLocation] = useState(null);
   
-  //search bar
-  const updateSearch = (search) => {
-    setSearch(search);
-  };
-
-  console.log("======================[내가좋아요한장소]===================");
+  console.log("======================[내가 좋아요한 장소]===================");
 
   const getUserToken = async () => {
     const userToken = await AsyncStorage.getItem("userToken");
@@ -47,14 +51,32 @@ const LikedMarkers=({navigation})=>{
     console.log("config: ", config);
     getMarkInfo();
   }, [token]);
+
+
+  //search bar Data
+  const updateSearch = (searchQuery) => {
+    setSearchQuery(searchQuery);
+    console.log("🔍검색창 : ", searchQuery)
+    axios
+      .get(preURL.preURL + '/api/locations?query='+searchQuery)
+      .then((res) => {
+              console.log("🔍지도검색 응답 받았다! ", res.data.data);
+              setNearPlace(res.data.data);
+            })
+      .catch((err) => {
+               console.log("🔍지도검색 에러 발생❗️ ", err);
+            });
+    
+  };
   
-  //load Data
+
+  //load Marked Location Data
   const getMarkInfo = () => {
     axios
       .get(preURL.preURL + "/locations/filter/mark", config)
       .then((res) =>{
         console.log("📍좋아요한 장소 응답 받았다! ", res.data.data);
-        setMarkers(res.data.data);
+        setLikedMarkers(res.data.data);
       })
       .catch((err)=>{
         console.log("📍좋아요한 장소 에러 발생❗️ ", err);
@@ -63,36 +85,38 @@ const LikedMarkers=({navigation})=>{
       
       
   };
- 
 
 
+  //Get User's Current Position
+  useEffect(() => { 
+    Geolocation.getCurrentPosition(
+      position => {
+        const { latitude, longitude } = position.coords
+        setLocation({ latitude, longitude })
+      },
+      error => {
+        console.log(error.code, error.message)
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+    )
+  }, [])
 
+    //안드로이드용 현재위치 버튼 활성화
+    const [mapWidth, setMapWidth] = useState('99%');
+    const updateMapStyle = () => {
+      setMapWidth('100%')
+    }
+  
+  
+    
+  
 
-  //initialRegion
-  const [initialRegion, setInitialRegion] = useState({
-    latitude: 33.4099997,
-            longitude: 126.4873745,
-            latitudeDelta: 1,
-            longitudeDelta: 1,
-  })
-
-
-
-  //안드로이드용 현재위치 버튼 활성화
-  const [mapWidth, setMapWidth] = useState('99%');
-  const updateMapStyle = () => {
-    setMapWidth('100%')
-  }
   return(
     <>
-      <View style = {{flex : 1}}>
-        <View style={styles.searchBar}>
-          <Searchbar
-            placeholder="Type Here..."
-            onChangeText={updateSearch}
-            value={search}
-          />
-        </View>
+    <View style = {{flex : 1}}>
+
+        
+        { location && (
         <MapView
         style={[{flex: 1}, {width : mapWidth} ]}
         provider={PROVIDER_GOOGLE}
@@ -101,13 +125,19 @@ const LikedMarkers=({navigation})=>{
         followsUserLocation={true}
         zoomEnabled = {true}
         onPress={this.pickLocationHandler}
-        initialRegion={initialRegion}
+        initialRegion={{
+          latitude: location.latitude,
+          longitude: location.longitude,
+          latitudeDelta:1,
+          longitudeDelta:1,
+        }}
+        // initialRegion={initialRegion}
         onMapReady={()=> {
           updateMapStyle()
         }}
         >
-          {markers &&
-            markers.map((marker)=>(
+          {likedMarkers &&
+            likedMarkers.map((marker)=>(
               <Marker
                 coordinate={{
                   id : marker.id,
@@ -134,8 +164,8 @@ const LikedMarkers=({navigation})=>{
                 </Callout>
               </Marker>
             ))}
-          
-        </MapView>
+        
+        </MapView>)}
 
         {/* 상단 버튼 3개 */}
         <View style={styles.buttonContainer}>
@@ -178,7 +208,7 @@ const LikedMarkers=({navigation})=>{
             <Text>내가 좋아요한 장소</Text>
           </TouchableOpacity>
         </View>
-
+          
         {/* 포토스팟 추가버튼 */}
         <View style={styles.addPhotoContainer}>
           <TouchableOpacity
@@ -195,106 +225,140 @@ const LikedMarkers=({navigation})=>{
 
         </View>
 
+        {/* 검색창 */}
+        <View style={styles.searchBar}>
+            <AutocompleteDropdown
+              clearOnFocus={false}
+              closeOnBlur={true}
+              closeOnSubmit={false}
+              dataSet={nearPlace}
+              onChangeText={updateSearch}
+              textInputProps={{
+                placeholder: "위치검색",
+                autoCorrect: false,
+                autoCapitalize: "none",
+                style: {
+                  borderRadius: 15,
+                  backgroundColor: "white",
+                  color: "black",
+                  paddingLeft: 18
+                }
+              }}
+              rightButtonsContainerStyle={{
+                borderRadius: 15,
+                right: 8,
+                height: 30,
+                top: 5,
+                alignSelfs: "center",
+                backgroundColor: "white"
+              }}
+              suggestionsListContainerStyle={{
+                backgroundColor: "white"
+              }}
+              containerStyle={{ flexGrow: 1, flexShrink: 1 }}
+              renderItem={(item, text) => (
+                <Text style={{ color: "black", padding: 15 }}>{item.placeName}</Text>
+              )}
+              onSelectItem={item =>{
+                item && setSelectedLat(item.y);
+                item && setSelectedLong(item.x);
+              }}
+            />
+        </View>
 
-      </View>
+
+    </View>
     </>
   );
-
-
 
 
 }
 
 
-
-
 const styles = StyleSheet.create({
 
-  searchBar:{
-    marginLeft:15,
-    marginRight:15,
-    marginTop:10,
-    marginBottom:45,
-    top:'5%',
-    backgroundColor:'transparent',
-  
-  },
-  
-  buttonContainer:{
-    position: "absolute",
-    top: '13%',
-    flexDirection: 'row',
-    alignSelf:'center',
-    backgroundColor: 'transparent',
-    margin: 5,
-  
-  },
-  
-  allPlaceButton:{
-    backgroundColor: "#ffffff",
-    borderColor:"#c4c4c4",
-    borderRadius:10,
-    margin:15,
-    padding:10,
-  },
-  uploadedButton:{
-    backgroundColor: "#ffffff",
-    borderColor:"#c4c4c4",
-    borderRadius:10,
-    margin:15,
-    padding:10,
-  },
-  likedButton:{
-    backgroundColor: "#ffffff",
-    borderColor:"#c4c4c4",
-    borderRadius:10,
-    margin:15,
-    padding:10,
-  },
-  
-  addPhotoContainer:{
-    position: "absolute",
-    top: '83%',
-    left:"84%",
-  
-  },
-  bubble: {
-    flexDirection: 'column',
-    alignSelf: 'flex-start',
-    backgroundColor:'#ffffff',
-    borderRadius: 6,
-    borderColor: "#C4C4C4",
-    borderWidth: 0.5,
-    padding: 15,
-    width:150,
-  },
-  name:{
-    fontSize:16,
-    marginBottom:5,
-  },
-  
-  arrow:{
-    backgroundColor: 'transparent',
-    borderColor: 'transparent',
-    borderTopColor: '#ffffff',
-    borderWidth:16,
-    alignSelf:'center',
-    marginTop:-32,
-  },
-  arrowBorder: {
-    backgroundColor: 'transparent',
-    borderColor: 'transparent',
-    borderTopColor: '#007a87',
-    borderWidth:16,
-    alignSelf:'center',
-    marginTop:-0.5,
-  },
-  image:{
-    width:120,
-    height:80,
-    marginTop: 5,
-  }
-  
-  })
+searchBar:{
+  position : "absolute",
+  top:"5%",
+  alignSelf:'center',
+  backgroundColor:'white',
+  width: "95%",
+  height:0,
+},
+
+buttonContainer:{
+  position: "absolute",
+  top: '10%',
+  flexDirection: 'row',
+  alignSelf:'center',
+  backgroundColor: 'transparent',
+  margin: 5,
+},
+
+allPlaceButton:{
+  backgroundColor: "#ffffff",
+  borderColor:"#c4c4c4",
+  borderRadius:10,
+  margin:15,
+  padding:10,
+},
+uploadedButton:{
+  backgroundColor: "#ffffff",
+  borderColor:"#c4c4c4",
+  borderRadius:10,
+  margin:15,
+  padding:10,
+},
+likedButton:{
+  backgroundColor: "#ffffff",
+  borderColor:"#c4c4c4",
+  borderRadius:10,
+  margin:15,
+  padding:10,
+},
+
+addPhotoContainer:{
+  position: "absolute",
+  top: '83%',
+  left:"84%",
+
+},
+bubble: {
+  flexDirection: 'column',
+  alignSelf: 'flex-start',
+  backgroundColor:'#ffffff',
+  borderRadius: 6,
+  borderColor: "#C4C4C4",
+  borderWidth: 0.5,
+  padding: 15,
+  width:150,
+},
+name:{
+  fontSize:16,
+  marginBottom:5,
+},
+arrow:{
+  backgroundColor: 'transparent',
+  borderColor: 'transparent',
+  borderTopColor: '#ffffff',
+  borderWidth:16,
+  alignSelf:'center',
+  marginTop:-32,
+},
+arrowBorder: {
+  backgroundColor: 'transparent',
+  borderColor: 'transparent',
+  borderTopColor: '#007a87',
+  borderWidth:16,
+  alignSelf:'center',
+  marginTop:-0.5,
+},
+image:{
+  width:120,
+  height:80,
+  marginTop: 5,
+}
+
+})
 
 export default LikedMarkers;
