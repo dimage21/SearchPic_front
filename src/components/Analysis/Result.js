@@ -15,6 +15,8 @@ import * as tokenHandling from "../../constants/TokenErrorHandle";
 
 const Result = ({ navigation, route }) => {
   const result = route.params.result;
+  const imageFormData = route.params.imageFormData;
+  const cfg = route.params.config;
   console.log("Result에서 이상한 걸까?", result);
   const [token, setToken] = useState("");
 
@@ -75,12 +77,30 @@ const Result = ({ navigation, route }) => {
       });
   };
 
+  const postAgain = (type) => {
+    axios
+      .get(preURL.preURL + `analysis?type=${type}`, imageFormData, cfg)
+      .then((res) => {
+        console.log("분석 결과 받았다!", res.data.data);
+        navigation.navigate("Result", {
+          result: res.data,
+          imageFormData: imageFormData,
+          config: cfg,
+        });
+      })
+      .catch((err) => {
+        console.log("에러 발생 - 분석 결과 요청 ");
+        console.log(err);
+        tokenHandling.tokenErrorHandling(err);
+      });
+  };
+
   return (
     <SafeAreaView style={{ padding: 15, width: "100%", height: "100%" }}>
       <TouchableOpacity onPress={() => navigation.navigate("AnalysisMain")}>
         <Icon size={40} color="black" name="left" />
       </TouchableOpacity>
-      <View>
+      <View style={{ backgroundColor: "#ffffff", padding: 10 }}>
         <Text
           style={{
             fontSize: 20,
@@ -215,6 +235,26 @@ const Result = ({ navigation, route }) => {
             )}
           </View>
         </View>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-around",
+          }}
+        >
+          <TouchableOpacity
+            style={styles.analysisbtn}
+            onPress={postAgain(cafe)}
+          >
+            <Text>카페/식당</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.analysisbtn}
+            onPress={postAgain(attraction)}
+          >
+            <Text>명소</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -237,4 +277,12 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   image: { width: 156, height: 97, margin: 10, marginLeft: 0 },
+  analysisbtn: {
+    backgroundColor: "#001A72",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 10,
+    borderRadius: 15,
+  },
 });

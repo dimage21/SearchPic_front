@@ -15,7 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import preURL from "../../preURL/preURL";
 import * as tokenHandling from "../../constants/TokenErrorHandle";
 
-const iosKeys = { 
+const iosKeys = {
   kConsumerKey: "WfY6pghIqcFwpkxA7YYj",
   kConsumerSecret: "UpneszQ3W_",
   kServiceAppName: "테스트앱(iOS)",
@@ -64,8 +64,7 @@ const StartMain = ({ navigation }) => {
           return;
         }
         resolve(token);
-              getUserProfile();
-
+        getUserProfile();
       });
       AsyncStorage.setItem("isLogin", "true");
     });
@@ -172,33 +171,35 @@ const StartMain = ({ navigation }) => {
         console.log("accessToken 2:", aToken);
         AsyncStorage.setItem("userToken", aToken);
         // postUserInfo(aToken);
+        // console.log(
+        //   "로그인 url : ",
+        //   preURL.preURL + `/login/naver?token=${aToken}`
+        // );
+        console.log("===================[로그인 axios]================");
+        axios
+          // .get(preURL.preURL + `/login/naver?token=${aToken}`)
+          .post(preURL.preURL + `/login`, {
+            email: email,
+            provider: {
+              providerId: id,
+              providerName: "NAVER",
+            },
+          })
+          .then((res) => {
+            console.log("로그인했다! : ", res.data.data);
+            setRefreshToken(res.data.data.refreshToken);
+            AsyncStorage.setItem("refreshToken", res.data.data.refreshToken);
+            AsyncStorage.setItem("userToken", res.data.data.accessToken);
+            console.log("로그인 성공");
+            Alert.alert(`${profileResult.response.email}님 환영합니다`);
+            navigation.navigate("Profile", {
+              name: profileResult.response.name,
+            });
+          })
+          .catch((err) => {
+            console.log("에러 발생 ❗️ - 로그인 ", err.response);
+          });
       }
-      // console.log(
-      //   "로그인 url : ",
-      //   preURL.preURL + `/login/naver?token=${aToken}`
-      // );
-      axios
-        // .get(preURL.preURL + `/login/naver?token=${aToken}`)
-        .post(preURL.preURL + `/login`, {
-          email: email,
-          provider: {
-            providerId: id,
-            providerName: "NAVER",
-          },
-        })
-
-        .then((res) => {
-          console.log("로그인했다! : ", res.data.data);
-          setRefreshToken(res.data.data.refreshToken);
-          AsyncStorage.setItem("refreshToken", res.data.data.refreshToken);
-          AsyncStorage.setItem("userToken", res.data.data.accessToken);
-          console.log("로그인 성공");
-          Alert.alert(`${profileResult.response.email}님 환영합니다`);
-          navigation.navigate("Profile", { name: profileResult.response.name });
-        })
-        .catch((err) => {
-          console.log("에러 발생 ❗️ - 로그인 ", err.response.data);
-        });
     }
     if (userId !== -1) {
       await setLogin();

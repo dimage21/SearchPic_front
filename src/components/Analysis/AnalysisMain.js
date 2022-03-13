@@ -25,9 +25,10 @@ const AnalysisMain = ({ navigation }) => {
   const [process, setProcess] = useState(false);
 
   const getUserToken = async () => {
-    const userToken = await AsyncStorage("userToken");
+    const userToken = await AsyncStorage.getItem("userToken");
     setToken(userToken);
-    console.log("userToken ", userToken);
+    console.log("userToken 받아옴 ", userToken);
+    console.log("token 받아옴", token);
   };
 
   useEffect(() => {
@@ -55,6 +56,8 @@ const AnalysisMain = ({ navigation }) => {
   };
 
   const onClickHandler = (event) => {
+    console.log("토큰 있는지 확인 ", token);
+
     let isMount = true;
 
     const formData = new FormData();
@@ -76,14 +79,11 @@ const AnalysisMain = ({ navigation }) => {
       },
     };
 
-    console.log("요청:", formData, config);
+    console.log("이미지 분석 요청:", formData, config);
     console.log("imageFormData: ", imageFormData);
 
-    AsyncStorage.setItem("imageFormFormData", imageFormData);
-    AsyncStorage.setItem("config", config);
-
     axios
-      .post(preURL.preURL + "/analysis", imageFormData, config)
+      .post(preURL.preURL + "/analysis?type", imageFormData, config)
       .then((res) => {
         setLoading(true);
         console.log("사진 보냈다!");
@@ -99,7 +99,11 @@ const AnalysisMain = ({ navigation }) => {
             text: "다음",
             onPress: () => {
               console.log("Result.data => params: ", result.data),
-                navigation.navigate("Result", { result: res.data });
+                navigation.navigate("Result", {
+                  result: res.data,
+                  imageFormData: imageFormData,
+                  config: config,
+                });
             },
           },
         ]);
@@ -142,7 +146,6 @@ const AnalysisMain = ({ navigation }) => {
       }
       setFilePath(assets);
       console.log(assets);
-      console.log("filePath:", filePath);
       setProcess(true);
     });
   };
@@ -175,7 +178,7 @@ const AnalysisMain = ({ navigation }) => {
         </TouchableOpacity>
         {process ? (
           <Text style={{ textAlign: "center" }}>
-            분석을 원하시면 다음을 눌러주세요{" "}
+            분석을 원하시면 다음을 눌러주세요
           </Text>
         ) : (
           <Text style={{ textAlign: "center" }}>

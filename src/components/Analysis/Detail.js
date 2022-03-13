@@ -28,7 +28,6 @@ const Detail = ({ navigation, route }) => {
   const [mark, setMark] = useState(place.marked);
   const [token, setToken] = useState("");
   const [IFF, setIFF] = useState();
-  const [cfg, setcfg] = useState();
 
   console.log("=======================[Detail]======================");
 
@@ -45,10 +44,6 @@ const Detail = ({ navigation, route }) => {
   };
 
   useEffect(() => {
-    const IFF = AsyncStorage.getItem("imageFormFormData", imageFormData);
-    const cfg = AsyncStorage.getItem("config", config);
-    setIFF(IFF);
-    setcfg(cfg);
     getUserToken();
 
     let isMount = true;
@@ -131,20 +126,6 @@ const Detail = ({ navigation, route }) => {
         </TouchableOpacity>
       </View>
     );
-  };
-
-  const postAgain = (type) => {
-    axios
-      .get(preURL.preURL + `analysis?${type}=cafe`, cfg)
-      .then((res) => {
-        console.log("분석 결과 받았다!", res.data.data);
-        navigation.navigate("Result", { result: res.data });
-      })
-      .catch((err) => {
-        console.log("에러 발생 - 분석 결과 요청 ");
-        console.log(err);
-        tokenHandling.tokenErrorHandling(err);
-      });
   };
 
   useEffect(() => {
@@ -309,23 +290,6 @@ const Detail = ({ navigation, route }) => {
       ) : (
         <View></View>
       )}
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-around",
-        }}
-      >
-        <TouchableOpacity style={styles.analysisbtn} onPress={postAgain(cafe)}>
-          <Text>카페/식당</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.analysisbtn}
-          onPress={postAgain(attraction)}
-        >
-          <Text>명소</Text>
-        </TouchableOpacity>
-      </View>
     </SafeAreaView>
   );
 };
@@ -347,13 +311,5 @@ const styles = StyleSheet.create({
   hashtag: {
     marginRight: 5,
     color: "#001A72",
-  },
-  analysisbtn: {
-    backgroundColor: "#001A72",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 10,
-    borderRadius: 15,
   },
 });
