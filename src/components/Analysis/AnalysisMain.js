@@ -86,7 +86,7 @@ const AnalysisMain = ({ navigation }) => {
     AsyncStorage.setItem("config", config);
 
     axios
-      .post(preURL.preURL + "analysis", imageFormData, config)
+      .post(preURL.preURL + "/analysis", imageFormData, config)
       .then((res) => {
         setLoading(true);
         console.log("사진 보냈다!");

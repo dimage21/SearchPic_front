@@ -134,11 +134,26 @@ const ChangeProfile = ({ navigation }) => {
   };
   return (
     <SafeAreaView>
-      <TouchableOpacity onPress={() => navigation.navigate("Setting")}>
-        <Icon size={40} color="black" name="left" />
-      </TouchableOpacity>
-      <Text>프로필 수정하기</Text>
-      <View>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
+        <TouchableOpacity onPress={() => navigation.navigate("Setting")}>
+          <Icon size={40} color="black" name="left" />
+        </TouchableOpacity>
+        <Text style={{ padding: 5, fontSize: 10 }}>프로필 수정하기</Text>
+      </View>
+      <View
+        style={{
+          marginTop: 30,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-around",
+          alignItems: "center",
+        }}
+      >
         <View style={styles.imgContainer}>
           {picSelected ? (
             <Image source={{ uri: filePath.uri }} style={styles.pic} />
@@ -171,16 +186,14 @@ const ChangeProfile = ({ navigation }) => {
         </View>
         <View
           style={{
-            top: "50%",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            marginTop: "10%",
+            marginTop: "8%",
           }}
         >
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate("NavTabs");
               onClickHandler();
             }}
             style={{
@@ -208,14 +221,12 @@ const styles = StyleSheet.create({
     left: "10%",
   },
   imgContainer: {
-    top: "40%",
     display: "flex",
     alignItems: "center",
   },
   pic: {
     width: 200,
     height: 200,
-    top: "15%",
     margin: 0,
     borderRadius: 100,
   },
@@ -233,7 +244,6 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   inputContainer: {
-    top: "40%",
     marginTop: "15%",
     marginLeft: "10%",
     marginRight: "10%",
