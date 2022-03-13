@@ -22,11 +22,12 @@ const MypageMain = ({ navigation }) => {
 
   const getUserToken = async () => {
     const userToken = await AsyncStorage.getItem("userToken");
+    console.log("userToken-Test : ", userToken);
     if (userToken !== null) {
       console.log("userToken: ", userToken);
       setToken(userToken);
     } else {
-      console.log("토큰 아직 못 받음!");
+      console.log("MypageMain - 토큰 아직 못 받음!");
     }
     console.log("userToken ", userToken);
     // setToken(
@@ -43,7 +44,7 @@ const MypageMain = ({ navigation }) => {
   useEffect(() => {
     getUserToken();
     console.log("토큰: ", token);
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     console.log("config: ", config);
@@ -59,8 +60,8 @@ const MypageMain = ({ navigation }) => {
         setUserInfo(res.data.data);
       })
       .catch((err) => {
-        console.log("에러 발생❗️ ", err);
-        tokenHandling.tokenErrorHandling();
+        console.log("에러 발생❗️ - 유저 정보", err.response.data);
+        tokenHandling.tokenErrorHandling(err.response.data);
       });
   };
 
@@ -76,8 +77,8 @@ const MypageMain = ({ navigation }) => {
         console.log("PAGE: ", page);
       })
       .catch((err) => {
-        console.log("에러 발생❗️ ", err);
-        tokenHandling.tokenErrorHandling();
+        console.log("에러 발생❗️ - 게시글", err.response.data);
+        tokenHandling.tokenErrorHandling(err.response.data);
       });
   };
 

@@ -14,6 +14,7 @@ import { launchImageLibrary } from "react-native-image-picker";
 import axios from "axios";
 import preURL from "../../preURL/preURL";
 import * as tokenHandling from "../../constants/TokenErrorHandle";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ChangeProfile = ({ navigation }) => {
   const [nickName, setNickName] = useState("");
@@ -127,9 +128,8 @@ const ChangeProfile = ({ navigation }) => {
         navigation.navigate("Setting");
       })
       .catch((err) => {
-        console.log("에러 발생 ");
-        console.log(err);
-        tokenHandling.tokenErrorHandling();
+        console.log("에러 발생 - 프로필 변경 : ", err.response.data);
+        tokenHandling.tokenErrorHandling(err.response.data);
       });
   };
   return (

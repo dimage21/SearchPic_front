@@ -61,7 +61,7 @@ const SearchMain = ({ navigation }) => {
       })
       .catch((err) => {
         console.log("에러 발생❗️ ", err);
-        tokenHandling.tokenErrorHandling();
+        tokenHandling.tokenErrorHandling(err);
       });
     setResultPage(false);
     setKeyword([]);
@@ -137,8 +137,8 @@ const SearchMain = ({ navigation }) => {
         console.log("PAGE: ", page);
       })
       .catch((err) => {
-        console.log("에러 발생❗️ ", err);
-        tokenHandling.tokenErrorHandling();
+        console.log("에러 발생❗️ - 검색 결과", err.response.data);
+        tokenHandling.tokenErrorHandling(err.response.data);
       });
   };
 
