@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import {Text, View, StyleSheet, Image, SafeAreaView, Alert, TextInput, ScrollView} from 'react-native';
+import {Text, View, StyleSheet, Image, SafeAreaView, Alert, TextInput, ScrollView, Modal} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import Tags from "react-native-tags";
@@ -9,6 +9,7 @@ import * as tokenHandling from "../../constants/TokenErrorHandle";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Exif from '@notech/react-native-exif';
 import Geolocation from '@react-native-community/geolocation';
+import MapView, {PROVIDER_GOOGLE, Marker, Callout} from "react-native-maps";
 
 const Upload = ({navigation}) =>{
     const [token, setToken] = useState("");
@@ -20,8 +21,8 @@ const Upload = ({navigation}) =>{
     const [process, setProcess] = useState(false);
     const [result, setResult] = useState([]);
 
+    const [modal, setModal]=useState(false);
 
-    // filePath (이미지데이터),  picSelected, memo, tags, token
 
     console.log("======================[새로운 장소 등록]===================");
 
@@ -180,6 +181,8 @@ const Upload = ({navigation}) =>{
                 alert(response.errorMessage);
                 return;
             }
+
+            
             setFilePath(assets);
             // console.log(assets);
             // console.log("filePath:", filePath);
@@ -266,6 +269,11 @@ const Upload = ({navigation}) =>{
             });
     };
 
+      //안드로이드용 현재위치 버튼 활성화
+    const [mapWidth, setMapWidth] = useState('99%');
+    const updateMapStyle = () => {
+        setMapWidth('100%')
+    }
     return(
         <>
         <SafeAreaView style={{ flex: 1, padding: 15, backgroundColor: "#ffffff" }}>
@@ -321,8 +329,7 @@ const Upload = ({navigation}) =>{
                     </View>
                 </View>
             </View>
-            
-   
+          
             <View  style={{ paddingLeft: "5%", paddingRight: "5%", marginTop:30 }}>
                 <Text style={{ fontSize: 15, fontWeight: "bold" }}>
                     해시태그 (필수)
@@ -406,7 +413,7 @@ const Upload = ({navigation}) =>{
                 }}>
                 <TouchableOpacity
                     onPress={() => {
-                        onClickHandler()
+                        setModal(true)
                     }}
                     style={{
                     width: 100,
@@ -423,7 +430,7 @@ const Upload = ({navigation}) =>{
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => {
-                        navigation.navigate('MapMain')
+                        navigation.navigate("MapMain")
                     }}
                     style={{
                     width: 100,
@@ -440,6 +447,107 @@ const Upload = ({navigation}) =>{
                 </TouchableOpacity>
             </View>
             </ScrollView>
+
+            {modal ? (
+                <View style = {{ display : "flex", justifyContent: "flex-end"}}>
+                    <Modal visible={modal} animationType="fade">
+                        <MapView
+                        style={[{flex: 1}, {width : mapWidth} ]}
+                        provider={PROVIDER_GOOGLE}
+                        // showsUserLocation={true}
+                        // showsMyLocationButton={true}
+                        // followsUserLocation={true}
+                        zoomEnabled = {true}
+                        onPress={this.pickLocationHandler}
+                        initialRegion={{
+                        latitude: currentLaditude,
+                        longitude: currentLongitude,
+                        latitudeDelta:0.01,
+                        longitudeDelta:0.01,
+                        }}
+                        // initialRegion={initialRegion}
+                        onMapReady={()=> {
+                        updateMapStyle()
+                        }}
+                        // onRegionChangeComplete={()=> {
+                        //   onRegionChange()
+                        // }}
+                        >
+                        <Marker
+                            coordinate={{
+                                latitude:currentLaditude,
+                                longitude:currentLongitude,
+                            }}
+                        />
+                        </MapView>
+                        <View style={{flexDirection:'column'}}>
+                            <View style={{
+                                alignContent:'center',
+                                alignItems:'center',
+                                
+                            }}>
+                                <Text style={{
+                                    margin: 10,
+                                    
+                                    fontSize: 18, fontWeight: "bold",
+                                }}>
+                                    사진의 장소가 맞으신가요?
+                                </Text>
+                            </View>
+                            <View
+                                style={{
+                                // display: "flex",
+                                flexDirection : 'row',
+                                justifyContent: "center",
+                                alignItems: "center",
+                                marginBottom:10,
+                                
+                                }}>
+            
+                                <TouchableOpacity
+                                    onPress={() => {
+                                       onClickHandler()
+                                       setModal(false)
+                                    }}
+                                    style={{
+                                    width: 100,
+                                    height: 50,
+                                    backgroundColor: "#001A72",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    borderRadius: 15,
+                                    margin: 10,
+                                    }}
+                                >
+                                    <Text style={{ color: "white", fontSize: 17 }}>맞아요</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        Alert.alert("사진을 다시 업로드해주세요")
+                                        setModal(false)
+                                    }}
+                                    style={{
+                                    width: 100,
+                                    height: 50,
+                                    backgroundColor: "#c4c4c4",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    borderRadius: 15,
+                                    margin : 10,
+                                    }}
+                                >
+                                    <Text style={{ color: "black", fontSize: 17 }}>아니에요</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </Modal>
+                </View>
+
+            ):(
+                <View></View>
+            )}
         </SafeAreaView>
         </>
     );

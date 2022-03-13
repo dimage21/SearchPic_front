@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, {useEffect, useState, Component} from "react";
-import {View, Text, Button, Alert, StyleSheet, Image,Feather} from "react-native";
+import {View, Text, Button, Alert, StyleSheet, Image,Modal, FlatList} from "react-native";
 import MapView, {PROVIDER_GOOGLE, Marker, Callout} from "react-native-maps";
 import preURL from "../../preURL/preURL";
 import * as tokenHandling from "../../constants/TokenErrorHandle";
@@ -10,21 +10,51 @@ import { Searchbar } from "react-native-paper";
 import Geolocation from '@react-native-community/geolocation';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
-
+import GestureRecognizer from "react-native-swipe-gestures";
 
 
 
 
 
 const MapMain=({navigation})=>{  
+  const [token, setToken] = useState("");
 
   const [markers, setMarkers] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [locationSelected, setLocationSelected] = useState(null);
   const [nearPlace, setNearPlace] = useState(null);
   const [location, setLocation] = useState(null);
+  const [nearPlaceInfo, setNearPlaceInfo] = useState(null);
+  const [modal, setModal] = useState(false);
   
   console.log("======================[MapMain]===================");
+
+  //get user info
+  const getUserToken = async () => {
+    const userToken = await AsyncStorage.getItem("userToken");
+    setToken(userToken);
+    console.log("userToken ", userToken);
+    setToken(
+      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjQ1NTMwNDQ5LCJleHAiOjE2NDc2Nzc5MzN9.65q5K9uUUeCrXt7ZckdaKhheKPBROrSBrbX8TqdKVTk"
+    );
+  };
+  
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  useEffect(() => {
+    getUserToken();
+    console.log("토큰: ", token);
+  }, []);
+
+  useEffect(() => {
+    console.log("config: ", config);
+    getNearPlaceInfo();
+  }, [token]);
+
 
   //search bar Data
   const updateSearch = (searchQuery) => {
@@ -47,6 +77,7 @@ const MapMain=({navigation})=>{
     setLocationSelected(locationSelected);
     console.log("리스트 선택 : ", locationSelected)
   };
+
 
   // Region Change
   // const [updateRegion, setUpdateRegion] = useState(null);
@@ -89,6 +120,61 @@ const MapMain=({navigation})=>{
     )
   }, [])
 
+  //Get Near Place Information
+  const getNearPlaceInfo = () => {
+    axios
+      .get(preURL.preURL + "/locations/100?x=126.968778003094&y=37.5764986919736", config)
+      .then((res) =>{
+        console.log("📍주변 장소 응답 받았다! ", res.data.data);
+        setNearPlaceInfo(res.data.data);
+      })
+      .catch((err)=>{
+        console.log("📍주변 장소 에러 발생❗️ ", err);
+        tokenHandling.tokenErrorHandling();
+      });
+      
+  };
+  
+  const renderItem = ({item})=>{
+    console.log("📍주변 장소 정보 불러옴! ");
+    return(
+      
+      <View style={{margin : 10}}>
+        <Text style={{fontWeight:'bold', alignSelf:'center', margin:10,}}>주변 포토스팟</Text>
+        {nearPlaceInfo && nearPlaceInfo.map((nearPlaceInfo)=>(
+        <View style={styles.modalContentsBox}>
+          <View style={styles.imageBox}>
+          <Image
+            style={{
+              height:100,
+              width:100,
+              margin:10,
+            }}
+            source={{
+              url : nearPlaceInfo.repImageUrl
+            }}
+          /></View>
+          <View style={styles.textBox}>
+            <Text style={{color:"black", fontSize:15, margin:10, marginTop:15}}>
+              {"\<"}{nearPlaceInfo.placeName}{"\>"}
+            </Text>
+            <Text style={{color:"black", fontSize:12, marginLeft:10}}>
+              {nearPlaceInfo.address}
+            </Text>   
+            <Text style={{color:"#c4c4c4", fontSize:10, marginLeft:10, marginTop:5}}>
+              관련태그 : {nearPlaceInfo.repTags}
+            </Text>
+            <Text style={{color:"#c4c4c4", fontSize:10, marginLeft:10, marginTop:5}}>
+              거리 : {nearPlaceInfo.distance} m
+            </Text>
+          </View>
+        </View>
+        ))}
+      </View>
+      
+    );
+  };
+
   //안드로이드용 현재위치 버튼 활성화
   const [mapWidth, setMapWidth] = useState('99%');
   const updateMapStyle = () => {
@@ -99,11 +185,13 @@ const MapMain=({navigation})=>{
 
   return(
     <>
+  
     <View style = {{flex : 1}}>
-
+        
         
         { location && (
         <MapView
+        
         style={[{flex: 1}, {width : mapWidth} ]}
         provider={PROVIDER_GOOGLE}
         showsUserLocation={true}
@@ -148,7 +236,6 @@ const MapMain=({navigation})=>{
                     </View>
                     <View style={styles.arrowBorder}/>
                     <View style={styles.arrow}/>
-
                   </View>
                 </Callout>
               </Marker>
@@ -214,6 +301,22 @@ const MapMain=({navigation})=>{
 
         </View>
 
+        {/* 주변정보 불러오기 버튼 */}
+        <View style={styles.nearPlaceContainer}>
+          <TouchableOpacity
+          onPress={()=>setModal(true)}
+          style={{
+            width:120, height:30, displa: "flex", 
+            justifyContent:"center", alignItems:"center",
+            backgroundColor:"white", borderRadius:20,
+            padding:5,
+          }}
+          >
+            <Text>내 주변 장소 보기</Text>
+          </TouchableOpacity>
+
+        </View>
+
         {/* 검색창 */}
         <View style={styles.searchBar}>
             <AutocompleteDropdown
@@ -255,6 +358,45 @@ const MapMain=({navigation})=>{
 
 
     </View>
+    {modal ? (
+        <View style = {{ 
+          display : "flex", justifyContent: "flex-end",
+          backgroundColor:"transparent",
+          }}>
+          <GestureRecognizer onSwipeDown={() => setModal(false)}>
+            <Modal 
+              visible={modal} 
+              transparent={true}
+              animationType="slide"
+            >
+              <View
+                style={{
+                  height:'50%',
+                  marginTop:'auto',
+                }}
+              >
+                <View style={styles.modalFooter}>
+                  <FlatList
+                    data={nearPlaceInfo}
+                    renderItem={renderItem}
+                    // numColumns={2}
+                  />
+                </View>
+              </View>
+              <TouchableOpacity
+                style={styles.addButton}
+                onPress={() => {
+                  setModal(false)
+                }}>
+                <Text style={{color:'white', 'fontSize':15}}>Close</Text>
+              </TouchableOpacity>
+            </Modal>
+          </GestureRecognizer>
+        </View>
+      ):(
+        <View></View>
+      )
+    }
     </>
   );
 
@@ -310,6 +452,14 @@ addPhotoContainer:{
   left:"84%",
 
 },
+nearPlaceContainer:{
+  position: "absolute",
+  bottom:"1%",
+  alignContent:'center',
+  alignSelf:'center',
+
+},
+
 bubble: {
   flexDirection: 'column',
   alignSelf: 'flex-start',
@@ -323,6 +473,7 @@ bubble: {
 name:{
   fontSize:16,
   marginBottom:5,
+  
 },
 arrow:{
   backgroundColor: 'transparent',
@@ -344,6 +495,58 @@ image:{
   width:120,
   height:80,
   marginTop: 5,
+},
+modalFooter: {
+  flex: 1,
+  backgroundColor: '#fff',
+  borderRadius:25,
+  bottom: 0,
+  left: 0,
+  right: 0,
+  zIndex: 10,
+},
+addButton: {
+  position: 'absolute',
+  zIndex: 11,
+  right: 20,
+  bottom: 20,
+  backgroundColor: '#001A72',
+  width: 50,
+  height: 50,
+  borderRadius: 35,
+  alignItems: 'center',
+  justifyContent: 'center',
+  elevation: 8,
+},
+modalContentsBox:{
+  flexDirection: 'row',
+  width: '95%',
+  height: 120,
+  alignSelf:'center',
+  borderRadius: 5,
+  marginBottom:10,
+  overflow: "hidden",
+  display: "flex",
+  justifyContent: "center",
+  alignItems:"flex-start",
+  backgroundColor:'white',
+  borderColor:"#c4c4c4",
+  borderWidth: 0.5,
+},
+imageBox:{
+  flex:0.4,
+  height:"100%",
+  backgroundColor:'transparent',
+  alignContent:'center',
+  alignItems:'center'
+},
+textBox:{
+  flex:0.6,
+  flexDirection:'column',
+  height:"100%",
+  backgroundColor:'transparent',
+ 
+
 }
 
 })
