@@ -49,7 +49,7 @@ const Detail = ({ navigation, route }) => {
     let isMount = true;
 
     axios
-      .get(preURL.preURL + `location/${locationId}`, config)
+      .get(preURL.preURL + `/location/${locationId}`, config)
       .then((res) => {
         console.log("장소 요청 보냈다!", res.data.data);
         setPlace(res.data.data);
@@ -63,7 +63,7 @@ const Detail = ({ navigation, route }) => {
       });
 
     axios
-      .get(preURL.preURL + `${locationId}/posts/10000`, config)
+      .get(preURL.preURL + `/${locationId}/posts/10000`, config)
       .then((res) => {
         console.log("근처 장소 요청 보냈다!", res.data.data);
         setPlaces(res.data.data);
@@ -82,7 +82,7 @@ const Detail = ({ navigation, route }) => {
   const postMark = () => {
     console.log("전송:", config, locationId);
     axios
-      .post(preURL.preURL + `location/${locationId}/mark`, "", config)
+      .post(preURL.preURL + `/location/${locationId}/mark`, "", config)
       .then((res) => {
         console.log("마크 추가 보냈다! ", res.data);
         setResult(res.data);
@@ -96,7 +96,7 @@ const Detail = ({ navigation, route }) => {
     console.log("전송:", config, locationId);
     axios
       .delete(
-        preURL.preURL + `location/${locationId}/un-mark`,
+        preURL.preURL + `/location/${locationId}/un-mark`,
         config,
         locationId
       )

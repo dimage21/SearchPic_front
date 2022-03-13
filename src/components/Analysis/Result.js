@@ -47,7 +47,7 @@ const Result = ({ navigation, route }) => {
 
   const postMark = (locationId) => {
     console.log("전송:", config, locationId);
-    fetch(preURL.preURL + `location/${locationId}/mark`, {
+    fetch(preURL.preURL + `/location/${locationId}/mark`, {
       method: "POST",
       config,
     })
@@ -65,7 +65,7 @@ const Result = ({ navigation, route }) => {
   const deleteMark = (locationId) => {
     console.log("전송:", config, locationId);
     axios
-      .delete(preURL.preURL + `location/${locationId}/un-mark`, config)
+      .delete(preURL.preURL + `/location/${locationId}/un-mark`, config)
       .then((res) => {
         console.log("마크 취소 보냈다!");
         console.log(res);
@@ -78,8 +78,11 @@ const Result = ({ navigation, route }) => {
   };
 
   const postAgain = (type) => {
+    console.log("postAgain 호출 완료");
+    console.log("type : ", type);
+    console.log("postAgain request ", imageFormData, cfg);
     axios
-      .get(preURL.preURL + `analysis?type=${type}`, imageFormData, cfg)
+      .post(preURL.preURL + `/analysis?type=${type}`, imageFormData, cfg)
       .then((res) => {
         console.log("분석 결과 받았다!", res.data.data);
         navigation.navigate("Result", {
@@ -89,8 +92,7 @@ const Result = ({ navigation, route }) => {
         });
       })
       .catch((err) => {
-        console.log("에러 발생 - 분석 결과 요청 ");
-        console.log(err);
+        console.log("에러 발생 - 분석 결과 요청 ", err);
         tokenHandling.tokenErrorHandling(err);
       });
   };
@@ -146,114 +148,115 @@ const Result = ({ navigation, route }) => {
             />
           )}
         </View>
-      </View>
-      <View>
-        <Text
-          style={{
-            fontSize: 18,
-            fontWeight: "bold",
-            marginTop: 10,
-          }}
-        >
-          비슷한 장소 더보기
-        </Text>
         <View>
-          <View style={styles.imageBlock}>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("Detail", { locationId: Result2.id })
-              }
-            >
-              <Image
-                source={{ uri: Result2.repImageUrl }}
-                style={styles.image}
-              />
-            </TouchableOpacity>
-            <View style={styles.textBlock}>
-              <Text style={styles.placeName}>{Result2.placeName}</Text>
-              <Text style={styles.address}>{Result2.address}</Text>
-            </View>
-            {mark2 ? (
-              <Icon
-                size={35}
-                color="#001A72"
-                name="heart"
-                onPress={() => {
-                  setMark2(!mark2);
-                  deleteMark(Result2.id);
-                }}
-              />
-            ) : (
-              <Icon
-                size={35}
-                color="#001A72"
-                name="hearto"
-                onPress={() => {
-                  setMark2(!mark2);
-                  postMark(Result2.id);
-                }}
-              />
-            )}
-          </View>
-        </View>
-        <View>
-          <View style={styles.imageBlock}>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("Detail", { locationId: Result3.id })
-              }
-            >
-              <Image
-                source={{ uri: Result3.repImageUrl }}
-                style={styles.image}
-              />
-            </TouchableOpacity>
-            <View style={styles.textBlock}>
-              <Text style={styles.placeName}>{Result3.placeName}</Text>
-              <Text style={styles.address}>{Result3.address}</Text>
-            </View>
-            {mark3 ? (
-              <Icon
-                size={35}
-                color="#001A72"
-                name="heart"
-                onPress={() => {
-                  setMark3(!mark3);
-                  deleteMark(Result3.locationId);
-                }}
-              />
-            ) : (
-              <Icon
-                size={35}
-                color="#001A72"
-                name="hearto"
-                onPress={() => {
-                  setMark3(!mark3);
-                  postMark(Result3.locationId);
-                }}
-              />
-            )}
-          </View>
-        </View>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-around",
-          }}
-        >
-          <TouchableOpacity
-            style={styles.analysisbtn}
-            onPress={postAgain(cafe)}
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: "bold",
+              marginTop: 10,
+            }}
           >
-            <Text>카페/식당</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.analysisbtn}
-            onPress={postAgain(attraction)}
+            비슷한 장소 더보기
+          </Text>
+          <View>
+            <View style={styles.imageBlock}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("Detail", { locationId: Result2.id })
+                }
+              >
+                <Image
+                  source={{ uri: Result2.repImageUrl }}
+                  style={styles.image}
+                />
+              </TouchableOpacity>
+              <View style={styles.textBlock}>
+                <Text style={styles.placeName}>{Result2.placeName}</Text>
+                <Text style={styles.address}>{Result2.address}</Text>
+              </View>
+              {mark2 ? (
+                <Icon
+                  size={35}
+                  color="#001A72"
+                  name="heart"
+                  onPress={() => {
+                    setMark2(!mark2);
+                    deleteMark(Result2.id);
+                  }}
+                />
+              ) : (
+                <Icon
+                  size={35}
+                  color="#001A72"
+                  name="hearto"
+                  onPress={() => {
+                    setMark2(!mark2);
+                    postMark(Result2.id);
+                  }}
+                />
+              )}
+            </View>
+          </View>
+          <View>
+            <View style={styles.imageBlock}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("Detail", { locationId: Result3.id })
+                }
+              >
+                <Image
+                  source={{ uri: Result3.repImageUrl }}
+                  style={styles.image}
+                />
+              </TouchableOpacity>
+              <View style={styles.textBlock}>
+                <Text style={styles.placeName}>{Result3.placeName}</Text>
+                <Text style={styles.address}>{Result3.address}</Text>
+              </View>
+              {mark3 ? (
+                <Icon
+                  size={35}
+                  color="#001A72"
+                  name="heart"
+                  onPress={() => {
+                    setMark3(!mark3);
+                    deleteMark(Result3.locationId);
+                  }}
+                />
+              ) : (
+                <Icon
+                  size={35}
+                  color="#001A72"
+                  name="hearto"
+                  onPress={() => {
+                    setMark3(!mark3);
+                    postMark(Result3.locationId);
+                  }}
+                />
+              )}
+            </View>
+          </View>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-around",
+              marginTop: 10,
+            }}
           >
-            <Text>명소</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.analysisbtn}
+              onPress={() => postAgain("cafe")}
+            >
+              <Text style={{ color: "#ffffff" }}>카페/식당</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.analysisbtn}
+              onPress={() => postAgain("attraction")}
+            >
+              <Text style={{ color: "#ffffff" }}>명소</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </SafeAreaView>
@@ -283,6 +286,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
     borderRadius: 15,
   },
 });
