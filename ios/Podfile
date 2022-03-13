@@ -19,6 +19,11 @@ target 'searchpicture_front' do
 
     pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
 
+    pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
+
+
+    pod 'RNNaverLogin', :path => '../node_modules/@react-native-seoul/naver-login'
+
     target 'searchpicture_frontTests' do
     inherit! :complete
     end

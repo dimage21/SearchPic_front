@@ -100,3 +100,4 @@ const App = () => {
   );
 };
 export default App;
+console.disableYellowBox = true;

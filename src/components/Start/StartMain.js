@@ -15,11 +15,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import preURL from "../../preURL/preURL";
 import * as tokenHandling from "../../constants/TokenErrorHandle";
 
-const iosKeys = {
+const iosKeys = { 
   kConsumerKey: "WfY6pghIqcFwpkxA7YYj",
   kConsumerSecret: "UpneszQ3W_",
   kServiceAppName: "테스트앱(iOS)",
-  kServiceAppUrlScheme: "searchpicture_frontlogin",
+  kServiceAppUrlScheme: "searchpicturefrontlogin",
 };
 
 const androidKeys = {
@@ -64,6 +64,8 @@ const StartMain = ({ navigation }) => {
           return;
         }
         resolve(token);
+              getUserProfile();
+
       });
       AsyncStorage.setItem("isLogin", "true");
     });
@@ -102,6 +104,7 @@ const StartMain = ({ navigation }) => {
           providerName: "NAVER",
         },
       })
+
       .then(async (res) => {
         console.log("토큰 보냈다!");
         console.log("응답:", res.data.data.accessToken);
@@ -183,6 +186,7 @@ const StartMain = ({ navigation }) => {
             providerName: "NAVER",
           },
         })
+
         .then((res) => {
           console.log("로그인했다! : ", res.data.data);
           setRefreshToken(res.data.data.refreshToken);
@@ -254,7 +258,6 @@ const StartMain = ({ navigation }) => {
                 source={require("../../assets/icons/Home/naverLogin.png")}
               />
             </Btn2>
-
             <Btn
               style={{ marginTop: height * 0.025 }}
               onPress={() => hanldeContinue()}

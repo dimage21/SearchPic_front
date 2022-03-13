@@ -12,6 +12,8 @@
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h> 
 #import <GoogleMaps/GoogleMaps.h>
+#import <NaverThirdPartyLogin/NaverThirdPartyLoginConnection.h>
+#import <React/RCTLinkingManager.h>
 
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];
@@ -49,7 +51,12 @@ static void InitializeFlipper(UIApplication *application) {
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  [[NaverThirdPartyLoginConnection getSharedInstance] setIsInAppOauthEnable:YES];
   return YES;
+}
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary *)options {
+    return [[NaverThirdPartyLoginConnection getSharedInstance] application:app openURL:url options:options];
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge

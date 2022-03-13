@@ -1,50 +1,180 @@
 import axios from "axios";
 import React, {useEffect, useState, Component} from "react";
-import {View, Text, Button, Alert, StyleSheet, Image} from "react-native";
+import {View, Text, Button, Alert, StyleSheet, Image,Feather} from "react-native";
 import MapView, {PROVIDER_GOOGLE, Marker, Callout} from "react-native-maps";
 import preURL from "../../preURL/preURL";
+import * as tokenHandling from "../../constants/TokenErrorHandle";
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Searchbar } from "react-native-paper";
+import Geolocation from '@react-native-community/geolocation';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
+import GestureRecognizer from "react-native-swipe-gestures";
 
 
 
-const LikedMarkers=({navigation})=>{
-  const [markers, setMarkers] = useState(null);
-  const [search, setSearch] = useState("");
-  
-  //search bar
-  const updateSearch = (search) => {
-    setSearch(search);
+
+
+
+const LikedMarkers=({navigation})=>{  
+  const [token, setToken] = useState("");
+
+  const [likedMarkers, setLikedMarkers] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [locationSelected, setLocationSelected] = useState(null);
+  const [nearPlace, setNearPlace] = useState(null);
+  const [location, setLocation] = useState(null);
+  const [nearPlaceInfo, setNearPlaceInfo] = useState(null);
+  const [modal, setModal] = useState(false);
+
+  console.log("======================[내가 좋아요한 장소]===================");
+
+  //get user Info
+  const getUserToken = async () => {
+    const userToken = await AsyncStorage.getItem("userToken");
+    setToken(userToken);
+    console.log("userToken ", userToken);
+    setToken(
+      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjQ1NTMwNDQ5LCJleHAiOjE2NDc2Nzc5MzN9.65q5K9uUUeCrXt7ZckdaKhheKPBROrSBrbX8TqdKVTk"
+    );
   };
   
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
 
   useEffect(() => {
+    getUserToken();
+    console.log("토큰: ", token);
+  }, []);
+
+  useEffect(() => {
+    console.log("config: ", config);
+    getMarkInfo();
+  }, [token]);
+
+
+  //search bar Data
+  const updateSearch = (searchQuery) => {
+    setSearchQuery(searchQuery);
+    console.log("🔍검색창 : ", searchQuery)
     axios
-      .get(preURL.preURL + "/locations/filter/mark")
+      .get(preURL.preURL + '/api/locations?query='+searchQuery)
+      .then((res) => {
+              console.log("🔍지도검색 응답 받았다! ", res.data.data);
+              setNearPlace(res.data.data);
+            })
+      .catch((err) => {
+               console.log("🔍지도검색 에러 발생❗️ ", err);
+            });
+    
+  };
+  
+  // select Location
+  const updateLocation = (locationSelected)=>{
+    setLocationSelected(locationSelected);
+    console.log("리스트 선택 : ", locationSelected)
+  };
+
+  // Region Change
+  // const [updateRegion, setUpdateRegion] = useState(null);
+  // const onRegionChange = () => {
+  //   setUpdateRegion({
+  //     latitude: setLocationSelected.y,
+  //     longitude : setLocationSelected.x,
+  //     latitudeDelta:0.2,
+  //     longitudeDelta:0.2,
+  //    })
+  // }
+
+  
+  //load Marked Location Data
+  const getMarkInfo = () => {
+    axios
+      .get(preURL.preURL + "/locations/filter/mark", config)
       .then((res) =>{
         console.log("📍좋아요한 장소 응답 받았다! ", res.data.data);
-        setMarkers(res.data.data);
+        setLikedMarkers(res.data.data);
       })
       .catch((err)=>{
         console.log("📍좋아요한 장소 에러 발생❗️ ", err);
+        tokenHandling.tokenErrorHandling();
       });
       
       
-  }, []);
- 
+  };
 
 
+  //Get User's Current Position
+  useEffect(() => { 
+    Geolocation.getCurrentPosition(
+      position => {
+        const { latitude, longitude } = position.coords
+        setLocation({ latitude, longitude })
+      },
+      error => {
+        console.log(error.code, error.message)
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+    )
+  }, [])
 
+  //Get Near Place Information
+  const getNearPlaceInfo = () => {
+    axios
+      .get(preURL.preURL + "/locations/100?x=126.968778003094&y=37.5764986919736", config)
+      .then((res) =>{
+        console.log("📍주변 장소 응답 받았다! ", res.data.data);
+        setNearPlaceInfo(res.data.data);
+      })
+      .catch((err)=>{
+        console.log("📍주변 장소 에러 발생❗️ ", err);
+        tokenHandling.tokenErrorHandling();
+      });
+      
+  };
 
-  //initialRegion
-  const [initialRegion, setInitalResion] = useState({
-    latitude: 33.4099997,
-            longitude: 126.4873745,
-            latitudeDelta: 1,
-            longitudeDelta: 1,
-  })
-
+  const renderItem = ({item})=>{
+    console.log("📍주변 장소 정보 불러옴! ");
+    return(
+      
+      <View style={{margin : 10}}>
+        <Text style={{fontWeight:'bold', alignSelf:'center', margin:10,}}>주변 포토스팟</Text>
+        {nearPlaceInfo && nearPlaceInfo.map((nearPlaceInfo)=>(
+        <View style={styles.modalContentsBox}>
+          <View style={styles.imageBox}>
+          <Image
+            style={{
+              height:100,
+              width:100,
+              margin:10,
+            }}
+            source={{
+              url : nearPlaceInfo.repImageUrl
+            }}
+          /></View>
+          <View style={styles.textBox}>
+            <Text style={{color:"black", fontSize:15, margin:10, marginTop:15}}>
+              {"\<"}{nearPlaceInfo.placeName}{"\>"}
+            </Text>
+            <Text style={{color:"black", fontSize:12, marginLeft:10}}>
+              {nearPlaceInfo.address}
+            </Text>   
+            <Text style={{color:"#c4c4c4", fontSize:10, marginLeft:10, marginTop:5}}>
+              관련태그 : {nearPlaceInfo.repTags}
+            </Text>
+            <Text style={{color:"#c4c4c4", fontSize:10, marginLeft:10, marginTop:5}}>
+              거리 : {nearPlaceInfo.distance} m
+            </Text>
+          </View>
+        </View>
+        ))}
+      </View>
+      
+    );
+  };
 
 
   //안드로이드용 현재위치 버튼 활성화
@@ -52,16 +182,17 @@ const LikedMarkers=({navigation})=>{
   const updateMapStyle = () => {
     setMapWidth('100%')
   }
+  
+  
+    
+  
+
   return(
     <>
-      <View style = {{flex : 1}}>
-        <View style={styles.searchBar}>
-          <Searchbar
-            placeholder="Type Here..."
-            onChangeText={updateSearch}
-            value={search}
-          />
-        </View>
+    <View style = {{flex : 1}}>
+
+        
+        { location && (
         <MapView
         style={[{flex: 1}, {width : mapWidth} ]}
         provider={PROVIDER_GOOGLE}
@@ -70,15 +201,22 @@ const LikedMarkers=({navigation})=>{
         followsUserLocation={true}
         zoomEnabled = {true}
         onPress={this.pickLocationHandler}
-        initialRegion={initialRegion}
+        initialRegion={{
+          latitude: location.latitude,
+          longitude: location.longitude,
+          latitudeDelta:1,
+          longitudeDelta:1,
+        }}
+        // initialRegion={initialRegion}
         onMapReady={()=> {
           updateMapStyle()
         }}
         >
-          {markers &&
-            markers.map((marker)=>(
+          {likedMarkers &&
+            likedMarkers.map((marker)=>(
               <Marker
                 coordinate={{
+                  id : marker.id,
                   latitude : marker.y,
                   longitude: marker.x,
                 }}
@@ -86,8 +224,8 @@ const LikedMarkers=({navigation})=>{
                 <Callout tooltip>
                   <View>
                     <View style={styles.bubble}>
-                      <Text style={styles.name}>Place Name</Text>
-                      <Text>포토스팟 위치 주소</Text>   
+                      <Text style={styles.name}>{marker.placeName}</Text>
+                      <Text>{marker.address}</Text>   
                       <Image
                         style={styles.image}
                         source={{
@@ -102,8 +240,10 @@ const LikedMarkers=({navigation})=>{
                 </Callout>
               </Marker>
             ))}
-          
-        </MapView>
+        
+        </MapView>)}
+
+        {/* 상단 버튼 3개 */}
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={{
@@ -143,7 +283,9 @@ const LikedMarkers=({navigation})=>{
           >
             <Text>내가 좋아요한 장소</Text>
           </TouchableOpacity>
-      </View>
+        </View>
+          
+        {/* 포토스팟 추가버튼 */}
         <View style={styles.addPhotoContainer}>
           <TouchableOpacity
           onPress={()=>navigation.navigate("AddPlaceMain")}
@@ -159,39 +301,125 @@ const LikedMarkers=({navigation})=>{
 
         </View>
 
+        {/* 주변정보 불러오기 버튼 */}
+        <View style={styles.nearPlaceContainer}>
+          <TouchableOpacity
+          onPress={()=>setModal(true)}
+          style={{
+            width:120, height:30, displa: "flex", 
+            justifyContent:"center", alignItems:"center",
+            backgroundColor:"white", borderRadius:20,
+            padding:5,
+          }}
+          >
+            <Text>내 주변 장소 보기</Text>
+          </TouchableOpacity>
 
-      </View>
+        </View>
+
+        {/* 검색창 */}
+        <View style={styles.searchBar}>
+            <AutocompleteDropdown
+              clearOnFocus={false}
+              closeOnBlur={true}
+              closeOnSubmit={false}
+              dataSet={nearPlace}
+              onChangeText={updateSearch}
+              textInputProps={{
+                placeholder: "위치검색",
+                autoCorrect: false,
+                autoCapitalize: "none",
+                style: {
+                  borderRadius: 15,
+                  backgroundColor: "white",
+                  color: "black",
+                  paddingLeft: 18
+                }
+              }}
+              rightButtonsContainerStyle={{
+                borderRadius: 15,
+                right: 8,
+                height: 30,
+                top: 5,
+                alignSelfs: "center",
+                backgroundColor: "white"
+              }}
+              suggestionsListContainerStyle={{
+                backgroundColor: "white"
+              }}
+              containerStyle={{ flexGrow: 1, flexShrink: 1 }}
+              renderItem={(item, text) => (
+                <Text style={{ color: "green", padding: 15 }}>{item.placeName}</Text>
+                
+              )}
+              onSelectItem={updateLocation}
+            />
+        </View>
+    </View>
+      {modal ? (
+        <View style = {{ 
+            display : "flex", justifyContent: "flex-end",
+            backgroundColor:"transparent",
+            }}>
+            <GestureRecognizer onSwipeDown={() => setModal(false)}>
+              <Modal 
+                visible={modal} 
+                transparent={true}
+                animationType="slide"
+              >
+                <View
+                  style={{
+                    height:'50%',
+                    marginTop:'auto',
+                  }}
+                >
+                  <View style={styles.modalFooter}>
+                    <FlatList
+                      data={nearPlaceInfo}
+                      renderItem={renderItem}
+                      // numColumns={2}
+                    />
+                  </View>
+                </View>
+                <TouchableOpacity
+                  style={styles.addButton}
+                  onPress={() => {
+                    setModal(false)
+                  }}>
+                  <Text style={{color:'white', 'fontSize':15}}>Close</Text>
+                </TouchableOpacity>
+              </Modal>
+            </GestureRecognizer>
+        </View>
+        ):(
+        <View></View>
+        )
+      }
     </>
   );
-
-
 
 
 }
 
 
-
-
 const styles = StyleSheet.create({
 
   searchBar:{
-    marginLeft:15,
-    marginRight:15,
-    marginTop:10,
-    marginBottom:45,
-    top:'5%',
-    backgroundColor:'transparent',
-  
+    position : "absolute",
+    top:"5%",
+    alignSelf:'center',
+    backgroundColor:'white',
+    width: "95%",
+    height:0,
   },
   
   buttonContainer:{
     position: "absolute",
-    top: '13%',
+    top: '10%',
     flexDirection: 'row',
     alignSelf:'center',
     backgroundColor: 'transparent',
     margin: 5,
-  
   },
   
   allPlaceButton:{
@@ -222,6 +450,14 @@ const styles = StyleSheet.create({
     left:"84%",
   
   },
+  nearPlaceContainer:{
+    position: "absolute",
+    bottom:"1%",
+    alignContent:'center',
+    alignSelf:'center',
+  
+  },
+  
   bubble: {
     flexDirection: 'column',
     alignSelf: 'flex-start',
@@ -235,8 +471,8 @@ const styles = StyleSheet.create({
   name:{
     fontSize:16,
     marginBottom:5,
+    
   },
-  
   arrow:{
     backgroundColor: 'transparent',
     borderColor: 'transparent',
@@ -257,6 +493,58 @@ const styles = StyleSheet.create({
     width:120,
     height:80,
     marginTop: 5,
+  },
+  modalFooter: {
+    flex: 1,
+    backgroundColor: '#fff',
+    borderRadius:25,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 10,
+  },
+  addButton: {
+    position: 'absolute',
+    zIndex: 11,
+    right: 20,
+    bottom: 20,
+    backgroundColor: '#001A72',
+    width: 50,
+    height: 50,
+    borderRadius: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 8,
+  },
+  modalContentsBox:{
+    flexDirection: 'row',
+    width: '95%',
+    height: 120,
+    alignSelf:'center',
+    borderRadius: 5,
+    marginBottom:10,
+    overflow: "hidden",
+    display: "flex",
+    justifyContent: "center",
+    alignItems:"flex-start",
+    backgroundColor:'white',
+    borderColor:"#c4c4c4",
+    borderWidth: 0.5,
+  },
+  imageBox:{
+    flex:0.4,
+    height:"100%",
+    backgroundColor:'transparent',
+    alignContent:'center',
+    alignItems:'center'
+  },
+  textBox:{
+    flex:0.6,
+    flexDirection:'column',
+    height:"100%",
+    backgroundColor:'transparent',
+   
+  
   }
   
   })
