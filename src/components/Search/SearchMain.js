@@ -66,7 +66,7 @@ const SearchMain = ({ navigation }) => {
   }, []);
 
   const searchPop = (name) => {
-    setKeyword(name);
+    setKeyword([name]);
     setValue("RECENT");
     postKeyword();
     setResultPage(true);
@@ -76,7 +76,7 @@ const SearchMain = ({ navigation }) => {
     console.log("item(인기 태그) 불러옴");
     return (
       <View style={{ margin: 10 }}>
-        <TouchableOpacity onPress={() => searchPop(`${itme.name}`)}>
+        <TouchableOpacity onPress={() => searchPop(`${item.name}`)}>
           <ImageBackground
             source={{ uri: `${item.url}` }}
             style={{
@@ -273,7 +273,9 @@ const SearchMain = ({ navigation }) => {
               }}
             >
               <View>
-                <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+                <Text
+                  style={{ fontSize: 18, fontWeight: "bold", marginTop: 10 }}
+                >
                   검색 결과
                 </Text>
               </View>
@@ -293,7 +295,7 @@ const SearchMain = ({ navigation }) => {
             </View>
 
             {/* 검색 결과 */}
-            <View style={{ width: "100%" }}>
+            <View style={{ width: "100%", padding: 10 }}>
               <FlatList
                 data={result}
                 extraData={result}
