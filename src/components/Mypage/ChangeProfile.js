@@ -102,8 +102,7 @@ const ChangeProfile = ({ navigation }) => {
 
     const config = {
       headers: {
-        // Authorization: `Bearer ${token}`,
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjM4NDM5MzYxLCJleHAiOjE2MzkxNTkzNjF9.6w88W_vkHeq2sV1O409awYb03329NJZgj0_PdhLZq4s`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
       },
     };

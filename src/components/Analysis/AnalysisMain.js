@@ -28,9 +28,6 @@ const AnalysisMain = ({ navigation }) => {
     const userToken = await AsyncStorage("userToken");
     setToken(userToken);
     console.log("userToken ", userToken);
-    setToken(
-      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjM5MjIwMjc2LCJleHAiOjE2Mzk5NDAyNzZ9.dMJANe3DNDgrPPpoMvrb4fHXcq-Q4TNRqjyIY6e9vHs"
-    );
   };
 
   useEffect(() => {

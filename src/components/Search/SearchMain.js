@@ -45,9 +45,6 @@ const SearchMain = ({ navigation }) => {
     const userToken = await AsyncStorage.getItem("userToken");
     setToken(userToken);
     console.log("userToken ", userToken);
-    setToken(
-      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjM5OTg2MjU5LCJleHAiOjIzNTk5ODYyNTl9.2X8FGvxEO6DJklEsSDE4nTVZ4wKFb0sC4kBaycEXlOE"
-    );
   };
 
   useEffect(() => {
