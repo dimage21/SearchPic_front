@@ -53,6 +53,7 @@ const LikedMarkers = ({ navigation }) => {
   useEffect(() => {
     console.log("config: ", config);
     getMarkInfo();
+    getNearPlaceInfo();
   }, [token]);
 
   //search bar Data
