@@ -34,9 +34,9 @@ const UploadMarkers=({navigation})=>{
     const userToken = await AsyncStorage.getItem("userToken");
     setToken(userToken);
     console.log("userToken ", userToken);
-    setToken(
-      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjQ1NTMwNDQ5LCJleHAiOjE2NDc2Nzc5MzN9.65q5K9uUUeCrXt7ZckdaKhheKPBROrSBrbX8TqdKVTk"
-    );
+    // setToken(
+    //   "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjQ1NTMwNDQ5LCJleHAiOjE2NDc2Nzc5MzN9.65q5K9uUUeCrXt7ZckdaKhheKPBROrSBrbX8TqdKVTk"
+    // );
   };
   
   const config = {
@@ -53,6 +53,7 @@ const UploadMarkers=({navigation})=>{
   useEffect(() => {
     console.log("config: ", config);
     getMemberInfo();
+    getNearPlaceInfo();
   }, [token]);
 
 
@@ -338,10 +339,7 @@ const UploadMarkers=({navigation})=>{
               renderItem={(item, text) => (
                 <Text style={{ color: "black", padding: 15 }}>{item.placeName}</Text>
               )}
-              onSelectItem={item =>{
-                item && setSelectedLat(item.y);
-                item && setSelectedLong(item.x);
-              }}
+              onSelectItem={updateLocation}
             />
         </View>
 
