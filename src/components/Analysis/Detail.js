@@ -30,6 +30,7 @@ const Detail = ({ navigation, route }) => {
   const [IFF, setIFF] = useState();
 
   console.log("=======================[Detail]======================");
+  console.log("locationId : ", locationId);
 
   const getUserToken = async () => {
     const userToken = await AsyncStorage.getItem("userToken");
