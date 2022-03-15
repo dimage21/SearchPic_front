@@ -26,7 +26,7 @@ const SearchMain = ({ navigation }) => {
   const [resultPage, setResultPage] = useState(false);
   let [result, setResult] = useState([]);
   const [modal, setModal] = useState(false);
-  const [info, setInfo] = useState();
+  let [info, setInfo] = useState();
   // Dropdown
   const [open, setOpen] = useState(false);
   const [item, setItem] = useState([
@@ -145,12 +145,12 @@ const SearchMain = ({ navigation }) => {
 
   // 검색 결과 사진 목록
   const listItems = ({ item }) => {
+    setInfo(item);
+    console.log("info: ", info);
     return (
       <View>
         <TouchableOpacity
           onPress={() => {
-            setInfo(item);
-            console.log("info: ", info);
             setModal(true);
           }}
         >
@@ -348,11 +348,13 @@ const SearchMain = ({ navigation }) => {
                         />
                       </TouchableOpacity>
                       <TouchableOpacity
-                        onPress={() =>
+                        onPress={() => {
+                          console.log("locationID 넘기기 : ", info.postId);
                           navigation.navigate("Detail", {
-                            locationId: info.postId,
-                          })
-                        }
+                            locationId: info.locationId,
+                          });
+                          setModal(false);
+                        }}
                       >
                         <Image
                           source={{ uri: `${info.pictureUrl}` }}
