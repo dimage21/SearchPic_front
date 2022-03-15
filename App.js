@@ -60,20 +60,26 @@ const App = () => {
             headerShown: false,
           }}
         >
-          {token == null || rtoken == null ? (
-            <MainStack.Screen
-              name="Start"
-              component={Start}
-              options={{ headerShown: false }}
-            />
+          {token == null && rToken == null ? (
+            <>
+              <MainStack.Screen
+                name="Start"
+                component={Start}
+                options={{ headerShown: false }}
+              />
+              <MainStack.Screen
+                name="NavTabs"
+                component={NavTabs}
+                option={{ headerShown: false }}
+              />
+            </>
           ) : (
-            <></>
+            <MainStack.Screen
+              name="NavTabs"
+              component={NavTabs}
+              option={{ headerShown: false }}
+            />
           )}
-          <MainStack.Screen
-            name="NavTabs"
-            component={NavTabs}
-            option={{ headerShown: false }}
-          />
           <MainStack.Screen
             name="Analysis"
             component={Analysis}
