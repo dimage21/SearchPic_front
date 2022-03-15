@@ -13,6 +13,7 @@ import Map from "./src/screens/MapScreen";
 import Mypage from "./src/screens/MypageSreen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import preURL from "./src/preURL/preURL";
 
@@ -21,6 +22,7 @@ const MainStack = createStackNavigator();
 const App = () => {
   const [token, setToken] = useState();
   const [rToken, setRToken] = useState();
+  const [login, setLogin] = useState("false");
 
   const getUserToken = async () => {
     const userToken = await AsyncStorage.getItem("userToken");
@@ -29,14 +31,26 @@ const App = () => {
     setRToken(refreshToken);
     console.log("userToken ", token);
   };
+
+  const getLogin = async () => {
+    const isLogin = await AsyncStorage.getItem("isLogin");
+    console.log("회원가입 여부 : ", isLogin);
+
+    setLogin(isLogin);
+    console.log("회원가입 여부 2 : ", login);
+  };
+
   useEffect(() => {
     SplashScreen.hide();
+    console.log("====================[App.js]=====================");
     getUserToken();
+    getLogin();
     const config = {
       headers: {
         "refresh-token": rToken,
       },
     };
+
     // if (token == null || "") {
     //   axios
     //     .get(preURL.preURL + "reissue/access-token", config)
@@ -60,26 +74,21 @@ const App = () => {
             headerShown: false,
           }}
         >
-          {token == null && rToken == null ? (
-            <>
-              <MainStack.Screen
-                name="Start"
-                component={Start}
-                options={{ headerShown: false }}
-              />
-              <MainStack.Screen
-                name="NavTabs"
-                component={NavTabs}
-                option={{ headerShown: false }}
-              />
-            </>
-          ) : (
+          {/* {token == null && rToken == null ? ( */}
+          {login == "false" ? (
             <MainStack.Screen
-              name="NavTabs"
-              component={NavTabs}
-              option={{ headerShown: false }}
+              name="Start"
+              component={Start}
+              options={{ headerShown: false }}
             />
+          ) : (
+            <></>
           )}
+          <MainStack.Screen
+            name="NavTabs"
+            component={NavTabs}
+            option={{ headerShown: false }}
+          />
           <MainStack.Screen
             name="Analysis"
             component={Analysis}
