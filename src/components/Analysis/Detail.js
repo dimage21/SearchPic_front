@@ -86,6 +86,11 @@ const Detail = ({ navigation, route }) => {
   }, []);
 
   const postMark = () => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     console.log("전송:", config, locationId);
     axios
       .post(preURL.preURL + `/location/${locationId}/mark`, "", config)

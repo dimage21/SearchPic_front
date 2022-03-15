@@ -49,7 +49,7 @@ const Result = ({ navigation, route }) => {
     console.log("전송:", config, locationId);
     fetch(preURL.preURL + `/location/${locationId}/mark`, {
       method: "POST",
-      config,
+      config: config,
     })
       .then((res) => {
         console.log("마크 추가 보냈다!");
