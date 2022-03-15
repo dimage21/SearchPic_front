@@ -32,7 +32,7 @@ const Mypage = () => {
         component={Detail}
         options={{ headerShown: false }}
       />
-      <StartStack.Screen
+      <MypageStack.Screen
         name="StartMain"
         component={StartMain}
         options={{ headerShown: false }}
