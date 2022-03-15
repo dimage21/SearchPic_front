@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState, Component } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
   Image,
   Modal,
   FlatList,
+  Animated,
 } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Marker, Callout } from "react-native-maps";
 import preURL from "../../preURL/preURL";
@@ -79,6 +80,8 @@ const MapMain = ({ navigation }) => {
   };
 
   // Region Change
+  const _map = React.useRef(null);
+
   // const [updateRegion, setUpdateRegion] = useState(null);
   // const onRegionChange = () => {
   //   setUpdateRegion({
@@ -209,6 +212,7 @@ const MapMain = ({ navigation }) => {
       <View style={{ flex: 1 }}>
         {location && (
           <MapView
+            ref={_map}
             style={[{ flex: 1 }, { width: mapWidth }]}
             provider={PROVIDER_GOOGLE}
             showsUserLocation={true}
