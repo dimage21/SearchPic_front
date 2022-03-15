@@ -68,8 +68,8 @@ const SearchMain = ({ navigation }) => {
   const searchPop = (name) => {
     setKeyword([name]);
     setValue("RECENT");
-    postKeyword();
     setResultPage(true);
+    postKeyword();
   };
 
   const renderItem = ({ item }) => {
@@ -101,6 +101,10 @@ const SearchMain = ({ navigation }) => {
     );
   };
 
+  useEffect(() => {
+    postKeyword();
+  }, [open]);
+
   const postKeyword = () => {
     console.log("보낼 키워드: ", keyword);
     console.log("보낼 정렬 기준: ", value);
@@ -109,11 +113,14 @@ const SearchMain = ({ navigation }) => {
       setPage(0);
     }
     let keywords = "";
-    for (let i = 0; i < keyword.length; i++) {
-      keywords = keywords + keyword[i] + ",";
-      console.log(keywords);
+    let rkeywords = "";
+    if (keyword.length >= 2) {
+      for (let i = 0; i < keyword.length; i++) {
+        keywords = keywords + keyword[i] + ",";
+        console.log(keywords);
+        rkeywords = keywords.slice(0, -1);
+      }
     }
-    let rkeywords = keywords.slice(0, -1);
     console.log("실제 보낼 태그 : ", rkeywords);
     console.log(
       "url 확인 : ",
@@ -284,12 +291,13 @@ const SearchMain = ({ navigation }) => {
                 open={open}
                 value={value}
                 items={item}
-                setOpen={setOpen}
-                setValue={setValue}
-                setItems={setItem}
+                setOpen={() => setOpen(open)}
+                setValue={() => setValue(value)}
+                setItems={() => setItem(item)}
                 containerStyle={{
                   width: "30%",
                   marginBottom: 10,
+                  zIndex: 5,
                 }}
               />
             </View>
@@ -316,6 +324,7 @@ const SearchMain = ({ navigation }) => {
                 alignItems: "center",
               }}
             >
+              {/* 결과 상세 모달 */}
               {info !== undefined ? (
                 <GestureRecognizer onSwipeDown={() => setModal(false)}>
                   <Modal animationType="slide" visible={modal} transparent>
@@ -330,7 +339,7 @@ const SearchMain = ({ navigation }) => {
                         marginTop: "60%",
                       }}
                     >
-                      <TouchableOpacity>
+                      <TouchableOpacity onPress={() => setModal(false)}>
                         <Icon
                           size={25}
                           color="black"
@@ -354,8 +363,8 @@ const SearchMain = ({ navigation }) => {
                         <Image
                           source={{ uri: `${info.pictureUrl}` }}
                           style={{
-                            width: 310,
-                            height: 310,
+                            width: 300,
+                            height: 300,
                             alignSelf: "center",
                           }}
                         />
