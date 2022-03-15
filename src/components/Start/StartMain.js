@@ -137,7 +137,7 @@ const StartMain = ({ navigation }) => {
     // navigation.navigate("Profile", { spToken: spToken });
     console.log(isLogin, "&&", aToken, "&&", refreshToken);
     if (
-      isLogin != null &&
+      isLogin == "true" &&
       aToken != null &&
       aToken != "" &&
       refreshToken != null &&
