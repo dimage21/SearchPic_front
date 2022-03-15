@@ -47,33 +47,31 @@ const Result = ({ navigation, route }) => {
 
   const postMark = (locationId) => {
     console.log("전송:", config, locationId);
-    fetch(preURL.preURL + `/location/${locationId}/mark`, {
-      method: "POST",
-      config,
-    })
+    axios
+      .post(preURL.preURL + `/location/${locationId}/mark`, "", config)
       .then((res) => {
-        console.log("마크 추가 보냈다!");
-        console.log(res);
+        console.log("마크 추가 보냈다! ", res.data);
+        setResult(res.data);
       })
       .catch((err) => {
-        console.log("에러 발생 ");
-        console.log(err);
-        tokenHandling.tokenErrorHandling(err);
+        console.log("에러 발생 - postMark ", err);
       });
   };
 
   const deleteMark = (locationId) => {
     console.log("전송:", config, locationId);
     axios
-      .delete(preURL.preURL + `/location/${locationId}/un-mark`, config)
+      .delete(
+        preURL.preURL + `/location/${locationId}/un-mark`,
+        config,
+        locationId
+      )
       .then((res) => {
-        console.log("마크 취소 보냈다!");
-        console.log(res);
+        console.log("마크 취소 보냈다! ", res.data);
+        setResult(res.data);
       })
       .catch((err) => {
-        console.log("에러 발생 ");
-        console.log(err);
-        tokenHandling.tokenErrorHandling(err);
+        console.log("에러 발생 - deleteMark ", err);
       });
   };
 

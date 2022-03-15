@@ -5,6 +5,7 @@ import Setting from "../components/Mypage/Setting";
 import ChangeProfile from "../components/Mypage/ChangeProfile";
 import Detail from "../components/Analysis/Detail";
 import Result from "../components/Analysis/Result";
+import StartMain from "../components/Start/StartMain";
 
 const MypageStack = createNativeStackNavigator();
 
@@ -29,6 +30,11 @@ const Mypage = () => {
       <MypageStack.Screen
         name="Detail"
         component={Detail}
+        options={{ headerShown: false }}
+      />
+      <MypageStack.Screen
+        name="StartMain"
+        component={StartMain}
         options={{ headerShown: false }}
       />
     </MypageStack.Navigator>
