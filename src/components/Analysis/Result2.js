@@ -78,7 +78,7 @@ const Result2 = ({ navigation, route }) => {
   return (
     <SafeAreaView
       style={{
-        padding: 15,
+        padding: 20,
         width: "100%",
         height: "100%",
         backgroundColor: "#ffffff",
@@ -88,16 +88,30 @@ const Result2 = ({ navigation, route }) => {
         <Icon size={40} color="black" name="left" />
       </TouchableOpacity>
       <View style={{ padding: 10 }}>
-        <Text
-          style={{
-            fontSize: 20,
-            marginTop: 20,
-            marginBottom: 10,
-            fontWeight: "bold",
-          }}
-        >
-          ${type} 분석 결과
-        </Text>
+        {type == "cafe" ? (
+          <Text
+            style={{
+              fontSize: 20,
+              marginTop: 20,
+              marginBottom: 10,
+              fontWeight: "bold",
+            }}
+          >
+            카페/식당 분석 결과
+          </Text>
+        ) : (
+          <Text
+            style={{
+              fontSize: 20,
+              marginTop: 20,
+              marginBottom: 10,
+              fontWeight: "bold",
+            }}
+          >
+            명소 분석 결과
+          </Text>
+        )}
+
         <Text style={{ fontSize: 16, color: "#89A3F5" }}>Best</Text>
         <View style={styles.imageBlock}>
           <TouchableOpacity
