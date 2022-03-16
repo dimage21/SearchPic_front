@@ -13,11 +13,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import preURL from "../../preURL/preURL";
 import * as tokenHandling from "../../constants/TokenErrorHandle";
 
-const Result = ({ navigation, route }) => {
-  // const result = route.params.result;
-  const [result, setResult] = useState(route.params.result);
-  const imageFormData = route.params.imageFormData;
-  const cfg = route.params.config;
+const Result2 = ({ navigation, route }) => {
+  const result = route.params.result;
+  const type = route.params.type;
+  //   const [result, setResult] = useState(route.params.result);
+
   const [token, setToken] = useState("");
 
   const [reLoader, setReLoader] = useState(0);
@@ -75,24 +75,6 @@ const Result = ({ navigation, route }) => {
       });
   };
 
-  const postAgain = (type) => {
-    console.log("postAgain 호출 완료");
-    console.log("type : ", type);
-    console.log("postAgain request ", imageFormData, cfg);
-    axios
-      .post(preURL.preURL + `/analysis?type=${type}`, imageFormData, cfg)
-      .then((res) => {
-        navigation.navigate("Result2", {
-          result: res.data,
-          type: type,
-        });
-      })
-      .catch((err) => {
-        console.log("에러 발생 - 분석 결과 요청 ", err);
-        tokenHandling.tokenErrorHandling(err);
-      });
-  };
-
   return (
     <SafeAreaView
       style={{
@@ -102,7 +84,7 @@ const Result = ({ navigation, route }) => {
         backgroundColor: "#ffffff",
       }}
     >
-      <TouchableOpacity onPress={() => navigation.navigate("AnalysisMain")}>
+      <TouchableOpacity onPress={() => navigation.navigate("Result")}>
         <Icon size={40} color="black" name="left" />
       </TouchableOpacity>
       <View style={{ padding: 10 }}>
@@ -114,7 +96,7 @@ const Result = ({ navigation, route }) => {
             fontWeight: "bold",
           }}
         >
-          분석 결과
+          ${type} 분석 결과
         </Text>
         <Text style={{ fontSize: 16, color: "#89A3F5" }}>Best</Text>
         <View style={styles.imageBlock}>
@@ -239,34 +221,13 @@ const Result = ({ navigation, route }) => {
               )}
             </View>
           </View>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-around",
-              marginTop: 15,
-            }}
-          >
-            <TouchableOpacity
-              style={styles.analysisbtn}
-              onPress={() => postAgain("cafe")}
-            >
-              <Text style={{ color: "#ffffff", fontSize: 15 }}>카페/식당</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.analysisbtn}
-              onPress={() => postAgain("attraction")}
-            >
-              <Text style={{ color: "#ffffff", fontSize: 15 }}>명소</Text>
-            </TouchableOpacity>
-          </View>
         </View>
       </View>
     </SafeAreaView>
   );
 };
 
-export default Result;
+export default Result2;
 
 const styles = StyleSheet.create({
   imageBlock: {
@@ -283,13 +244,4 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   image: { width: 156, height: 97, margin: 10, marginLeft: 0 },
-  analysisbtn: {
-    backgroundColor: "#001A72",
-    width: "30%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 10,
-    borderRadius: 15,
-  },
 });
