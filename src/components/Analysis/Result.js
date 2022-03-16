@@ -14,17 +14,14 @@ import preURL from "../../preURL/preURL";
 import * as tokenHandling from "../../constants/TokenErrorHandle";
 
 const Result = ({ navigation, route }) => {
-  // const result = route.params.result;
-  const [result, setResult] = useState(route.params.result);
+  const result = route.params.result;
   const imageFormData = route.params.imageFormData;
   const cfg = route.params.config;
   const [token, setToken] = useState("");
 
-  const [reLoader, setReLoader] = useState(0);
-
-  const [Result1, setResult1] = useState(result.data[0]);
-  const [Result2, setResult2] = useState(result.data[1]);
-  const [Result3, setResult3] = useState(result.data[2]);
+  const Result1 = result.data[0];
+  const Result2 = result.data[1];
+  const Result3 = result.data[2];
 
   let [mark1, setMark1] = useState(Result1.marked);
   let [mark2, setMark2] = useState(Result2.marked);
@@ -39,7 +36,7 @@ const Result = ({ navigation, route }) => {
   useEffect(() => {
     console.log("=======================[Result]=====================");
     getUserToken();
-  }, [reLoader]);
+  }, []);
 
   const config = {
     headers: {
@@ -85,6 +82,11 @@ const Result = ({ navigation, route }) => {
         navigation.navigate("Result2", {
           result: res.data,
           type: type,
+          originalData: {
+            result: result,
+            imageFormData: imageFormData,
+            config: cfg,
+          },
         });
       })
       .catch((err) => {

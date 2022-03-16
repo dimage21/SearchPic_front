@@ -196,9 +196,6 @@ const SearchMain = ({ navigation }) => {
           </Text>
         </View>
       )}
-      <View
-        style={{ padding: 20, display: "flex", flexDirection: "row" }}
-      ></View>
       <Tags
         initialText="태그 ..."
         textInputProps={{
@@ -225,6 +222,7 @@ const SearchMain = ({ navigation }) => {
           backgroundColor: "white",
           borderBottomColor: "#000",
           borderBottomWidth: 1,
+          padding: 15,
         }}
         maxNumberOfTags={5}
         renderTag={({ tag, index, onPress, deleteTagOnPress, readonly }) => (
@@ -248,7 +246,7 @@ const SearchMain = ({ navigation }) => {
           postKeyword();
         }}
         style={{
-          width: "95%",
+          width: "90%",
           backgroundColor: "#001A72",
           padding: 10,
           justifyContent: "center",
@@ -258,7 +256,7 @@ const SearchMain = ({ navigation }) => {
           margin: 10,
         }}
       >
-        <Text style={{ color: "white" }}>검색</Text>
+        <Text style={{ color: "white", fontSize: 15 }}>검색</Text>
       </TouchableOpacity>
       {resultPage ? (
         // 검색창에 입력했을 경우

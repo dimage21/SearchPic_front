@@ -16,6 +16,7 @@ import * as tokenHandling from "../../constants/TokenErrorHandle";
 const Result2 = ({ navigation, route }) => {
   const result = route.params.result;
   const type = route.params.type;
+  const originalData = route.params.originalData;
   //   const [result, setResult] = useState(route.params.result);
 
   const [token, setToken] = useState("");
@@ -84,7 +85,9 @@ const Result2 = ({ navigation, route }) => {
         backgroundColor: "#ffffff",
       }}
     >
-      <TouchableOpacity onPress={() => navigation.navigate("Result")}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Result", { result: originalData })}
+      >
         <Icon size={40} color="black" name="left" />
       </TouchableOpacity>
       <View style={{ padding: 10 }}>
