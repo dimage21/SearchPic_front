@@ -16,7 +16,6 @@ import preURL from "../../preURL/preURL";
 import * as tokenHandling from "../../constants/TokenErrorHandle";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Searchbar } from "react-native-paper";
 import Geolocation from "@react-native-community/geolocation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
@@ -29,9 +28,10 @@ const MapMain = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [locationSelected, setLocationSelected] = useState(null);
   const [nearPlace, setNearPlace] = useState(null);
-  const [location, setLocation] = useState(null);
+  let [location, setLocation] = useState(null);
   const [nearPlaceInfo, setNearPlaceInfo] = useState(null);
   const [modal, setModal] = useState(false);
+  const [locationMarker, setLocationMarker] = useState(false);
 
   console.log("======================[MapMain]===================");
 
@@ -73,24 +73,25 @@ const MapMain = ({ navigation }) => {
       });
   };
 
-  // select Location
+
+  // select Location from the DropDown
   const updateLocation = (locationSelected) => {
     setLocationSelected(locationSelected);
     console.log("리스트 선택 : ", locationSelected);
+    
+    // console.log("리스트 lat", locationSelected.y);
+    // console.log("리스트 long", locationSelected.x);
+    // const latitude = locationSelected.y;
+    // const longitude = locationSelected.x;
+    // setLocation({ latitude, longitude });
+    // console.log("로케이션 출력해보기", location);
+
+    // setLocationMarker(true);
   };
-
-  // Region Change
-  const _map = React.useRef(null);
-
-  // const [updateRegion, setUpdateRegion] = useState(null);
-  // const onRegionChange = () => {
-  //   setUpdateRegion({
-  //     latitude: setLocationSelected.y,
-  //     longitude : setLocationSelected.x,
-  //     latitudeDelta:0.2,
-  //     longitudeDelta:0.2,
-  //    })
-  // }
+  
+  useEffect(()=> {
+    console.log("로케이션!", location);
+  }, [location])z
 
   //load Location Data
   useEffect(() => {
@@ -119,8 +120,10 @@ const MapMain = ({ navigation }) => {
     );
   }, []);
 
+  
+
   //Get Near Place Information
-  const getNearPlaceInfo = () => {
+  const getNearPlaceInfo = (location) => {
     axios
       .get(
         preURL.preURL + "/locations/100?x=126.968778003094&y=37.5764986919736",
@@ -207,6 +210,7 @@ const MapMain = ({ navigation }) => {
     setMapWidth("100%");
   };
 
+
   return (
     <>
       <View style={{ flex: 1 }}>
@@ -220,11 +224,18 @@ const MapMain = ({ navigation }) => {
             followsUserLocation={true}
             zoomEnabled={true}
             onPress={this.pickLocationHandler}
-            initialRegion={{
+            // onPress={()=>{onRegionChange()}}
+            // initialRegion={{
+            //   latitude: location.latitude,
+            //   longitude: location.longitude,
+            //   latitudeDelta: 1,
+            //   longitudeDelta: 1,
+            // }}
+            region={{
               latitude: location.latitude,
               longitude: location.longitude,
-              latitudeDelta: 1,
-              longitudeDelta: 1,
+              latitudeDelta: 0.1,
+              longitudeDelta: 0.1,
             }}
             // initialRegion={initialRegion}
             onMapReady={() => {
@@ -233,6 +244,7 @@ const MapMain = ({ navigation }) => {
             // onRegionChangeComplete={()=> {
             //   onRegionChange()
             // }}
+            
           >
             {markers &&
               markers.map((marker) => (
@@ -307,6 +319,23 @@ const MapMain = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
+        {/*위치이동 마커*/}
+        {locationMarker?
+        <TouchableOpacity onPress={()=>locationMarker(false)}>
+        <View style = {{
+          backgroundColor:'blue',
+          borderRadius:100,
+          width:50,
+          height:20,
+          position:'absolute',
+          top:"50%",
+          left:"50%"
+        }}/>
+        </TouchableOpacity>
+        :(<></>)
+        }
+
+
         {/* 포토스팟 추가버튼 */}
         <View style={styles.addPhotoContainer}>
           <TouchableOpacity
@@ -314,7 +343,7 @@ const MapMain = ({ navigation }) => {
             style={{
               width: "100%",
               height: "100%",
-              displa: "flex",
+              display: "flex",
               justifyContent: "center",
               alignItems: "center",
             }}
@@ -326,11 +355,12 @@ const MapMain = ({ navigation }) => {
         {/* 주변정보 불러오기 버튼 */}
         <View style={styles.nearPlaceContainer}>
           <TouchableOpacity
-            onPress={() => setModal(true)}
+            onPress={() => {setModal(true);
+            setLocationMarker(false);}}
             style={{
               width: 120,
               height: 30,
-              displa: "flex",
+              display: "flex",
               justifyContent: "center",
               alignItems: "center",
               backgroundColor: "white",

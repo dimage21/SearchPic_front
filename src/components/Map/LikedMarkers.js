@@ -430,7 +430,7 @@ const styles = StyleSheet.create({
 
   buttonContainer: {
     position: "absolute",
-    top: "10%",
+    top: "11%",
     flexDirection: "row",
     alignSelf: "center",
     backgroundColor: "transparent",
@@ -461,8 +461,11 @@ const styles = StyleSheet.create({
 
   addPhotoContainer: {
     position: "absolute",
-    top: "83%",
-    left: "84%",
+    // top: "83%",
+    // left: "84%",
+    top: "82%",
+    left: "85%",
+  
   },
   nearPlaceContainer: {
     position: "absolute",
