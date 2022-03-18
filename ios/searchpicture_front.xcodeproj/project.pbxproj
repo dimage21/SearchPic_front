@@ -512,7 +512,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "search-pictest";
+				PRODUCT_BUNDLE_IDENTIFIER = "search-pictest2";
 				PRODUCT_NAME = searchpicture_front;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "searchpicture_front-Bridging-Header.h";

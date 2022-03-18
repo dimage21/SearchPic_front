@@ -404,7 +404,7 @@ const styles = StyleSheet.create({
   
   buttonContainer:{
     position: "absolute",
-    top: '10%',
+    top: '11%',
     flexDirection: 'row',
     alignSelf:'center',
     backgroundColor: 'transparent',
