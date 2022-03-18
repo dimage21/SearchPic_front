@@ -106,6 +106,8 @@ const MypageMain = ({ navigation }) => {
           display: "flex",
           flexDirection: "row",
           justifyContent: "flex-end",
+          backgroundColor: "#ffffff",
+          padding: 20,
         }}
       >
         <TouchableOpacity onPress={() => navigation.navigate("Setting")}>

@@ -18,38 +18,27 @@ import DropDownPicker from "react-native-dropdown-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import GestureRecognizer from "react-native-swipe-gestures";
 import Tags from "react-native-tags";
-import * as tokenHandling from "../../constants/TokenErrorHandle";
 
 const SearchMain = ({ navigation }) => {
-  const [token, setToken] = useState("");
-
-  const [keyword, setKeyword] = useState([]);
-  const [prev, setPrev] = useState("");
+  let [keyword, setKeyword] = useState([]);
+  const [prev, setPrev] = useState([]);
   const [pData, setPData] = useState([]);
   const [resultPage, setResultPage] = useState(false);
   let [result, setResult] = useState([]);
   const [modal, setModal] = useState(false);
-  const [info, setInfo] = useState();
+  let [info, setInfo] = useState();
   // Dropdown
   const [open, setOpen] = useState(false);
   const [item, setItem] = useState([
     { label: "최신순", value: "RECENT" },
     { label: "조회수순", value: "VIEW" },
   ]);
-  const [value, setValue] = useState("RECENT");
+  let [value, setValue] = useState("RECENT");
   const [page, setPage] = useState(0);
 
   console.log("======================[SearchMain]===================");
 
-  const getUserToken = async () => {
-    const userToken = await AsyncStorage.getItem("userToken");
-    setToken(userToken);
-    console.log("userToken ", userToken);
-  };
-
   useEffect(() => {
-    getUserToken();
-
     axios
       .get(preURL.preURL + "/tags")
       .then((res) => {
@@ -58,25 +47,24 @@ const SearchMain = ({ navigation }) => {
       })
       .catch((err) => {
         console.log("에러 발생❗️ ", err);
-        tokenHandling.tokenErrorHandling(err);
       });
     setResultPage(false);
     setKeyword([]);
     setModal(false);
   }, []);
 
-  const searchPop = (name) => {
-    setKeyword([name]);
-    setValue("RECENT");
-    postKeyword();
-    setResultPage(true);
-  };
-
+  // 인기 태그 목록
   const renderItem = ({ item }) => {
-    console.log("item(인기 태그) 불러옴");
     return (
       <View style={{ margin: 10 }}>
-        <TouchableOpacity onPress={() => searchPop(`${item.name}`)}>
+        <TouchableOpacity
+          onPress={() => {
+            setKeyword([`${item.name}`]);
+            setValue("RECENT");
+            setResultPage(true);
+            postKeyword();
+          }}
+        >
           <ImageBackground
             source={{ uri: `${item.url}` }}
             style={{
@@ -101,34 +89,41 @@ const SearchMain = ({ navigation }) => {
     );
   };
 
-  const postKeyword = () => {
+  const postKeyword = async () => {
     console.log("보낼 키워드: ", keyword);
     console.log("보낼 정렬 기준: ", value);
     console.log("page: ", page);
     if (keyword != prev) {
       setPage(0);
     }
-    let keywords = "";
-    for (let i = 0; i < keyword.length; i++) {
-      keywords = keywords + keyword[i] + ",";
-      console.log(keywords);
+    let rkeywords = "";
+    if (keyword.length >= 2) {
+      let keywords = "";
+      for (let i = 0; i < keyword.length; i++) {
+        keywords = keywords + keyword[i] + ",";
+        console.log(keywords);
+        rkeywords = keywords.slice(0, -1);
+      }
+    } else {
+      rkeywords = keyword[0];
     }
-    let rkeywords = keywords.slice(0, -1);
     console.log("실제 보낼 태그 : ", rkeywords);
     console.log(
       "url 확인 : ",
       preURL.preURL +
         `/posts/search?page=${page}&tags=${rkeywords}&order=${value}`
     );
-    fetch(
+    await fetch(
       preURL.preURL +
-        `/posts/search?page=${page}&tags=${rkeywords}&order=${value}`
+        `/posts/search?page=${page}&tags=${rkeywords}&order=${value}`,
+      {
+        method: "GET",
+      }
     )
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
         console.log("검색 결과 받았다! ", data.data);
-
         if (page == 0) {
           setResult(data.data);
         } else {
@@ -140,18 +135,22 @@ const SearchMain = ({ navigation }) => {
         console.log("PAGE: ", page);
       })
       .catch((err) => {
-        console.log("에러 발생❗️ - 검색 결과", err.response.data);
-        tokenHandling.tokenErrorHandling(err.response.data);
+        console.log("에러 발생❗️ - 검색 결과", err);
       });
   };
 
+  useEffect(() => {
+    postKeyword();
+  }, [keyword]);
+
+  // 검색 결과 사진 목록
   const listItems = ({ item }) => {
+    setInfo(item);
+    console.log("info: ", info);
     return (
       <View>
         <TouchableOpacity
           onPress={() => {
-            setInfo(item);
-            console.log("info: ", info);
             setModal(true);
           }}
         >
@@ -197,9 +196,6 @@ const SearchMain = ({ navigation }) => {
           </Text>
         </View>
       )}
-      <View
-        style={{ padding: 20, display: "flex", flexDirection: "row" }}
-      ></View>
       <Tags
         initialText="태그 ..."
         textInputProps={{
@@ -226,6 +222,7 @@ const SearchMain = ({ navigation }) => {
           backgroundColor: "white",
           borderBottomColor: "#000",
           borderBottomWidth: 1,
+          padding: 15,
         }}
         maxNumberOfTags={5}
         renderTag={({ tag, index, onPress, deleteTagOnPress, readonly }) => (
@@ -249,7 +246,7 @@ const SearchMain = ({ navigation }) => {
           postKeyword();
         }}
         style={{
-          width: "95%",
+          width: "90%",
           backgroundColor: "#001A72",
           padding: 10,
           justifyContent: "center",
@@ -259,7 +256,7 @@ const SearchMain = ({ navigation }) => {
           margin: 10,
         }}
       >
-        <Text style={{ color: "white" }}>검색</Text>
+        <Text style={{ color: "white", fontSize: 15 }}>검색</Text>
       </TouchableOpacity>
       {resultPage ? (
         // 검색창에 입력했을 경우
@@ -270,6 +267,7 @@ const SearchMain = ({ navigation }) => {
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-between",
+                padding: 10,
               }}
             >
               <View>
@@ -284,12 +282,14 @@ const SearchMain = ({ navigation }) => {
                 open={open}
                 value={value}
                 items={item}
-                setOpen={setOpen}
-                setValue={setValue}
-                setItems={setItem}
+                setOpen={() => setOpen(open)}
+                setValue={() => setValue(value)}
+                setItems={() => setItem(item)}
+                onPress={() => postKeyword()}
                 containerStyle={{
                   width: "30%",
                   marginBottom: 10,
+                  zIndex: 5,
                 }}
               />
             </View>
@@ -316,6 +316,7 @@ const SearchMain = ({ navigation }) => {
                 alignItems: "center",
               }}
             >
+              {/* 결과 상세 모달 */}
               {info !== undefined ? (
                 <GestureRecognizer onSwipeDown={() => setModal(false)}>
                   <Modal animationType="slide" visible={modal} transparent>
@@ -330,7 +331,7 @@ const SearchMain = ({ navigation }) => {
                         marginTop: "60%",
                       }}
                     >
-                      <TouchableOpacity>
+                      <TouchableOpacity onPress={() => setModal(false)}>
                         <Icon
                           size={25}
                           color="black"
@@ -345,17 +346,19 @@ const SearchMain = ({ navigation }) => {
                         />
                       </TouchableOpacity>
                       <TouchableOpacity
-                        onPress={() =>
+                        onPress={() => {
+                          console.log("locationID 넘기기 : ", info.postId);
                           navigation.navigate("Detail", {
-                            locationId: info.postId,
-                          })
-                        }
+                            locationId: info.locationId,
+                          });
+                          setModal(false);
+                        }}
                       >
                         <Image
                           source={{ uri: `${info.pictureUrl}` }}
                           style={{
-                            width: 310,
-                            height: 310,
+                            width: 300,
+                            height: 300,
                             alignSelf: "center",
                           }}
                         />

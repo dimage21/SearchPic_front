@@ -33,6 +33,7 @@ const Setting = ({ navigation }) => {
       .then((res) => {
         console.log("로그아웃했다!", res);
         Alert.alert("로그아웃되었습니다.");
+        () => navigation.navigate("StartMain");
       })
       .catch((err) => {
         console.log("에러 발생 ❗️ - 로그아웃", err);

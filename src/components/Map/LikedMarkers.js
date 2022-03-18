@@ -7,7 +7,8 @@ import {
   Alert,
   StyleSheet,
   Image,
-  Feather,
+  Modal,
+  FlatList,
 } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Marker, Callout } from "react-native-maps";
 import preURL from "../../preURL/preURL";
