@@ -25,7 +25,9 @@ function tokenErrorHandling(err) {
         .then((res) => {
           console.log("응답 받았다! - 엑세스 토큰", res.data);
           AsyncStorage.setItem("userToken", res.data.accessToken);
+          console.log("수정했다! - 엑세스 토큰", res.data.accessToken);
           AsyncStorage.setItem("refreshToken", res.data.refreshToken);
+          console.log("수정했다! - 리프레시 토큰", res.data.refreshToken);
         })
         .catch((err) => {
           console.log(
