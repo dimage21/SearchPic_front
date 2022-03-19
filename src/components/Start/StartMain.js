@@ -179,9 +179,9 @@ const StartMain = ({ navigation }) => {
         axios
           // .get(preURL.preURL + `/login/naver?token=${aToken}`)
           .post(preURL.preURL + `/login`, {
-            email: email,
+            email: profileResult.response.email,
             provider: {
-              providerId: id,
+              providerId: profileResult.response.id,
               providerName: "NAVER",
             },
           })
