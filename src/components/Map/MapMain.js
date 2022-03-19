@@ -74,7 +74,7 @@ const MapMain = ({ navigation }) => {
   };
 
 
-  // select Location from the DropDown
+  // selected Location from the DropDown
   const updateLocation = (locationSelected) => {
     setLocationSelected(locationSelected);
     console.log("리스트 선택 : ", locationSelected);
@@ -224,13 +224,6 @@ const MapMain = ({ navigation }) => {
             followsUserLocation={true}
             zoomEnabled={true}
             onPress={this.pickLocationHandler}
-            // onPress={()=>{onRegionChange()}}
-            // initialRegion={{
-            //   latitude: location.latitude,
-            //   longitude: location.longitude,
-            //   latitudeDelta: 1,
-            //   longitudeDelta: 1,
-            // }}
             region={{
               latitude: location.latitude,
               longitude: location.longitude,
@@ -241,10 +234,6 @@ const MapMain = ({ navigation }) => {
             onMapReady={() => {
               updateMapStyle();
             }}
-            // onRegionChangeComplete={()=> {
-            //   onRegionChange()
-            // }}
-            
           >
             {markers &&
               markers.map((marker) => (
@@ -319,7 +308,7 @@ const MapMain = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        {/*위치이동 마커*/}
+        {/*검색 드롭다운 위치이동 마커*/}
         {locationMarker?
         <TouchableOpacity onPress={()=>locationMarker(false)}>
         <View style = {{
@@ -466,7 +455,7 @@ const styles = StyleSheet.create({
 
   buttonContainer: {
     position: "absolute",
-    top: "10%",
+    top: "11%",
     flexDirection: "row",
     alignSelf: "center",
     backgroundColor: "transparent",
@@ -497,8 +486,10 @@ const styles = StyleSheet.create({
 
   addPhotoContainer: {
     position: "absolute",
-    top: "83%",
-    left: "84%",
+    top: "82%",
+    left: "85%",
+    // top: "83%",
+    // left: "84%",
   },
   nearPlaceContainer: {
     position: "absolute",

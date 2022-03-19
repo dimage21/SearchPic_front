@@ -32,11 +32,13 @@ const UploadMarkers=({navigation})=>{
   const [searchQuery, setSearchQuery] = useState('');
   const [nearPlace, setNearPlace] = useState(null);
   const [locationSelected, setLocationSelected] = useState(null);
-  const [location, setLocation] = useState(null);
+  let [location, setLocation] = useState(null);
   const [nearPlaceInfo, setNearPlaceInfo] = useState(null);
   const [modal, setModal] = useState(false);
+  const [locationMarker, setLocationMarker] = useState(false);
   
-  console.log("======================[내가 좋아요한 장소]===================");
+  
+  console.log("======================[내가 업로드한 장소]===================");
 
   //get user info
   const getUserToken = async () => {
@@ -82,12 +84,24 @@ const UploadMarkers=({navigation})=>{
     
   };
 
-  // select Location
+  // selected Location from the DropDown
   const updateLocation = (locationSelected)=>{
     setLocationSelected(locationSelected);
-    console.log("리스트 선택 : ", locationSelected)
+    console.log("리스트 선택 : ", locationSelected);
+
+    // console.log("리스트 lat", locationSelected.y);
+    // console.log("리스트 long", locationSelected.x);
+    // const latitude = locationSelected.y;
+    // const longitude = locationSelected.x;
+    // setLocation({ latitude, longitude });
+    // console.log("로케이션 출력해보기", location);
+
+    // setLocationMarker(true);
   };
   
+  useEffect(()=> {
+    console.log("로케이션!", location);
+  }, [location])
 
   //load Liked Location Data
   const getMemberInfo = () => {
@@ -198,11 +212,11 @@ const UploadMarkers=({navigation})=>{
         followsUserLocation={true}
         zoomEnabled = {true}
         onPress={this.pickLocationHandler}
-        initialRegion={{
+        region={{
           latitude: location.latitude,
           longitude: location.longitude,
-          latitudeDelta:1,
-          longitudeDelta:1,
+          latitudeDelta:0.1,
+          longitudeDelta:0.1,
         }}
         // initialRegion={initialRegion}
         onMapReady={()=> {
@@ -281,6 +295,22 @@ const UploadMarkers=({navigation})=>{
             <Text>내가 좋아요한 장소</Text>
           </TouchableOpacity>
         </View>
+
+        {/*검색 드롭다운 위치이동 마커*/}
+        {locationMarker?
+        <TouchableOpacity onPress={()=>locationMarker(false)}>
+        <View style = {{
+          backgroundColor:'blue',
+          borderRadius:100,
+          width:50,
+          height:20,
+          position:'absolute',
+          top:"50%",
+          left:"50%"
+        }}/>
+        </TouchableOpacity>
+        :(<></>)
+        }
           
         {/* 포토스팟 추가버튼 */}
         <View style={styles.addPhotoContainer}>
@@ -444,8 +474,10 @@ const styles = StyleSheet.create({
   
   addPhotoContainer:{
     position: "absolute",
-    top: '83%',
-    left:"84%",
+    // top: '83%',
+    // left:"84%",
+    top: "82%",
+    left: "85%",
   
   },
   nearPlaceContainer:{
