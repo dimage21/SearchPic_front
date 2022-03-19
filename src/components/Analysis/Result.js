@@ -225,7 +225,7 @@ const Result = ({ navigation, route }) => {
                   name="heart"
                   onPress={() => {
                     setMark3(false);
-                    deleteMark(Result3.locationId);
+                    deleteMark(Result3.id);
                   }}
                 />
               ) : (
@@ -235,7 +235,7 @@ const Result = ({ navigation, route }) => {
                   name="hearto"
                   onPress={() => {
                     setMark3(true);
-                    postMark(Result3.locationId);
+                    postMark(Result3.id);
                   }}
                 />
               )}

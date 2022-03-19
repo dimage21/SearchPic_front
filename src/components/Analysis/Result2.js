@@ -17,15 +17,17 @@ const Result2 = ({ navigation, route }) => {
   const result = route.params.result;
   const type = route.params.type;
   const originalData = route.params.originalData;
+  const imageFormData = route.params.imageFormData;
+  const config = route.params.config;
   //   const [result, setResult] = useState(route.params.result);
 
   const [token, setToken] = useState("");
 
   const [reLoader, setReLoader] = useState(0);
 
-  const [Result1, setResult1] = useState(result.data[0]);
-  const [Result2, setResult2] = useState(result.data[1]);
-  const [Result3, setResult3] = useState(result.data[2]);
+  const Result1 = result.data[0];
+  const Result2 = result.data[1];
+  const Result3 = result.data[2];
 
   let [mark1, setMark1] = useState(Result1.marked);
   let [mark2, setMark2] = useState(Result2.marked);
@@ -42,16 +44,16 @@ const Result2 = ({ navigation, route }) => {
     getUserToken();
   }, [reLoader]);
 
-  const config = {
+  const cfg = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
 
   const postMark = (locationId) => {
-    console.log("전송:", config, locationId);
+    console.log("전송:", cfg, locationId);
     axios
-      .post(preURL.preURL + `/location/${locationId}/mark`, "", config)
+      .post(preURL.preURL + `/location/${locationId}/mark`, "", cfg)
       .then((res) => {
         console.log("마크 추가 보냈다! ", res.data);
       })
@@ -86,7 +88,13 @@ const Result2 = ({ navigation, route }) => {
       }}
     >
       <TouchableOpacity
-        onPress={() => navigation.navigate("Result", { result: originalData })}
+        onPress={() =>
+          navigation.navigate("Result", {
+            result: result,
+            imageFormData: imageFormData,
+            config: config,
+          })
+        }
       >
         <Icon size={40} color="black" name="left" />
       </TouchableOpacity>
