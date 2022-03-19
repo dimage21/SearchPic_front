@@ -16,28 +16,37 @@ const Setting = ({ navigation }) => {
   const [refreshToken, setRefreshToken] = useState("");
 
   const getRefreshToken = async () => {
-    const refreshToken = await AsyncStorage.getItem("refreshToken");
+    const rToken = await AsyncStorage.getItem("refreshToken");
+    setRefreshToken(rToken);
     console.log("refreshToken-Test : ", refreshToken);
-    setRefreshToken(refreshToken);
-  };
-
-  const config = {
-    headers: {
-      "refresh-token": refreshToken,
-    },
   };
 
   const logout = () => {
-    axios
-      .delete(preURL.preURL + "/logout", config)
-      .then((res) => {
-        console.log("로그아웃했다!", res);
-        Alert.alert("로그아웃되었습니다.");
-        () => navigation.navigate("StartMain");
-      })
-      .catch((err) => {
-        console.log("에러 발생 ❗️ - 로그아웃", err);
-      });
+    Alert.alert("로그아웃", "로그아웃을 진행하시려면 확인을 눌러주세요", [
+      {
+        text: "취소",
+        style: "cancel",
+      },
+      {
+        text: "확인",
+        onPress: () => {
+          axios
+            .delete(preURL.preURL + "/logout", {
+              headers: {
+                "refresh-token": refreshToken,
+              },
+            })
+            .then((res) => {
+              console.log("로그아웃했다!", res);
+              Alert.alert("로그아웃되었습니다.");
+              () => navigation.navigate("StartMain");
+            })
+            .catch((err) => {
+              console.log("에러 발생 ❗️ - 로그아웃", err);
+            });
+        },
+      },
+    ]);
   };
 
   useEffect(() => {
