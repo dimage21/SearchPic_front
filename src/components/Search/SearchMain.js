@@ -35,6 +35,8 @@ const SearchMain = ({ navigation }) => {
   ]);
   let [value, setValue] = useState("RECENT");
   const [page, setPage] = useState(0);
+  const [rFocus, setRFocus] = useState(false);
+  const [vFocus, setVFocus] = useState(false);
 
   console.log("======================[SearchMain]===================");
 
@@ -145,12 +147,12 @@ const SearchMain = ({ navigation }) => {
 
   // 검색 결과 사진 목록
   const listItems = ({ item }) => {
-    setInfo(item);
-    console.log("info: ", info);
     return (
       <View>
         <TouchableOpacity
           onPress={() => {
+            setInfo(item);
+            console.log("info: ", info);
             setModal(true);
           }}
         >
@@ -217,12 +219,15 @@ const SearchMain = ({ navigation }) => {
             deleted ? "deleted" : "not deleted"
           )
         }
-        containerStyle={{ justifyContent: "center" }}
+        containerStyle={{
+          justifyContent: "center",
+          padding: 15,
+          marginTop: 10,
+        }}
         inputStyle={{
           backgroundColor: "white",
           borderBottomColor: "#000",
           borderBottomWidth: 1,
-          padding: 15,
         }}
         maxNumberOfTags={5}
         renderTag={({ tag, index, onPress, deleteTagOnPress, readonly }) => (
@@ -277,21 +282,32 @@ const SearchMain = ({ navigation }) => {
                   검색 결과
                 </Text>
               </View>
-              <DropDownPicker
-                placeholder={"최신순"}
-                open={open}
-                value={value}
-                items={item}
-                setOpen={() => setOpen(open)}
-                setValue={() => setValue(value)}
-                setItems={() => setItem(item)}
-                onPress={() => postKeyword()}
-                containerStyle={{
-                  width: "30%",
-                  marginBottom: 10,
-                  zIndex: 5,
-                }}
-              />
+              <View style={{ display: "flex", justifyContent: "space-around" }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setValue("RECENT");
+                    postKeyword();
+                  }}
+                >
+                  {rFocus ? (
+                    <Text style={{ color: "#001A72" }}>최신순</Text>
+                  ) : (
+                    <Text style={{ color: "gray" }}>최신순</Text>
+                  )}
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    setValue("VIEW");
+                    postKeyword();
+                  }}
+                >
+                  {vFocus ? (
+                    <Text style={{ color: "#001A72" }}>조회순</Text>
+                  ) : (
+                    <Text style={{ color: "gray" }}>조회순</Text>
+                  )}
+                </TouchableOpacity>
+              </View>
             </View>
 
             {/* 검색 결과 */}
@@ -331,14 +347,20 @@ const SearchMain = ({ navigation }) => {
                         marginTop: "60%",
                       }}
                     >
-                      <TouchableOpacity onPress={() => setModal(false)}>
+                      <TouchableOpacity
+                        onPress={() => setModal(false)}
+                        style={{
+                          alignSelf: "flex-end",
+                        }}
+                      >
                         <Icon
                           size={25}
                           color="black"
                           name="close"
                           style={{
                             alignSelf: "flex-end",
-                            margin: 5,
+                            marginRight: 15,
+                            marginBottom: 15,
                             backgroundColor: "rgba(245,245,245,1)",
                             borderRadius: 15,
                             padding: 3,
@@ -357,8 +379,8 @@ const SearchMain = ({ navigation }) => {
                         <Image
                           source={{ uri: `${info.pictureUrl}` }}
                           style={{
-                            width: 300,
-                            height: 300,
+                            width: 250,
+                            height: 250,
                             alignSelf: "center",
                           }}
                         />

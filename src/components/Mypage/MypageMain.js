@@ -47,7 +47,7 @@ const MypageMain = ({ navigation }) => {
     console.log("config: ", config);
     getInfo();
     getData();
-  }, [token]);
+  }, []);
 
   const getInfo = () => {
     axios
@@ -99,7 +99,7 @@ const MypageMain = ({ navigation }) => {
 
   return (
     <SafeAreaView
-      style={{ padding: 15, backgroundColor: "#ffffff", marginBottom: "50%" }}
+      style={{ padding: 15, backgroundColor: "#ffffff", paddingBottom: "50%" }}
     >
       <View
         style={{
@@ -114,7 +114,7 @@ const MypageMain = ({ navigation }) => {
           <Icon size={40} color="black" name="setting" />
         </TouchableOpacity>
       </View>
-      <View>
+      <View style={{ padding: 15 }}>
         {userInfo.profileUrl == null ? (
           <View
             style={{
@@ -134,11 +134,11 @@ const MypageMain = ({ navigation }) => {
           {userInfo.nickname}
         </Text>
         <Text style={{ fontSize: 18, marginTop: 5 }}>{userInfo.email}</Text>
-      </View>
-      <View style={{ marginTop: 20 }}>
-        <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
+        <Text style={{ fontWeight: "bold", marginTop: 10 }}>
           {userInfo.postCount} Pics
         </Text>
+      </View>
+      <View style={{ marginTop: 10 }}>
         <View
           style={{
             display: "flex",
