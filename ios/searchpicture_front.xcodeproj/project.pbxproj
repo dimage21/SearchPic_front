@@ -531,7 +531,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XF7922X6R2;
+				DEVELOPMENT_TEAM = BRUAZ26AY8;
 				INFOPLIST_FILE = searchpicture_front/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -542,7 +542,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "search-pictest";
+				PRODUCT_BUNDLE_IDENTIFIER = "search-pictest2";
 				PRODUCT_NAME = searchpicture_front;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "searchpicture_front-Bridging-Header.h";
