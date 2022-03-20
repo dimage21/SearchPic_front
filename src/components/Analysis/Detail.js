@@ -179,11 +179,15 @@ const Detail = ({ navigation, route }) => {
               <Text></Text>
             )}
             <Text style={{ fontSize: 16 }}>{place.address}</Text>
-            <View style={styles.hashtags}>
-              <Text style={styles.hashtag}>#{repTags[0]}</Text>
-              <Text style={styles.hashtag}>#{repTags[1]}</Text>
-              <Text style={styles.hashtag}>#{repTags[2]}</Text>
-            </View>
+            {repTags.length !== 0 ? (
+              <View style={styles.hashtags}>
+                <Text style={styles.hashtag}>#{repTags[0]}</Text>
+                <Text style={styles.hashtag}>#{repTags[1]}</Text>
+                <Text style={styles.hashtag}>#{repTags[2]}</Text>
+              </View>
+            ) : (
+              <View></View>
+            )}
           </View>
           {mark ? (
             <Icon
@@ -227,9 +231,6 @@ const Detail = ({ navigation, route }) => {
           >
             근처 포토스팟
           </Text>
-          <TouchableOpacity>
-            <Text>더보기</Text>
-          </TouchableOpacity>
         </View>
         <FlatList
           data={places}
@@ -279,7 +280,7 @@ const Detail = ({ navigation, route }) => {
                 />
                 <View style={{ margin: 10, paddingLeft: 25 }}>
                   <Text style={{ fontSize: 17 }}>{modalPlace.address}</Text>
-                  {modalPlace.tagNames.length != 0 ? (
+                  {modalPlace.tagNames.length !== 0 ? (
                     <View style={styles.hashtags}>
                       <Text style={styles.hashtag}>
                         #{modalPlace.tagNames[0]}
