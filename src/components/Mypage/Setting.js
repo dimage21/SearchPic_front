@@ -21,34 +21,6 @@ const Setting = ({ navigation }) => {
     console.log("refreshToken-Test : ", refreshToken);
   };
 
-  const logout = () => {
-    Alert.alert("로그아웃", "로그아웃을 진행하시려면 확인을 눌러주세요", [
-      {
-        text: "취소",
-        style: "cancel",
-      },
-      {
-        text: "확인",
-        onPress: () => {
-          axios
-            .delete(preURL.preURL + "/logout", {
-              headers: {
-                "refresh-token": refreshToken,
-              },
-            })
-            .then((res) => {
-              console.log("로그아웃했다!", res);
-              Alert.alert("로그아웃되었습니다.");
-              () => navigation.navigate("StartMain");
-            })
-            .catch((err) => {
-              console.log("에러 발생 ❗️ - 로그아웃", err);
-            });
-        },
-      },
-    ]);
-  };
-
   useEffect(() => {
     getRefreshToken();
   }, []);
@@ -74,7 +46,40 @@ const Setting = ({ navigation }) => {
           <Text style={styles.text}>프로필 수정</Text>
           <Icon size={40} color="black" name="right" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.line} onPress={() => logout()}>
+        <TouchableOpacity
+          style={styles.line}
+          onPress={() => {
+            Alert.alert(
+              "로그아웃",
+              "로그아웃을 진행하시려면 확인을 눌러주세요",
+              [
+                {
+                  text: "취소",
+                  style: "cancel",
+                },
+                {
+                  text: "확인",
+                  onPress: () => {
+                    axios
+                      .delete(preURL.preURL + "/logout", {
+                        headers: {
+                          "refresh-token": refreshToken,
+                        },
+                      })
+                      .then((res) => {
+                        console.log("로그아웃했다!", res);
+                        navigation.navigate("StartMain");
+                        AsyncStorage.setItem("isLogin", "false");
+                      })
+                      .catch((err) => {
+                        console.log("에러 발생 ❗️ - 로그아웃", err);
+                      });
+                  },
+                },
+              ]
+            );
+          }}
+        >
           <Text style={styles.text}>로그아웃</Text>
           <Icon size={40} color="black" name="right" />
         </TouchableOpacity>
