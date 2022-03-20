@@ -36,6 +36,7 @@ const UploadMarkers=({navigation})=>{
   const [nearPlaceInfo, setNearPlaceInfo] = useState(null);
   const [modal, setModal] = useState(false);
   const [locationMarker, setLocationMarker] = useState(false);
+  const [currentLocation, setCurrentLocation] = useState(null);
   
   
   console.log("======================[내가 업로드한 장소]===================");
@@ -126,32 +127,43 @@ const UploadMarkers=({navigation})=>{
 
 
   //Get User's Current Position
-  useEffect(() => { 
+  useEffect(() => {
     Geolocation.getCurrentPosition(
-      position => {
-        const { latitude, longitude } = position.coords
-        setLocation({ latitude, longitude })
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        setLocation({ latitude, longitude });
+        console.log("GET CURRENT POSITON ", location)
+        console.log("LATITUDE", location.latitude)
+        console.log("LONGITUDE", location.longitude)
+        console.log(preURL.preURL + "/locations/100?x="+location.longitude+"&y="+location.latitude)
+        setCurrentLocation(preURL.preURL + "/locations/100?x="+location.longitude+"&y="+location.latitude)
+        console.log("주변장소 현재위치 출력해보기", currentLocation)
+        
       },
-      error => {
-        console.log(error.code, error.message)
+      (error) => {
+        console.log(error.code, error.message);
       },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-    )
-  }, [])
+    );
+    
+  }, []);
 
   //Get Near Place Information
-  const getNearPlaceInfo = () => {
+  const getNearPlaceInfo = (location) => {
+    console.log("출력해보기", currentLocation)
     axios
-      .get(preURL.preURL + "/locations/100?x=126.968778003094&y=37.5764986919736", config)
-      .then((res) =>{
+      .get(
+        currentLocation,
+        config
+      )
+      .then((res) => {
         console.log("📍주변 장소 응답 받았다! ", res.data.data);
         setNearPlaceInfo(res.data.data);
       })
-      .catch((err)=>{
+      .catch((err) => {
         console.log("📍주변 장소 에러 발생❗️ ", err);
         tokenHandling.tokenErrorHandling();
       });
-      
   };
   
   const renderItem = ({item})=>{
@@ -415,13 +427,6 @@ const UploadMarkers=({navigation})=>{
                   />
                 </View>
               </View>
-              <TouchableOpacity
-                style={styles.addButton}
-                onPress={() => {
-                  setModal(false)
-                }}>
-                <Text style={{color:'white', 'fontSize':15}}>Close</Text>
-              </TouchableOpacity>
             </Modal>
           </GestureRecognizer>
         </View>

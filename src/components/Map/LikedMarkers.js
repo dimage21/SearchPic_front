@@ -31,6 +31,7 @@ const LikedMarkers = ({ navigation }) => {
   const [nearPlaceInfo, setNearPlaceInfo] = useState(null);
   const [modal, setModal] = useState(false);
   const [locationMarker, setLocationMarker] = useState(false);
+  const [currentLocation, setCurrentLocation] = useState(null);
 
   console.log("======================[내가 좋아요한 장소]===================");
 
@@ -115,22 +116,31 @@ const LikedMarkers = ({ navigation }) => {
   //Get User's Current Position
   useEffect(() => {
     Geolocation.getCurrentPosition(
-      (position) => {
+      async (position) => {
         const { latitude, longitude } = position.coords;
         setLocation({ latitude, longitude });
+        console.log("GET CURRENT POSITON ", location)
+        console.log("LATITUDE", location.latitude)
+        console.log("LONGITUDE", location.longitude)
+        console.log(preURL.preURL + "/locations/100?x="+location.longitude+"&y="+location.latitude)
+        setCurrentLocation(preURL.preURL + "/locations/100?x="+location.longitude+"&y="+location.latitude)
+        console.log("주변장소 현재위치 출력해보기", currentLocation)
+        
       },
       (error) => {
         console.log(error.code, error.message);
       },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
     );
+    
   }, []);
 
   //Get Near Place Information
-  const getNearPlaceInfo = () => {
+  const getNearPlaceInfo = (location) => {
+    console.log("출력해보기", currentLocation)
     axios
       .get(
-        preURL.preURL + "/locations/100?x=126.968778003094&y=37.5764986919736",
+        currentLocation,
         config
       )
       .then((res) => {
@@ -425,14 +435,6 @@ const LikedMarkers = ({ navigation }) => {
                   />
                 </View>
               </View>
-              <TouchableOpacity
-                style={styles.addButton}
-                onPress={() => {
-                  setModal(false);
-                }}
-              >
-                <Text style={{ color: "white", fontSize: 15 }}>Close</Text>
-              </TouchableOpacity>
             </Modal>
           </GestureRecognizer>
         </View>
