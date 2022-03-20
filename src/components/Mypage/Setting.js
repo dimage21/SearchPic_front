@@ -46,7 +46,7 @@ const Setting = ({ navigation }) => {
           <Text style={styles.text}>프로필 수정</Text>
           <Icon size={40} color="black" name="right" />
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.line}
           onPress={() => {
             Alert.alert(
@@ -82,9 +82,9 @@ const Setting = ({ navigation }) => {
         >
           <Text style={styles.text}>로그아웃</Text>
           <Icon size={40} color="black" name="right" />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
-      <View style={{ padding: 5 }}>
+      {/* <View style={{ padding: 5 }}>
         <TouchableOpacity style={styles.line}>
           <Text style={styles.text}>도움말</Text>
           <Icon size={40} color="black" name="right" />
@@ -97,7 +97,7 @@ const Setting = ({ navigation }) => {
           <Text style={styles.text}>버전 정보</Text>
           <Icon size={40} color="black" name="right" />
         </TouchableOpacity>
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 };
