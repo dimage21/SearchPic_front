@@ -118,18 +118,30 @@ const ChangeProfile = ({ navigation }) => {
     });
     console.log("요청:", formData, config);
     console.log("imageFormData: ", imageFormData);
-    axios
-      .post(preURL.preURL + "/profile", imageFormData, config)
-      .then((res) => {
-        console.log("새 프로필 보냈다!");
-        console.log(res);
-        Alert.alert("프로필을 변경하였습니다");
-        navigation.navigate("Setting");
-      })
-      .catch((err) => {
-        console.log("에러 발생 - 프로필 변경 : ", err.response.data);
-        tokenHandling.tokenErrorHandling(err.response.data);
-      });
+    Alert.alert("프로필 변경", "프로필을 변경하시려면 확인을 눌러주세요", [
+      {
+        text: "취소",
+        style: "cancel",
+      },
+      {
+        text: "확인",
+        onPress: () => {
+          axios
+            .post(preURL.preURL + "/profile", imageFormData, config)
+            .then((res) => {
+              console.log("새 프로필 보냈다!");
+              console.log(res.data);
+              Alert.alert("프로필을 변경하였습니다");
+
+              navigation.navigate("Setting");
+            })
+            .catch((err) => {
+              console.log("에러 발생 - 프로필 변경 : ", err.response.data);
+              tokenHandling.tokenErrorHandling(err.response.data);
+            });
+        },
+      },
+    ]);
   };
   return (
     <SafeAreaView>
