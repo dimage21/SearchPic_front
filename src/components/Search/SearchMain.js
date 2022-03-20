@@ -37,6 +37,7 @@ const SearchMain = ({ navigation }) => {
   const [page, setPage] = useState(0);
   const [rFocus, setRFocus] = useState(false);
   const [vFocus, setVFocus] = useState(false);
+  const [reLoader, setReLoader] = useState(0);
 
   console.log("======================[SearchMain]===================");
 
@@ -143,7 +144,13 @@ const SearchMain = ({ navigation }) => {
 
   useEffect(() => {
     postKeyword();
+    setReLoader(reLoader + 1);
   }, [keyword]);
+
+  useEffect(() => {
+    postKeyword();
+    setReLoader(reLoader + 1);
+  }, [value]);
 
   // 검색 결과 사진 목록
   const listItems = ({ item }) => {
@@ -287,6 +294,7 @@ const SearchMain = ({ navigation }) => {
                   onPress={() => {
                     setValue("RECENT");
                     postKeyword();
+                    setReLoader(reLoader + 1);
                   }}
                 >
                   {rFocus ? (
@@ -299,6 +307,7 @@ const SearchMain = ({ navigation }) => {
                   onPress={() => {
                     setValue("VIEW");
                     postKeyword();
+                    setReLoader(reLoader + 1);
                   }}
                 >
                   {vFocus ? (
