@@ -175,7 +175,7 @@ const UploadMarkers=({navigation})=>{
           /></View>
           <View style={styles.textBox}>
             <Text style={{color:"black", fontSize:15, margin:10, marginTop:15}}>
-              {"\<"}{nearPlaceInfo.placeName}{"\>"}
+              {nearPlaceInfo.placeName}
             </Text>
             <Text style={{color:"black", fontSize:12, marginLeft:10}}>
               {nearPlaceInfo.address}
