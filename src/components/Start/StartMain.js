@@ -137,7 +137,7 @@ const StartMain = ({ navigation }) => {
     // navigation.navigate("Profile", { spToken: spToken });
     console.log(isLogin, "&&", aToken, "&&", refreshToken);
     if (
-      isLogin != null &&
+      isLogin == "true" &&
       aToken != null &&
       aToken != "" &&
       refreshToken != null &&
@@ -179,9 +179,9 @@ const StartMain = ({ navigation }) => {
         axios
           // .get(preURL.preURL + `/login/naver?token=${aToken}`)
           .post(preURL.preURL + `/login`, {
-            email: email,
+            email: profileResult.response.email,
             provider: {
-              providerId: id,
+              providerId: profileResult.response.id,
               providerName: "NAVER",
             },
           })

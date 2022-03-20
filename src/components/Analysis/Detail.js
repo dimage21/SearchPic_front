@@ -30,6 +30,7 @@ const Detail = ({ navigation, route }) => {
   const [IFF, setIFF] = useState();
 
   console.log("=======================[Detail]======================");
+  console.log("locationId : ", locationId);
 
   const getUserToken = async () => {
     const userToken = await AsyncStorage.getItem("userToken");
@@ -86,6 +87,11 @@ const Detail = ({ navigation, route }) => {
   }, []);
 
   const postMark = () => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     console.log("전송:", config, locationId);
     axios
       .post(preURL.preURL + `/location/${locationId}/mark`, "", config)

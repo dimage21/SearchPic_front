@@ -13,11 +13,17 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import preURL from "../../preURL/preURL";
 import * as tokenHandling from "../../constants/TokenErrorHandle";
 
-const Result = ({ navigation, route }) => {
+const Result2 = ({ navigation, route }) => {
   const result = route.params.result;
+  const type = route.params.type;
+  const originalData = route.params.originalData;
   const imageFormData = route.params.imageFormData;
-  const cfg = route.params.config;
+  const config = route.params.config;
+  //   const [result, setResult] = useState(route.params.result);
+
   const [token, setToken] = useState("");
+
+  const [reLoader, setReLoader] = useState(0);
 
   const Result1 = result.data[0];
   const Result2 = result.data[1];
@@ -36,18 +42,18 @@ const Result = ({ navigation, route }) => {
   useEffect(() => {
     console.log("=======================[Result]=====================");
     getUserToken();
-  }, []);
+  }, [reLoader]);
 
-  const config = {
+  const cfg = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
 
   const postMark = (locationId) => {
-    console.log("전송:", config, locationId);
+    console.log("전송:", cfg, locationId);
     axios
-      .post(preURL.preURL + `/location/${locationId}/mark`, "", config)
+      .post(preURL.preURL + `/location/${locationId}/mark`, "", cfg)
       .then((res) => {
         console.log("마크 추가 보냈다! ", res.data);
       })
@@ -72,29 +78,6 @@ const Result = ({ navigation, route }) => {
       });
   };
 
-  const postAgain = (type) => {
-    console.log("postAgain 호출 완료");
-    console.log("type : ", type);
-    console.log("postAgain request ", imageFormData, cfg);
-    axios
-      .post(preURL.preURL + `/analysis?type=${type}`, imageFormData, cfg)
-      .then((res) => {
-        navigation.navigate("Result2", {
-          result: res.data,
-          type: type,
-          originalData: {
-            result: result,
-            imageFormData: imageFormData,
-            config: cfg,
-          },
-        });
-      })
-      .catch((err) => {
-        console.log("에러 발생 - 분석 결과 요청 ", err);
-        tokenHandling.tokenErrorHandling(err);
-      });
-  };
-
   return (
     <SafeAreaView
       style={{
@@ -104,20 +87,42 @@ const Result = ({ navigation, route }) => {
         backgroundColor: "#ffffff",
       }}
     >
-      <TouchableOpacity onPress={() => navigation.navigate("AnalysisMain")}>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("Result", {
+            result: result,
+            imageFormData: imageFormData,
+            config: config,
+          })
+        }
+      >
         <Icon size={40} color="black" name="left" />
       </TouchableOpacity>
       <View style={{ padding: 10 }}>
-        <Text
-          style={{
-            fontSize: 20,
-            marginTop: 20,
-            marginBottom: 10,
-            fontWeight: "bold",
-          }}
-        >
-          분석 결과
-        </Text>
+        {type == "cafe" ? (
+          <Text
+            style={{
+              fontSize: 20,
+              marginTop: 20,
+              marginBottom: 10,
+              fontWeight: "bold",
+            }}
+          >
+            카페/식당 분석 결과
+          </Text>
+        ) : (
+          <Text
+            style={{
+              fontSize: 20,
+              marginTop: 20,
+              marginBottom: 10,
+              fontWeight: "bold",
+            }}
+          >
+            명소 분석 결과
+          </Text>
+        )}
+
         <Text style={{ fontSize: 16, color: "#89A3F5" }}>Best</Text>
         <View style={styles.imageBlock}>
           <TouchableOpacity
@@ -225,7 +230,7 @@ const Result = ({ navigation, route }) => {
                   name="heart"
                   onPress={() => {
                     setMark3(false);
-                    deleteMark(Result3.id);
+                    deleteMark(Result3.locationId);
                   }}
                 />
               ) : (
@@ -235,32 +240,11 @@ const Result = ({ navigation, route }) => {
                   name="hearto"
                   onPress={() => {
                     setMark3(true);
-                    postMark(Result3.id);
+                    postMark(Result3.locationId);
                   }}
                 />
               )}
             </View>
-          </View>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-around",
-              marginTop: 15,
-            }}
-          >
-            <TouchableOpacity
-              style={styles.analysisbtn}
-              onPress={() => postAgain("cafe")}
-            >
-              <Text style={{ color: "#ffffff", fontSize: 15 }}>카페/식당</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.analysisbtn}
-              onPress={() => postAgain("attraction")}
-            >
-              <Text style={{ color: "#ffffff", fontSize: 15 }}>명소</Text>
-            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -268,7 +252,7 @@ const Result = ({ navigation, route }) => {
   );
 };
 
-export default Result;
+export default Result2;
 
 const styles = StyleSheet.create({
   imageBlock: {
@@ -285,13 +269,4 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   image: { width: 156, height: 97, margin: 10, marginLeft: 0 },
-  analysisbtn: {
-    backgroundColor: "#001A72",
-    width: "30%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 10,
-    borderRadius: 15,
-  },
 });

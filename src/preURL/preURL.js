@@ -1,4 +1,4 @@
 // 각자 다른 url
 module.exports = {
-  preURL: "http://ip주소.40:8080",
+  preURL: "http://172.20.10.2:8080",
 };
