@@ -35,6 +35,7 @@ const Result = ({ navigation, route }) => {
 
   useEffect(() => {
     console.log("=======================[Result]=====================");
+    console.log("result??", result);
     getUserToken();
   }, []);
 

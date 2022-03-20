@@ -16,9 +16,9 @@ import * as tokenHandling from "../../constants/TokenErrorHandle";
 const Result2 = ({ navigation, route }) => {
   const result = route.params.result;
   const type = route.params.type;
-  const originalData = route.params.originalData;
-  const imageFormData = route.params.imageFormData;
-  const config = route.params.config;
+  const originalDataResult = route.params.originalData.result;
+  const imageFormData = route.params.originalData.imageFormData;
+  const config = route.params.originalData.config;
   //   const [result, setResult] = useState(route.params.result);
 
   const [token, setToken] = useState("");
@@ -90,7 +90,7 @@ const Result2 = ({ navigation, route }) => {
       <TouchableOpacity
         onPress={() =>
           navigation.navigate("Result", {
-            result: result,
+            result: originalDataResult,
             imageFormData: imageFormData,
             config: config,
           })
