@@ -16,9 +16,8 @@ import * as tokenHandling from "../../constants/TokenErrorHandle";
 const Result2 = ({ navigation, route }) => {
   const result = route.params.result;
   const type = route.params.type;
-  const originalData = route.params.originalData;
-  const imageFormData = route.params.imageFormData;
-  const config = route.params.config;
+  const originalDataResult = route.params.originalData.result;
+  const imageFormData = route.params.originalData.imageFormData;
   //   const [result, setResult] = useState(route.params.result);
 
   const [token, setToken] = useState("");
@@ -42,18 +41,18 @@ const Result2 = ({ navigation, route }) => {
   useEffect(() => {
     console.log("=======================[Result]=====================");
     getUserToken();
-  }, [reLoader]);
+  }, []);
 
-  const cfg = {
+  const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
 
   const postMark = (locationId) => {
-    console.log("전송:", cfg, locationId);
+    console.log("전송:", config, locationId);
     axios
-      .post(preURL.preURL + `/location/${locationId}/mark`, "", cfg)
+      .post(preURL.preURL + `/location/${locationId}/mark`, "", config)
       .then((res) => {
         console.log("마크 추가 보냈다! ", res.data);
       })
@@ -90,9 +89,8 @@ const Result2 = ({ navigation, route }) => {
       <TouchableOpacity
         onPress={() =>
           navigation.navigate("Result", {
-            result: result,
+            result: originalDataResult,
             imageFormData: imageFormData,
-            config: config,
           })
         }
       >
@@ -230,7 +228,7 @@ const Result2 = ({ navigation, route }) => {
                   name="heart"
                   onPress={() => {
                     setMark3(false);
-                    deleteMark(Result3.locationId);
+                    deleteMark(Result3.id);
                   }}
                 />
               ) : (
@@ -240,7 +238,7 @@ const Result2 = ({ navigation, route }) => {
                   name="hearto"
                   onPress={() => {
                     setMark3(true);
-                    postMark(Result3.locationId);
+                    postMark(Result3.id);
                   }}
                 />
               )}

@@ -14,7 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as tokenHandling from "../../constants/TokenErrorHandle";
 
 const MypageMain = ({ navigation }) => {
-  const [token, setToken] = useState("");
+  let [token, setToken] = useState("");
 
   const [userInfo, setUserInfo] = useState({});
   const [page, setPage] = useState(0);
@@ -24,12 +24,13 @@ const MypageMain = ({ navigation }) => {
     const userToken = await AsyncStorage.getItem("userToken");
     console.log("userToken-Test : ", userToken);
     if (userToken !== null) {
-      console.log("userToken: ", userToken);
       setToken(userToken);
+      console.log("userToken: ", token);
     } else {
       console.log("MypageMain - 토큰 아직 못 받음!");
     }
-    console.log("userToken ", userToken);
+    setToken(userToken);
+    console.log("userToken ", token);
   };
 
   const config = {
@@ -47,7 +48,7 @@ const MypageMain = ({ navigation }) => {
     console.log("config: ", config);
     getInfo();
     getData();
-  }, []);
+  }, [token]);
 
   const getInfo = () => {
     axios
@@ -58,7 +59,7 @@ const MypageMain = ({ navigation }) => {
       })
       .catch((err) => {
         console.log("에러 발생❗️ - 유저 정보", err.response.data);
-        tokenHandling.tokenErrorHandling(err.response.data);
+        // tokenHandling.tokenErrorHandling(err.response.data);
       });
   };
 
@@ -75,7 +76,7 @@ const MypageMain = ({ navigation }) => {
       })
       .catch((err) => {
         console.log("에러 발생❗️ - 게시글", err.response.data);
-        tokenHandling.tokenErrorHandling(err.response.data);
+        // tokenHandling.tokenErrorHandling(err.response.data);
       });
   };
 

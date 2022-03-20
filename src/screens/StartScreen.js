@@ -12,7 +12,7 @@ const Start = () => {
       <StartStack.Screen
         name="StartMain"
         component={StartMain}
-        options={{ headerShown: false }}
+        options={{ headerShown: false, tabBarStyle: { display: "none" } }}
       />
       <StartStack.Screen
         name="Profile"

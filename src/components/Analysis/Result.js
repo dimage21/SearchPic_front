@@ -16,7 +16,6 @@ import * as tokenHandling from "../../constants/TokenErrorHandle";
 const Result = ({ navigation, route }) => {
   const result = route.params.result;
   const imageFormData = route.params.imageFormData;
-  const cfg = route.params.config;
   const [token, setToken] = useState("");
 
   const Result1 = result.data[0];
@@ -35,8 +34,9 @@ const Result = ({ navigation, route }) => {
 
   useEffect(() => {
     console.log("=======================[Result]=====================");
+    console.log("result??", result);
     getUserToken();
-  }, []);
+  }, [result]);
 
   const config = {
     headers: {
@@ -72,6 +72,13 @@ const Result = ({ navigation, route }) => {
       });
   };
 
+  const cfg = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    },
+  };
+
   const postAgain = (type) => {
     console.log("postAgain 호출 완료");
     console.log("type : ", type);
@@ -85,13 +92,12 @@ const Result = ({ navigation, route }) => {
           originalData: {
             result: result,
             imageFormData: imageFormData,
-            config: cfg,
           },
         });
       })
       .catch((err) => {
         console.log("에러 발생 - 분석 결과 요청 ", err);
-        tokenHandling.tokenErrorHandling(err);
+        // tokenHandling.tokenErrorHandling(err);
       });
   };
 
