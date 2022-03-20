@@ -74,7 +74,7 @@ const Setting = ({ navigation }) => {
           <Text style={styles.text}>프로필 수정</Text>
           <Icon size={40} color="black" name="right" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.line} onPress={logout()}>
+        <TouchableOpacity style={styles.line} onPress={() => logout()}>
           <Text style={styles.text}>로그아웃</Text>
           <Icon size={40} color="black" name="right" />
         </TouchableOpacity>

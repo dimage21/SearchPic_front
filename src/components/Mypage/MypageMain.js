@@ -47,7 +47,7 @@ const MypageMain = ({ navigation }) => {
     console.log("config: ", config);
     getInfo();
     getData();
-  }, []);
+  }, [token]);
 
   const getInfo = () => {
     axios
@@ -58,7 +58,7 @@ const MypageMain = ({ navigation }) => {
       })
       .catch((err) => {
         console.log("에러 발생❗️ - 유저 정보", err.response.data);
-        tokenHandling.tokenErrorHandling(err.response.data);
+        // tokenHandling.tokenErrorHandling(err.response.data);
       });
   };
 
@@ -75,7 +75,7 @@ const MypageMain = ({ navigation }) => {
       })
       .catch((err) => {
         console.log("에러 발생❗️ - 게시글", err.response.data);
-        tokenHandling.tokenErrorHandling(err.response.data);
+        // tokenHandling.tokenErrorHandling(err.response.data);
       });
   };
 
