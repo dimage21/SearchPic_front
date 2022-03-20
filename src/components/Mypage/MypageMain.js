@@ -11,6 +11,7 @@ import {
 import Icon from "react-native-vector-icons/AntDesign";
 import preURL from "../../preURL/preURL";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useIsFocused } from "@react-navigation/native";
 import * as tokenHandling from "../../constants/TokenErrorHandle";
 
 const MypageMain = ({ navigation }) => {
@@ -19,6 +20,8 @@ const MypageMain = ({ navigation }) => {
   const [userInfo, setUserInfo] = useState({});
   const [page, setPage] = useState(0);
   const [pData, setPData] = useState([]);
+  const [reLoader, setReLoader] = useState(0);
+  const isFocused = useIsFocused();
 
   const getUserToken = async () => {
     const userToken = await AsyncStorage.getItem("userToken");
@@ -46,9 +49,22 @@ const MypageMain = ({ navigation }) => {
 
   useEffect(() => {
     console.log("config: ", config);
+    setReLoader(reLoader + 1);
     getInfo();
+    setReLoader(reLoader + 1);
     getData();
+    setReLoader(reLoader + 1);
   }, [token]);
+
+  useEffect(() => {
+    if (isFocused) {
+      setReLoader(reLoader + 1);
+      getInfo();
+      setReLoader(reLoader + 1);
+      getData();
+      setReLoader(reLoader + 1);
+    }
+  }, [isFocused]);
 
   const getInfo = () => {
     axios
