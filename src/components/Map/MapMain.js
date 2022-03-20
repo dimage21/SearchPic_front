@@ -61,6 +61,11 @@ const MapMain = ({ navigation }) => {
   const updateSearch = (searchQuery) => {
     setSearchQuery(searchQuery);
     console.log("🔍검색창 : ", searchQuery);
+
+    if (searchQuery.length<2){
+      return
+    }
+    console.log("length: "+searchQuery.length)
     axios
       .get(preURL.preURL + "/api/locations?query=" + searchQuery)
       .then((res) => {
