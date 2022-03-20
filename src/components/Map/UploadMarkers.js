@@ -91,18 +91,18 @@ const UploadMarkers=({navigation})=>{
   };
 
   // selected Location from the DropDown
-  const updateLocation = (locationSelected)=>{
+  const updateLocation = async (locationSelected)=>{
     setLocationSelected(locationSelected);
     console.log("리스트 선택 : ", locationSelected);
 
-    // console.log("리스트 lat", locationSelected.y);
-    // console.log("리스트 long", locationSelected.x);
-    // const latitude = locationSelected.y;
-    // const longitude = locationSelected.x;
-    // setLocation({ latitude, longitude });
-    // console.log("로케이션 출력해보기", location);
+    console.log("리스트 lat", locationSelected.y);
+    console.log("리스트 long", locationSelected.x);
+    const latitude = locationSelected.y;
+    const longitude = locationSelected.x;
+    setLocation({ latitude, longitude });
+    console.log("로케이션 출력해보기", location);
 
-    // setLocationMarker(true);
+    setLocationMarker(true);
   };
   
   useEffect(()=> {

@@ -80,23 +80,23 @@ const MapMain = ({ navigation }) => {
 
 
   // selected Location from the DropDown
-  const updateLocation = (locationSelected) => {
+  const updateLocation = async(locationSelected) => {
     setLocationSelected(locationSelected);
     console.log("리스트 선택 : ", locationSelected);
     
-    // console.log("리스트 lat", locationSelected.y);
-    // console.log("리스트 long", locationSelected.x);
-    // const latitude = locationSelected.y;
-    // const longitude = locationSelected.x;
-    // setLocation({ latitude, longitude });
-    // console.log("로케이션 출력해보기", location);
+    console.log("리스트 lat", locationSelected.y);
+    console.log("리스트 long", locationSelected.x);
+    const latitude = locationSelected.y;
+    const longitude = locationSelected.x;
+    setLocation({ latitude, longitude });
+    console.log("로케이션 출력해보기", location);
 
-    // setLocationMarker(true);
+    setLocationMarker(true);
   };
   
   useEffect(()=> {
     console.log("로케이션!", location);
-  }, [location])z
+  }, [location])
 
   //load Location Data
   useEffect(() => {
@@ -221,7 +221,6 @@ const MapMain = ({ navigation }) => {
       <View style={{ flex: 1 }}>
         {location && (
           <MapView
-            ref={_map}
             style={[{ flex: 1 }, { width: mapWidth }]}
             provider={PROVIDER_GOOGLE}
             showsUserLocation={true}
