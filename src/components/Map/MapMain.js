@@ -185,9 +185,7 @@ const MapMain = ({ navigation }) => {
                     marginTop: 15,
                   }}
                 >
-                  {"<"}
                   {nearPlaceInfo.placeName}
-                  {">"}
                 </Text>
                 <Text style={{ color: "black", fontSize: 12, marginLeft: 10 }}>
                   {nearPlaceInfo.address}
