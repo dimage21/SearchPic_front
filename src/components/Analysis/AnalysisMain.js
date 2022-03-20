@@ -60,8 +60,6 @@ const AnalysisMain = ({ navigation }) => {
 
     let isMount = true;
 
-    const formData = new FormData();
-
     const imageFormData = new FormData();
 
     let file = {
@@ -79,7 +77,7 @@ const AnalysisMain = ({ navigation }) => {
       },
     };
 
-    console.log("이미지 분석 요청:", formData, config);
+    console.log("이미지 분석 요청:", config);
     console.log("imageFormData: ", imageFormData);
 
     axios
@@ -102,7 +100,6 @@ const AnalysisMain = ({ navigation }) => {
                 navigation.navigate("Result", {
                   result: res.data,
                   imageFormData: imageFormData,
-                  config: config,
                 });
             },
           },
